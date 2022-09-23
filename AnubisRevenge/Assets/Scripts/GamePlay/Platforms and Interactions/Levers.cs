@@ -20,6 +20,6 @@ public class Levers : MonoBehaviour
 
     public void ActivateMovingPlatforms()
     {
-        activatedObject.GetComponent<MovingPlatforms>().MovePlatform();
+        activatedObject.GetComponent<MovingPlatforms>().switchDirections = !activatedObject.GetComponent<MovingPlatforms>().switchDirections;
     }
 }

@@ -34514,6 +34514,7 @@ MonoBehaviour:
   reverse: 0
   speed: 3
   distance: 3
+  switchDirections: 0
 --- !u!1 &608571756
 GameObject:
   m_ObjectHideFlags: 0
@@ -42285,6 +42286,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 911710220}
     m_Modifications:
+    - target: {fileID: 984663532043966111, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}
+      propertyPath: activatedObject
+      value: 
+      objectReference: {fileID: 1755738817}
     - target: {fileID: 1450567481051024837, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -45673,10 +45678,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vertical: 1
-  constant: 1
+  constant: 0
   reverse: 0
-  speed: 3
+  speed: 0.02
   distance: 3
+  switchDirections: 0
 --- !u!1 &1770961499
 GameObject:
   m_ObjectHideFlags: 0
@@ -45841,6 +45847,7 @@ MonoBehaviour:
   reverse: 0
   speed: 3
   distance: 3
+  switchDirections: 0
 --- !u!1 &1795279109
 GameObject:
   m_ObjectHideFlags: 0
@@ -46005,11 +46012,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecd076df4123d14b9babc4092c2ba6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vertical: 1
+  vertical: 0
   constant: 0
   reverse: 0
-  speed: 0.1
-  distance: 100
+  speed: 0.02
+  distance: 3
+  switchDirections: 0
 --- !u!1 &1880512038
 GameObject:
   m_ObjectHideFlags: 0
@@ -46408,6 +46416,7 @@ MonoBehaviour:
   reverse: 1
   speed: 3
   distance: 3
+  switchDirections: 0
 --- !u!1001 &1450567481538295722
 PrefabInstance:
   m_ObjectHideFlags: 0

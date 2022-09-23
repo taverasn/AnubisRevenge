@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class MovingPlatforms : MonoBehaviour
 {
+    //if ending in C it is only for Constant moving platforms
+    //if ending in N it is only for Non-constant moving platforms
+
     public bool vertical;
     public bool constant;
-    public bool reverse;
+    public bool reverseC;
+    public bool switchDirectionsN = false;
 
     public float speed;
     public float distance;
@@ -14,7 +18,11 @@ public class MovingPlatforms : MonoBehaviour
     private float originalPosX;
     private float originalPosY;
 
-    private bool switchDirections = false;
+
+    //reverse does not work for non-constant platforms
+    //non-constant platforms start in the middle
+    //speed for non-constant is how many frames it moves each movement (so use small number like .015)
+    //switchDirections bool is only for non-constant
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +38,7 @@ public class MovingPlatforms : MonoBehaviour
         if (constant)
         {
             //if you want the platform to move in a negative direction
-            if (reverse)
+            if (reverseC)
             {
                 //if you want the platform to move vertically
                 if (vertical)
@@ -77,49 +85,40 @@ public class MovingPlatforms : MonoBehaviour
             if (vertical)
             {
                 //go one direction
-                if (switchDirections)
+                if (switchDirectionsN)
                 {
-
-                    Vector3 downVector = new Vector3(transform.position.x, transform.position.y - distance, transform.position.z);
                     //move
-                    transform.position = Vector3.MoveTowards(transform.position, downVector, speed);
-                    //transform.position = new Vector3(transform.position.x, ((transform.position.y - distance) * speed * Time.deltaTime) + originalPosY, transform.position.z);
-                    switchDirections = !switchDirections;
+                    transform.position = new Vector3(transform.position.x,
+                                                     Mathf.MoveTowards(transform.position.y, originalPosY + distance, speed),
+                                                     transform.position.z);
                 }
                 //go other direction
-                else if (!switchDirections)
+                else if (!switchDirectionsN)
                 {
-                    Vector3 upVector = new Vector3(transform.position.x, transform.position.y + distance, transform.position.z);
-
-                    transform.position = Vector3.MoveTowards(transform.position, Vector3.Lerp(transform.position, upVector, speed), speed);
-                    //transform.position = new Vector3(transform.position.x, ((transform.position.y + distance) * speed * Time.deltaTime) + originalPosY, transform.position.z);
-                    switchDirections = !switchDirections;
+                    transform.position = new Vector3(transform.position.x,
+                                                     Mathf.MoveTowards(transform.position.y, originalPosY - distance, speed),
+                                                     transform.position.z);
                 }
             }
             //horizontal
             else if (!vertical)
             {
                 //go one direction
-                if (switchDirections)
+                if (switchDirectionsN)
                 {
                     //move
-                    transform.position = new Vector3((transform.position.x - distance) * speed * Time.deltaTime, transform.position.y, transform.position.z);
-                    switchDirections = !switchDirections;
+                    transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, originalPosX - distance, speed),
+                                                     transform.position.y,
+                                                     transform.position.z);
                 }
                 //go other direction
-                else if (!switchDirections)
+                else if (!switchDirectionsN)
                 {
-                    transform.position = new Vector3((transform.position.x + distance) * speed * Time.deltaTime, transform.position.y, transform.position.z);
-                    switchDirections = !switchDirections;
+                    transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, originalPosX + distance, speed),
+                                                     transform.position.y,
+                                                     transform.position.z);
                 }
             }
         }
     }
-
-    //Move the platform once if it is not constant
-    public void MovePlatform()
-    {
-        
-    }
-
 }
