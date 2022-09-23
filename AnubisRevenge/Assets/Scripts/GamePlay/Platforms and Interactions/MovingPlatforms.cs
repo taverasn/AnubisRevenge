@@ -14,6 +14,8 @@ public class MovingPlatforms : MonoBehaviour
     private float originalPosX;
     private float originalPosY;
 
+    private bool switchDirections = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,24 +70,56 @@ public class MovingPlatforms : MonoBehaviour
                 }
             }
         }
-        //not constantly moving
-        else if (!constant)
+        if (!constant)
         {
             //no reverse needed
             //vertical
             if (vertical)
             {
-                //move
-                transform.position = new Vector3(transform.position.x, (transform.position.y + distance) * speed * Time.deltaTime, transform.position.z);
+                //go one direction
+                if (switchDirections)
+                {
+
+                    Vector3 downVector = new Vector3(transform.position.x, transform.position.y - distance, transform.position.z);
+                    //move
+                    transform.position = Vector3.MoveTowards(transform.position, downVector, speed);
+                    //transform.position = new Vector3(transform.position.x, ((transform.position.y - distance) * speed * Time.deltaTime) + originalPosY, transform.position.z);
+                    switchDirections = !switchDirections;
+                }
+                //go other direction
+                else if (!switchDirections)
+                {
+                    Vector3 upVector = new Vector3(transform.position.x, transform.position.y + distance, transform.position.z);
+
+                    transform.position = Vector3.MoveTowards(transform.position, Vector3.Lerp(transform.position, upVector, speed), speed);
+                    //transform.position = new Vector3(transform.position.x, ((transform.position.y + distance) * speed * Time.deltaTime) + originalPosY, transform.position.z);
+                    switchDirections = !switchDirections;
+                }
             }
             //horizontal
             else if (!vertical)
             {
-                //move
-                transform.position = new Vector3((transform.position.x + distance) * speed * Time.deltaTime, transform.position.y, transform.position.z);
+                //go one direction
+                if (switchDirections)
+                {
+                    //move
+                    transform.position = new Vector3((transform.position.x - distance) * speed * Time.deltaTime, transform.position.y, transform.position.z);
+                    switchDirections = !switchDirections;
+                }
+                //go other direction
+                else if (!switchDirections)
+                {
+                    transform.position = new Vector3((transform.position.x + distance) * speed * Time.deltaTime, transform.position.y, transform.position.z);
+                    switchDirections = !switchDirections;
+                }
             }
         }
     }
 
-    
+    //Move the platform once if it is not constant
+    public void MovePlatform()
+    {
+        
+    }
+
 }

@@ -45370,7 +45370,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionPoint: {fileID: 177655614}
-  detectionRadius: 0.75
   detectionLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -46007,10 +46006,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vertical: 1
-  constant: 1
+  constant: 0
   reverse: 0
-  speed: 3
-  distance: 3
+  speed: 0.1
+  distance: 100
 --- !u!1 &1880512038
 GameObject:
   m_ObjectHideFlags: 0
@@ -46416,6 +46415,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 911710220}
     m_Modifications:
+    - target: {fileID: 984663532043966111, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}
+      propertyPath: activatedObject
+      value: 
+      objectReference: {fileID: 1833565771}
     - target: {fileID: 1450567481051024837, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -46463,10 +46466,6 @@ PrefabInstance:
     - target: {fileID: 1450567481051024839, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}
       propertyPath: m_Name
       value: 'lever '
-      objectReference: {fileID: 0}
-    - target: {fileID: 1450567481051024839, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}
-      propertyPath: m_TagString
-      value: Levers
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc0eeaebd5398e345aa1fedfd89c8fd7, type: 3}

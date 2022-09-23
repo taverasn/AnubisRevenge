@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1450567481051024836}
   - component: {fileID: 1450567481051024858}
   - component: {fileID: 7730243292368847872}
+  - component: {fileID: 984663532043966111}
   m_Layer: 6
   m_Name: 'lever '
-  m_TagString: Untagged
+  m_TagString: Levers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,3 +133,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &984663532043966111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450567481051024839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513398c083a6ff54da1615a262203cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedObject: {fileID: 0}
