@@ -5,16 +5,12 @@ using UnityEngine.UI;
 
 public class DetectCollisions : MonoBehaviour
 {
-    private GameManager gameManager;
-    private Animator animator;
     private Health playerHealth;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GameObject.Find("PlayerCharacter").GetComponent<Animator>();
         playerHealth = GameObject.Find("PlayerCharacter").GetComponent<Health>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -32,6 +28,5 @@ public class DetectCollisions : MonoBehaviour
             }
         }
     }
-
 
 }
