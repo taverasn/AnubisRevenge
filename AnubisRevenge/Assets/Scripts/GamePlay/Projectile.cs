@@ -4,52 +4,76 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     private float lifetime;
-
+    public Vector3 LaunchOffset;
+    public bool thrown;
     public int damage;
+    private float movementSpeed;
+    private PlayerController pCtrl;
 
     private Animator anim;
-    private BoxCollider2D boxCollider;
+    private Rigidbody2D rb;
 
+    private void Start()
+    {
+        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
+        rb = GetComponent<Rigidbody2D>();
+    }
     private void Awake()
     {
+        if(thrown)
+        {
+            Vector3 direction = transform.right + new Vector3(0, 2, 0);
+            if(pCtrl.facingRight)
+            {
+            rb.AddForce(direction * speed , ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(direction * -speed, ForceMode2D.Impulse);
+            }
+            transform.Translate(LaunchOffset);
+        }
         anim = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
     }
     private void Update()
     {
-        float movementSpeed = speed * Time.deltaTime;
-        transform.Translate(movementSpeed, 0, 0);
+        if(gameObject.tag == "Bullet")
+        {
+            if(pCtrl.facingRight)
+            {
+                movementSpeed = speed * Time.deltaTime;
+            }
+            else
+            {
+                movementSpeed = -speed * Time.deltaTime;
+            }
+            transform.Translate(movementSpeed, 0, 0);
 
-        lifetime += Time.deltaTime;
-        if (lifetime > 5)
-            gameObject.SetActive(false);
-
+            lifetime += Time.deltaTime;
+            if (lifetime > 5 || anim.GetBool("explode") == true)
+            Destroy(gameObject);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
-            anim.SetTrigger("explode");
-            Destroy(gameObject);
+            anim.SetBool("explode", true);
+        }
+        else if (other.gameObject.tag != "Player")
+        {
+            anim.SetBool("explode", true);
+
         }
     }
-/*    public void SetDirection(float _direction)
-    {
-        lifetime = 0;
-        direction = _direction;
-        gameObject.SetActive(true);
-        boxCollider.enabled = true;
 
-        float localScaleX = transform.localScale.x;
-        if (Mathf.Sign(localScaleX) != _direction)
-            localScaleX = -localScaleX;
-
-        transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
-    }*/
-    private void Deactivate()
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        gameObject.SetActive(false);
+        if(other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<Health>().TakeDamage(damage);
+        }
     }
 
 }
