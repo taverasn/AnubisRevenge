@@ -4,139 +4,237 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator animator;
+    private Animator animator;
+    private string currentState;
+    private float xAxis;
+    public float yAxis;
+    private bool isRunning;
+    private bool isCrouching;
+    private bool isIdle;
+    private bool isWalking;
     public float horizontalSpeed = 10;
-    public float horizontalSprintSpeed = 200;
-    public float verticalSpeed = 10;
-    public bool isGrounded = true;
-    public bool doublejump;
+    public float horizontalSprintSpeed = 20;
+    [SerializeField] private bool isGrounded;
     public bool facingRight = true;
     public bool gameOver;
-    public float fallMultiplier = 2.5f;
-    public float lowJumpMultiplier = 2f;
-    [Range (1, 10)] public float jumpVelocity;
-
-
     private Rigidbody2D rb;
-    private Health playerHealth;
+    private PlayerAttack pAttack;
+
+
+
+    // Jump Variables
+    public float jumpVelocity = 850;
+    [SerializeField] private float jumpTimeCounter;
+    [SerializeField] private float jumpTime;
+    [SerializeField] private bool isJumping;
+    private bool startTimer;
+    private bool releasedJump;
+    private float gravityScale = 4f;
+
+    //Animation States
+    private const string PLAYER_IDLE = "Player_Idle";
+    private const string PLAYER_RUN = "Player_Run";
+    private const string PLAYER_WALK = "Player_Walk";
+    private const string PLAYER_JUMP = "Player_Jump";
+    private const string PLAYER_CROUCH = "Player_Crouch";
+
     // Start is called before the first frame update
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerHealth = gameObject.GetComponent<Health>();
+        animator = GetComponent<Animator>();
+        pAttack = GetComponent<PlayerAttack>();
+        jumpTimeCounter = jumpTime;
     }
 
+    public bool GetisGrounded()
+    {
+        return isGrounded;
+    }
+
+    public bool GetisCrouching()
+    {
+        return isCrouching;
+    }    
+    public bool GetisRunning()
+    {
+        return isRunning;
+    }
+    public bool GetisIdle()
+    {
+        return isIdle;
+    }
+    public bool GetisWalking()
+    {
+        return isWalking;
+    }
+    public void ChangeAnimationState(string newState)
+    {
+        // stop same animation from interrupting itself
+        if (currentState == newState) return;
+
+        // play the animation
+        animator.Play(newState);
+
+        // reassign the current state
+        currentState = newState;
+    }
     // Update is called once per frame
 
-    private void FixedUpdate()
-    {
-            //TODO: Walk Shoot
-            // Track Walk
-        if(!gameOver)
-        {
-            float movement = Input.GetAxis("Horizontal");
-            if(animator.GetBool("isCrouching") == false && animator.GetBool("isClimbing") == false)
-            {
-                if (animator.GetBool("Sprinting") == false)
-                {
-                    transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * horizontalSpeed;
-                }
-                else if (animator.GetBool("Sprinting") == true)
-                {
-                    transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * horizontalSprintSpeed;
 
-                }
-            }
-            if(movement != 0 && isGrounded == true)
-            {
-                animator.SetBool("isMoving", true);
-            } else
-            {
-                animator.SetBool("isMoving", false);
-            }
-            if(movement < 0 && facingRight)
-            {
-                Flip();
-            }
-            if (movement > 0 && !facingRight)
-            {
-                Flip();
-            }
-        }
-    }
 
     private void Update()
     {
         if(!gameOver)
         {
-
-            // TODO: Run Shoot
-            //Sprint Key
-            if(isGrounded && Input.GetButton("Sprint"))
-            {
-                animator.SetBool("Sprinting", true);
-            }
-            if(isGrounded && !Input.GetButton("Sprint") && animator.GetBool("Sprinting"))
-            {
-                animator.SetBool("Sprinting", false);
-            }
-
-            if(!animator.GetBool("isCrouching"))
-            {
-                // Check for double jump
-                if (isGrounded && !Input.GetButton("Jump"))
-                {
-                    doublejump = false;
-                }
-
-                // TODO: Create jump animation triggers
-                // Jump
-                if (Input.GetButtonDown("Jump"))
-                {
-                    if(isGrounded || doublejump)
-                    {
-                        rb.velocity = Vector2.up * jumpVelocity;
-                        if(rb.velocity.y < 0)
-                        {
-                            rb.velocity += Vector2.up * 9.81f * (fallMultiplier - 1) * Time.deltaTime;
-                        }
-                        isGrounded = false;
-                        animator.SetTrigger("Jump");
-                
-                        doublejump = !doublejump;
-                    }
-                }
-            }
+            // Checking for inputs
+            xAxis = Input.GetAxis("Horizontal");
+            yAxis = Input.GetAxis("Vertical");
             
-            // TODO: Create Crouch animations triggers
-            // Crouch
-            if(isGrounded && Input.GetButton("Crouch"))
+            // Jump Key Pressed?
+            if(Input.GetButtonDown("Jump"))
             {
-                animator.SetBool(("isCrouching"), true);
+                isJumping = true;
+                isGrounded = false;
             }
-            if(isGrounded && !Input.GetButton("Crouch") && animator.GetBool("isCrouching"))
+
+            if (Input.GetButtonUp("Jump"))
             {
-                animator.SetBool(("isCrouching"), false);
+                releasedJump = true;
+            }
+
+            if (startTimer)
+            {
+                jumpTimeCounter -= Time.deltaTime;
+                if (jumpTimeCounter <= 0)
+                {
+                    releasedJump = true;
+                }
+            }
+
+            // Sprint Key Pressed
+            if (Input.GetButtonDown("Sprint"))
+            {
+                isRunning = true;
+            }
+
+            // Sprint Key Released
+            if (Input.GetButtonUp("Sprint"))
+            {
+                isRunning = false;
+            }
+            // Crouch Key Pressed?
+            if (Input.GetButtonDown("Crouch"))
+            {
+                isCrouching = true;
+            }
+            if(Input.GetButtonUp("Crouch"))
+            {
+                isCrouching = false;
             }
         }
 
     }
+    private void FixedUpdate()
+    {
+        //TODO: Walk Shoot
+        // Track Walk
+        if (!gameOver)
+        {
+            Vector2 vel = new Vector2(0, rb.velocity.y);
+            if(!isCrouching)
+            {
+
+                // Check movement update based on input
+
+                if (xAxis < 0)
+                {
+                    if(isRunning == true)
+                    {
+                        vel.x = -horizontalSprintSpeed;
+                    }
+                    else
+                    {
+                        vel.x = -horizontalSpeed;
+                    }
+                    transform.localScale = new Vector2(-.5f, .5f);
+                }
+                else if (xAxis > 0)
+                {
+                    if (isRunning == true)
+                    {
+                        vel.x = horizontalSprintSpeed;
+                    }
+                    else
+                    {
+                        vel.x = horizontalSpeed;
+                    }
+                    transform.localScale = new Vector2(.5f, .5f);
+            
+                }
+                else
+                {
+                    vel.x = 0;
+                }
+
+                if(isGrounded && !pAttack.isMelee && !pAttack.isShooting && !pAttack.isThrowing)
+                {
+                    if(xAxis != 0)
+                    {
+                        isIdle = false;
+                        if(isRunning == true)
+                        {
+                            isWalking = false;
+                            ChangeAnimationState(PLAYER_RUN);
+                        } else
+                        {
+                            isWalking = true;
+                            ChangeAnimationState(PLAYER_WALK);
+                        }
+                    }
+                    else
+                    {
+                        isWalking = false;
+                        isIdle = true;
+                        ChangeAnimationState(PLAYER_IDLE);
+                    }
+                }
+            }
+
+            // Check if trying to jump
+            if (isJumping && isGrounded == false && !pAttack.isMelee && !pAttack.isShooting && !pAttack.isThrowing)
+            {
+                rb.gravityScale = 1;
+                rb.AddForce(new Vector2(0, jumpVelocity));
+                ChangeAnimationState(PLAYER_JUMP);
+                isJumping = false;
+                startTimer = true;
+            }
+            
+            // Checking for release of jump key and resetting jump timer
+            if(releasedJump)
+            {
+                rb.gravityScale = gravityScale;
+                releasedJump = false;
+                jumpTimeCounter = jumpTime;
+                startTimer = false;
+            }
+
+            // Checking if Crouch Key is being pressed before animation
+            if(isGrounded && isCrouching && !pAttack.isMelee && !pAttack.isShooting && !pAttack.isThrowing)
+            {
+                ChangeAnimationState(PLAYER_CROUCH);
+            }
+
+            rb.velocity = vel;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.tag == "Ground")
         {
             isGrounded = true;
         }
-
-/*        if(other.gameObject.tag == "Wall")
-        {
-            animator.SetBool("isClimbing", true);
-        }*/
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0, 180, 0);
     }
 }
