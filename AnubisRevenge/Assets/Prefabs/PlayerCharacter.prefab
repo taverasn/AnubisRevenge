@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2025616719}
   - component: {fileID: 2025616720}
   - component: {fileID: 2035010389}
+  - component: {fileID: 3633384184022455818}
   - component: {fileID: 2035010390}
   - component: {fileID: 2035010391}
   m_Layer: 3
@@ -190,6 +191,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damage: 20
+  throwDelayStartTime: 0
+  isMelee: 0
+  isShooting: 0
+  isThrowing: 0
 --- !u!114 &2025616720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,16 +207,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9617205b94bc62d45b5a560c75e05068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2025616718}
+  yAxis: 0
+  isIdle: 0
+  isWalking: 0
   horizontalSpeed: 5
   horizontalSprintSpeed: 7.5
-  isGrounded: 1
   facingRight: 1
   gameOver: 0
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
   jumpVelocity: 9.9
+  jumpTimeCounter: 0
   jumpTime: 0.35
+  isJumping: 0
 --- !u!114 &2035010389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +233,18 @@ MonoBehaviour:
   playerHealth: {fileID: 2035010390}
   totalhealthBar: {fileID: 0}
   currenthealthBar: {fileID: 0}
+--- !u!114 &3633384184022455818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175762156409862563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72608c2089807f34db26926efc742142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2035010390
 MonoBehaviour:
   m_ObjectHideFlags: 0
