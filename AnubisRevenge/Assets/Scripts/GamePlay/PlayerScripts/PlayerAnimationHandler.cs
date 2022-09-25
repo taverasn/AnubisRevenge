@@ -7,7 +7,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     private Animator animator;
     private PlayerController pCtrl;
     private PlayerInput pInput;
-    private PlayerAttack pAttack;
     private string currentState;
     public bool isMelee;
     public bool isShooting;
@@ -38,7 +37,6 @@ public class PlayerAnimationHandler : MonoBehaviour
         pInput = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
         pCtrl = GetComponent<PlayerController>();
-        pAttack = GetComponent<PlayerAttack>();
     }
 
     public void ChangeAnimationState(string newState)
