@@ -37,7 +37,7 @@ public class PlayerInput : MonoBehaviour
         xAxis = Input.GetAxis("Horizontal");
         yAxis = Input.GetAxis("Vertical");
         // Jump Key Pressed?
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && pCtrl.GetisGrounded())
         {
             isJumping = true;
         }
@@ -89,6 +89,7 @@ public class PlayerInput : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Player Collider hitting Ground Collider?
         if (pCtrl.GetisGrounded() && !pAnimHandler.isMelee && !pAnimHandler.isShooting && !pAnimHandler.isThrowing)
         {
             if (xAxis != 0)
@@ -111,6 +112,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    // Getters and Setters
     public bool GetisMeleePressed()
     {
         return isMeleePressed;
