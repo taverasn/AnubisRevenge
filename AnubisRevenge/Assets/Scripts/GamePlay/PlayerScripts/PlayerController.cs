@@ -5,11 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float xAxis;
-    private float yAxis;
-
     private PlayerInput pInput;
-
-
     public float horizontalSpeed = 10;
     public float horizontalSprintSpeed = 20;
     private bool isGrounded;
@@ -17,21 +13,20 @@ public class PlayerController : MonoBehaviour
     public bool gameOver;
     private Rigidbody2D rb;
     private PlayerAttack pAttack;
-
+    private PlayerAnimationHandler pAnimHandler;
 
 
     // Jump Variables
     public float jumpVelocity = 850;
     [SerializeField] private float jumpTimeCounter;
     [SerializeField] private float jumpTime;
-    [SerializeField] private bool isJumping;
     private bool startTimer;
-    private bool releasedJump;
     private float gravityScale = 4f;
 
     // Start is called before the first frame update
     private void Start()
     {
+        pAnimHandler = GetComponent<PlayerAnimationHandler>();
         pInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         pAttack = GetComponent<PlayerAttack>();
@@ -52,18 +47,9 @@ public class PlayerController : MonoBehaviour
         {
             // Checking for inputs
             xAxis = Input.GetAxis("Horizontal");
-            yAxis = Input.GetAxis("Vertical");
-            
-            // Jump Key Pressed?
-            if(Input.GetButtonDown("Jump"))
+            if(pInput.GetisJumping())
             {
-                isJumping = true;
                 isGrounded = false;
-            }
-
-            if (Input.GetButtonUp("Jump"))
-            {
-                releasedJump = true;
             }
 
             if (startTimer)
@@ -71,7 +57,7 @@ public class PlayerController : MonoBehaviour
                 jumpTimeCounter -= Time.deltaTime;
                 if (jumpTimeCounter <= 0)
                 {
-                    releasedJump = true;
+                    pInput.SetreleasedJump(true);
                 }
             }
 
@@ -91,10 +77,8 @@ public class PlayerController : MonoBehaviour
 
                 if (xAxis < 0)
                 {
-                    Debug.Log("negative x");
                     if(pInput.GetisRunning())
                     {
-                        Debug.Log("neg sprint");
                         vel.x = -horizontalSprintSpeed;
                     }
                     else
@@ -102,7 +86,6 @@ public class PlayerController : MonoBehaviour
                         vel.x = -horizontalSpeed;
                     }
                     transform.localScale = new Vector2(-.5f, .5f);
-                    Debug.Log("turn around");
                 }
                 else if (xAxis > 0)
                 {
@@ -115,7 +98,6 @@ public class PlayerController : MonoBehaviour
                         vel.x = horizontalSpeed;
                     }
                     transform.localScale = new Vector2(.5f, .5f);
-            
                 }
                 else
                 {
@@ -126,25 +108,22 @@ public class PlayerController : MonoBehaviour
             }
 
             // Check if trying to jump
-            if (isJumping && isGrounded == false && !pAttack.isMelee && !pAttack.isShooting && !pAttack.isThrowing)
+            if (pInput.GetisJumping() && !isGrounded && !pAnimHandler.isMelee && !pAnimHandler.isShooting && !pAnimHandler.isThrowing)
             {
                 rb.gravityScale = 1;
                 rb.AddForce(new Vector2(0, jumpVelocity));
-                isJumping = false;
+                pInput.SetisJumping(false);
                 startTimer = true;
             }
             
             // Checking for release of jump key and resetting jump timer
-            if(releasedJump)
+            if(pInput.GetreleasedJump())
             {
                 rb.gravityScale = gravityScale;
-                releasedJump = false;
+                pInput.SetreleasedJump(false);
                 jumpTimeCounter = jumpTime;
                 startTimer = false;
             }
-
-
-
             rb.velocity = vel;
         }
     }
