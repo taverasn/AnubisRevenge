@@ -3,55 +3,34 @@ using UnityEngine.UI;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
-    private float lifetime;
     public Vector3 LaunchOffset;
-    public bool thrown;
     public int damage;
     private float movementSpeed;
     public PlayerController pCtrl;
-
     private Animator anim;
     private Rigidbody2D rb;
-
+    private Vector3 direction;
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        pCtrl = GetComponent<PlayerController>();
+        
+        if(gameObject.tag == "Dynamite")
+        {
+            direction = transform.right + Vector3.up;
+            GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
+        }
+        transform.Translate(LaunchOffset);
+
         anim = GetComponent<Animator>();
-        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
-    }
-    private void Awake()
-    {
     }
     private void Update()
     {
-        if(gameObject.tag == "Dynamite")
-        {
-            Vector3 direction = transform.right + new Vector3(2, 2, 0);
-            if(pCtrl.facingRight)
-            {
-                rb.AddForce(direction * speed , ForceMode2D.Impulse);
-            }
-            else
-            {
-                rb.AddForce(direction * -speed, ForceMode2D.Impulse);
-            }
-            transform.Translate(LaunchOffset);
-        }
         if(gameObject.tag == "Bullet")
         {
-            if(pCtrl.facingRight)
-            {
-                movementSpeed = speed * Time.deltaTime;
-            }
-            else
-            {
-                movementSpeed = -speed * Time.deltaTime;
-            }
+            movementSpeed = -speed * Time.deltaTime;
             transform.Translate(movementSpeed, 0, 0);
-
-            lifetime += Time.deltaTime;
-            if (lifetime > 5 || anim.GetBool("explode") == true)
-            Destroy(gameObject);
+            if (anim.GetBool("explode") == true)
+            Destroy(gameObject, 5);
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
