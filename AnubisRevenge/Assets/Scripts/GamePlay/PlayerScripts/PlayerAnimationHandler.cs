@@ -56,11 +56,14 @@ public class PlayerAnimationHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovementAnimations();
     }
 
     private void FixedUpdate()
     {
+        if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
+            if (pCtrl.GetisGrounded())
+                ChangeAnimationState(PLAYER_IDLE);
+        MovementAnimations();
         AttackAnimations();
     }
     void AttackAnimations()
@@ -144,6 +147,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                     ChangeAnimationState(PLAYER_RUNSHOOT);
                 }
             }
+            
             // attack delay set to the length in seconds of the current animation
             attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
@@ -153,14 +157,20 @@ public class PlayerAnimationHandler : MonoBehaviour
     void ThrowAttackComplete()
     {
         isThrowing = false;
+        ChangeAnimationState(PLAYER_IDLE);
+
     }
     void ShootAttackComplete()
     {
         isShooting = false;
+        ChangeAnimationState(PLAYER_IDLE);
+
     }
     void MeleeAttackComplete()
     {
         isMelee = false;
+        ChangeAnimationState(PLAYER_IDLE);
+
     }
     void MovementAnimations()
     {
