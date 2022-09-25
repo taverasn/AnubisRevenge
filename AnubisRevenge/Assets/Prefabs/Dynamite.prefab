@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.7
   LaunchOffset: {x: 0.6917, y: -0.181605, z: 0}
-  thrown: 1
+  thrown: 0
   damage: 100
   pCtrl: {fileID: 0}
 --- !u!50 &3296815274219968027

@@ -8,24 +8,28 @@ public class Projectile : MonoBehaviour
     public bool thrown;
     public int damage;
     private float movementSpeed;
-    private PlayerController pCtrl;
+    public PlayerController pCtrl;
 
     private Animator anim;
     private Rigidbody2D rb;
 
     private void Start()
     {
-        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
     }
     private void Awake()
     {
-        if(thrown)
+    }
+    private void Update()
+    {
+        if(gameObject.tag == "Dynamite")
         {
-            Vector3 direction = transform.right + new Vector3(0, 2, 0);
+            Vector3 direction = transform.right + new Vector3(2, 2, 0);
             if(pCtrl.facingRight)
             {
-            rb.AddForce(direction * speed , ForceMode2D.Impulse);
+                rb.AddForce(direction * speed , ForceMode2D.Impulse);
             }
             else
             {
@@ -33,10 +37,6 @@ public class Projectile : MonoBehaviour
             }
             transform.Translate(LaunchOffset);
         }
-        anim = GetComponent<Animator>();
-    }
-    private void Update()
-    {
         if(gameObject.tag == "Bullet")
         {
             if(pCtrl.facingRight)
