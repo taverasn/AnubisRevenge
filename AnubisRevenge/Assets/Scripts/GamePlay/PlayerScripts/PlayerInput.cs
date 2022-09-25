@@ -8,6 +8,14 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private bool isCrouching;
     [SerializeField] private bool isIdle;
     [SerializeField] private bool isWalking;
+    [SerializeField] private bool isJumping;
+    private PlayerAnimationHandler pAnimHandler;
+    private bool isMeleePressed;
+    private bool isShootPressed;
+    private bool isThrowPressed;
+
+    private bool releasedJump;
+
     private float xAxis;
     private float yAxis;
 
@@ -18,6 +26,7 @@ public class PlayerInput : MonoBehaviour
     {
         pCtrl = GetComponent<PlayerController>();
         pAttack = GetComponent<PlayerAttack>();
+        pAnimHandler = GetComponent<PlayerAnimationHandler>();
     }
 
     // Update is called once per frame
@@ -25,13 +34,22 @@ public class PlayerInput : MonoBehaviour
     {
         xAxis = Input.GetAxis("Horizontal");
         yAxis = Input.GetAxis("Vertical");
-        // Sprint Key Pressed
+        // Jump Key Pressed?
+        if (Input.GetButtonDown("Jump"))
+        {
+            isJumping = true;
+        }
+        // Jump Key Released?
+        if (Input.GetButtonUp("Jump"))
+        {
+            releasedJump = true;
+        }
+        // Sprint Key Pressed?
         if (Input.GetButtonDown("Sprint"))
         {
             isRunning = true;
         }
-
-        // Sprint Key Released
+        // Sprint Key Released?
         if (Input.GetButtonUp("Sprint"))
         {
             isRunning = false;
@@ -41,15 +59,32 @@ public class PlayerInput : MonoBehaviour
         {
             isCrouching = true;
         }
+        // Crouch Key Released?
         if (Input.GetButtonUp("Crouch"))
         {
             isCrouching = false;
+        }
+
+        // Melee Key Pressed and not Running and not Walking?
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isRunning && !isWalking)
+        {
+            isMeleePressed = true;
+        }
+        // Shoot Key Pressed?
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            isShootPressed = true;
+        }
+        // Throw Key Pressed and not Running and not Walking?
+        if (Input.GetKeyDown(KeyCode.F) && !isRunning && !isWalking)
+        {
+            isThrowPressed = true;
         }
     }
 
     private void FixedUpdate()
     {
-        if (pCtrl.GetisGrounded() && !pAttack.isMelee && !pAttack.isShooting && !pAttack.isThrowing)
+        if (pCtrl.GetisGrounded() && !pAnimHandler.isMelee && !pAnimHandler.isShooting && !pAnimHandler.isThrowing)
         {
             if (xAxis != 0)
             {
@@ -71,6 +106,46 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    public bool GetisMeleePressed()
+    {
+        return isMeleePressed;
+    }
+    public void SetisMeleePressed(bool _isMeleePressed)
+    {
+        isMeleePressed = _isMeleePressed;
+    }    
+    public bool GetisShootPressed()
+    {
+        return isShootPressed;
+    }
+    public void SetisShootPressed(bool _isShootPressed)
+    {
+        isShootPressed = _isShootPressed;
+    }    
+    public bool GetisThrowPressed()
+    {
+        return isThrowPressed;
+    }
+    public void SetisThrowPressed(bool _isThrowPressed)
+    {
+        isThrowPressed = _isThrowPressed;
+    }
+    public bool GetisJumping()
+    {
+        return isJumping;
+    }
+    public void SetisJumping(bool _isJumping)
+    {
+        isJumping = _isJumping;
+    }
+    public bool GetreleasedJump()
+    {
+        return releasedJump;
+    }    
+    public void SetreleasedJump(bool _releasedJump)
+    {
+        releasedJump = _releasedJump;
+    }
     public bool GetisCrouching()
     {
         return isCrouching;
