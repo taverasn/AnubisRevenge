@@ -5,15 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float xAxis;
+    private Rigidbody2D rb;
+    private PlayerAnimationHandler pAnimHandler;
     private PlayerInput pInput;
     public float horizontalSpeed = 10;
     public float horizontalSprintSpeed = 20;
     private bool isGrounded;
     public bool facingRight = true;
     public bool gameOver;
-    private Rigidbody2D rb;
-    private PlayerAttack pAttack;
-    private PlayerAnimationHandler pAnimHandler;
 
 
     // Jump Variables
@@ -29,7 +28,6 @@ public class PlayerController : MonoBehaviour
         pAnimHandler = GetComponent<PlayerAnimationHandler>();
         pInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
-        pAttack = GetComponent<PlayerAttack>();
         jumpTimeCounter = jumpTime;
     }
 
@@ -37,10 +35,6 @@ public class PlayerController : MonoBehaviour
     {
         return isGrounded;
     }
-
-
-
-
     private void Update()
     {
         if(!gameOver)
@@ -51,7 +45,6 @@ public class PlayerController : MonoBehaviour
             {
                 isGrounded = false;
             }
-
             if (startTimer)
             {
                 jumpTimeCounter -= Time.deltaTime;
@@ -60,10 +53,7 @@ public class PlayerController : MonoBehaviour
                     pInput.SetreleasedJump(true);
                 }
             }
-
-
         }
-
     }
     private void FixedUpdate()
     {
@@ -72,9 +62,7 @@ public class PlayerController : MonoBehaviour
             Vector2 vel = new Vector2(0, rb.velocity.y);
             if(!pInput.GetisCrouching())
             {
-
                 // Check movement update based on input
-
                 if (xAxis < 0)
                 {
                     if(pInput.GetisRunning())
@@ -103,10 +91,7 @@ public class PlayerController : MonoBehaviour
                 {
                     vel.x = 0;
                 }
-
-
             }
-
             // Check if trying to jump
             if (pInput.GetisJumping() && !isGrounded && !pAnimHandler.isMelee && !pAnimHandler.isShooting && !pAnimHandler.isThrowing)
             {
@@ -115,7 +100,6 @@ public class PlayerController : MonoBehaviour
                 pInput.SetisJumping(false);
                 startTimer = true;
             }
-            
             // Checking for release of jump key and resetting jump timer
             if(pInput.GetreleasedJump())
             {
@@ -127,7 +111,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = vel;
         }
     }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.tag == "Ground")
