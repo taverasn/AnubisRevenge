@@ -7,12 +7,14 @@ public class PlayerAnimationHandler : MonoBehaviour
     private Animator animator;
     private PlayerController pCtrl;
     private PlayerInput pInput;
+    
     private string currentState;
+
     public bool isMelee;
     public bool isShooting;
     public bool isThrowing;
+    
     private float attackDelay;
-
 
     //Animation States
     private const string PLAYER_IDLE = "Player_Idle";
@@ -63,12 +65,14 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void AttackAnimations()
     {
+        // Melee Pressed?
         if (pInput.GetisMeleePressed())
         {
             pInput.SetisMeleePressed(false);
             if (!isMelee)
             {
                 isMelee = true;
+                // changes melee animations based on input
                 if (pInput.GetisCrouching())
                 {
                     ChangeAnimationState(PLAYER_CROUCHMELEE);
@@ -82,12 +86,15 @@ public class PlayerAnimationHandler : MonoBehaviour
                     ChangeAnimationState(PLAYER_MELEE);
                 }
             }
+            // attack delay set to the length in seconds of the current animation
             attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            // calls Function after time of attack delay
             Invoke("MeleeAttackComplete", attackDelay);
         }
         else if (pInput.GetisThrowPressed())
         {
             pInput.SetisThrowPressed(false);
+            // changes Throw animations based on input
             if(!isThrowing)
             {
                 isThrowing = true;
@@ -104,7 +111,9 @@ public class PlayerAnimationHandler : MonoBehaviour
                     ChangeAnimationState(PLAYER_THROW);
                 }
             }
+            // attack delay set to the length in seconds of the current animation
             attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            // calls Function after time of attack delay
             Invoke("ThrowAttackComplete", attackDelay);
         }
         else if (pInput.GetisShootPressed())
@@ -113,6 +122,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             if(!isShooting)
             {
                 isShooting = true;
+                // Changes Shoot animation based on user input
                 if(pInput.GetisCrouching())
                 {
                     ChangeAnimationState(PLAYER_CROUCHSHOOT);
@@ -134,7 +144,9 @@ public class PlayerAnimationHandler : MonoBehaviour
                     ChangeAnimationState(PLAYER_RUNSHOOT);
                 }
             }
+            // attack delay set to the length in seconds of the current animation
             attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            // calls Function after time of attack delay
             Invoke("ShootAttackComplete", attackDelay);
         }
     }
@@ -152,14 +164,19 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void MovementAnimations()
     {
+        // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
+            // Player Collider hitting Ground Collider
             if (pCtrl.GetisGrounded())
             {
+                // Crouch not pressed?
                 if (!pInput.GetisCrouching())
                 {
+                    // Player X Input != 0?
                     if (!pInput.GetisIdle())
                     {
+                        // Walk pressed?
                         if (pInput.GetisWalking())
                         {
                             ChangeAnimationState(PLAYER_WALK);
