@@ -21,9 +21,11 @@ public class PlayerInput : MonoBehaviour
 
     private PlayerController pCtrl;
     private PlayerAttack pAttack;
+    private PlayerTimeManager pTime;
     // Start is called before the first frame update
     void Start()
     {
+        pTime = GetComponent<PlayerTimeManager>();
         pCtrl = GetComponent<PlayerController>();
         pAttack = GetComponent<PlayerAttack>();
         pAnimHandler = GetComponent<PlayerAnimationHandler>();
@@ -66,18 +68,21 @@ public class PlayerInput : MonoBehaviour
         }
 
         // Melee Key Pressed and not Running and not Walking?
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isRunning && !isWalking)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && pTime.GetTimeBtwMeleeAttack() > pTime.GetStartTimeBtwMeleeAttack() && !isRunning && !isWalking)
         {
+            pTime.SetTimeBtwMeleeAttack(0);
             isMeleePressed = true;
         }
         // Shoot Key Pressed?
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && pTime.GetTimeBtwRangeAttack() > pTime.GetStartTimeBtwRangeAttack())
         {
+            pTime.SetTimeBtwRangeAttack(0);
             isShootPressed = true;
         }
         // Throw Key Pressed and not Running and not Walking?
-        if (Input.GetKeyDown(KeyCode.F) && !isRunning && !isWalking)
+        if (Input.GetKeyDown(KeyCode.F) && pTime.GetTimeBtwThrowAttack() > pTime.GetStartTimeBtwThrowAttack() && !isRunning && !isWalking)
         {
+            pTime.SetTimeBtwThrowAttack(0);
             isThrowPressed = true;
         }
     }
