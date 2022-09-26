@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class PlayerTimeManager : MonoBehaviour
 {
+    // Components
+    private PlayerAttack pAttack;
+
     // Timer Variables
     private float timeBtwMeleeAttack;
     private float timeBtwRangeAttack;
     private float timeBtwThrowAttack;
+    [SerializeField] private float throwDelayTimer;
     // Time Delay Variables
     [SerializeField] private float startTimeBtwMeleeAttack;    
     [SerializeField] private float startTimeBtwRangeAttack;
     [SerializeField] private float startTimeBtwThrowAttack;
+
+    private void Start()
+    {
+        pAttack = GetComponent<PlayerAttack>();
+    }
 
     private void FixedUpdate()
     {
@@ -19,6 +28,17 @@ public class PlayerTimeManager : MonoBehaviour
         timeBtwMeleeAttack += Time.deltaTime;
         timeBtwRangeAttack += Time.deltaTime;
         timeBtwThrowAttack += Time.deltaTime;
+        if (pAttack.GetThrown())
+            throwDelayTimer += Time.deltaTime;
+    }
+    // Throw Delay Getters/Setters
+    public float GetThrowDelayTimer()
+    {
+        return throwDelayTimer;
+    }
+    public void SetThrowDelayTimer(float _throwDelayTimer)
+    {
+        throwDelayTimer = _throwDelayTimer;
     }
 
     // Melee Attack Timer Getters/Setters
