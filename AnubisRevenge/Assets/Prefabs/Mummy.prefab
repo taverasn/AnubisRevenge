@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8063926575940919883}
   - component: {fileID: 8063926575940919880}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: EnemyRange2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8063926576850023922}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Rightpoint
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
@@ -497,7 +497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8063926577082488631}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Mummy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -530,7 +530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8063926577124633771}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Leftpoint
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
