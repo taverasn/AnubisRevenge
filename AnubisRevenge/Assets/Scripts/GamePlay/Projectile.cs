@@ -38,12 +38,6 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
-            anim.SetBool("explode", true);
-        }
-        else if (other.gameObject.tag != "Player")
-        {
-            anim.SetBool("explode", true);
-
         }
         if(other.gameObject.tag != "Player")
         {

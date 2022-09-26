@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }
     private Animator anim;
+    private PlayerAnimationHandler pAnimHandler;
     private bool dead;
     public float despawnTimer;
     [SerializeField] private Behaviour[] components;
@@ -25,6 +26,7 @@ public class Health : MonoBehaviour
         spriteRend = GetComponent<SpriteRenderer>();
         if(gameObject.tag == "Player")
         {
+            pAnimHandler = GetComponent<PlayerAnimationHandler>();
             playerController = gameObject.GetComponent<PlayerController>();
         }
     }
@@ -47,15 +49,29 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
         if (currentHealth > 0)
         {
-            anim.SetTrigger("hurt");
+            if(gameObject.tag == "Player")
+            {
+                pAnimHandler.ChangeAnimationState("Player_Hurt");
+            }
+            else
+            {
+                anim.SetTrigger("hurt");
+            }
             StartCoroutine(Invunerability());
         }
         else
         {
             if (!dead)
             {
-                anim.SetTrigger("hurt");
-                anim.SetBool("Dead", true);
+                if (gameObject.tag == "Player")
+                {
+                    pAnimHandler.ChangeAnimationState("Player_Dead");
+                }
+                else
+                {
+                    anim.SetTrigger("hurt");
+                    anim.SetBool("Dead", true);
+                }
                 foreach (Behaviour component in components)
                 {
                     if(component.name != "Health" && component.name != "PlayerController")
