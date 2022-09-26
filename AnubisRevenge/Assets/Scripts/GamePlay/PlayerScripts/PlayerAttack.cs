@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private PlayerInput pInput;
+    private PlayerTimeManager pTime;
 
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject launchableProjectilePrefab;
@@ -18,9 +19,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float meleeAttackRange;
     [SerializeField] private float damage;
 
+    private bool thrown;
+    [SerializeField] private float throwDelay;
+
     // Start is called before the first frame update
     void Start()
     {
+        pTime = GetComponent<PlayerTimeManager>();
         pInput = GetComponent<PlayerInput>();
     }
     // Update is called once per frame
@@ -47,9 +52,20 @@ public class PlayerAttack : MonoBehaviour
         // Throw Button Pressed
         if (pInput.GetisThrowPressed())
         {
+            thrown = true;
             // Spawns Bullet Game Object at set position and rotation
-            Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.position, transform.rotation);
         }
+        if(thrown && pTime.GetThrowDelayTimer() >= throwDelay)
+        {
+            thrown = false;
+            pTime.SetThrowDelayTimer(0);
+            Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, launchableProjectilePrefab.transform.rotation);
+        }
+    }
+
+    public bool GetThrown()
+    {
+        return thrown;
     }
 
     private void OnDrawGizmosSelected()
