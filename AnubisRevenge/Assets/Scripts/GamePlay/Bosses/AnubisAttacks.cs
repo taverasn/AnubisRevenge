@@ -22,7 +22,8 @@ public class AnubisAttacks : MonoBehaviour
     const string ANUBIS_IDLE = "Anubis_Idle";
     const string ANUBIS_SLASH = "Anubis_Slash";
     const string ANUBIS_RUNSLASH = "Anubis_RunSlash";
-    const string ANUBIS_IDLE2 = "Anubis_Phase2Idle";
+   
+    //const string ANUBIS_IDLE2 = "Anubis_Phase2Idle";
 
     [Header("Attack Parameters")]
     [SerializeField] private float attackCooldown;
@@ -124,7 +125,6 @@ public class AnubisAttacks : MonoBehaviour
     {
         if (inRange)
             playerHealth.TakeDamage(damage);
-        //ChangeAnimationState(ANUBIS_IDLE2);
     }
 */
     private void AttackComplete()

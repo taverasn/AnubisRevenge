@@ -54,6 +54,7 @@ public class TestWalk : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //For potiental Second Phase
         if (isRunning)
         {
             //Follows the player
