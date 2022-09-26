@@ -28,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3296815274219968004}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.3202823, w: 0.9473222}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -37.36}
 --- !u!212 &3296815274219968025
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5a0972c31e22e4fb77ea7685821eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  LaunchOffset: {x: 0.6917, y: -0.181605, z: 0}
+  speed: 7.5
+  LaunchOffset: {x: 0, y: 0, z: 0}
   damage: 100
   pCtrl: {fileID: 0}
 --- !u!50 &3296815274219968027
@@ -135,10 +135,10 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.3}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
 --- !u!95 &3296815274219968005
