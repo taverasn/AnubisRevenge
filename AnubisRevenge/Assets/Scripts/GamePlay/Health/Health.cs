@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     private Animator anim;
     private PlayerAnimationHandler pAnimHandler;
     private bool dead;
+    public bool damageTaken;
     public float despawnTimer;
     [SerializeField] private Behaviour[] components;
 
@@ -46,40 +47,26 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float _damage)
     {
+        damageTaken = true;
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-        if (currentHealth > 0)
+        if (currentHealth > 0 && gameObject.tag != "Player")
         {
-            if(gameObject.tag == "Player")
-            {
-                pAnimHandler.ChangeAnimationState("Player_Hurt");
-            }
-            else
-            {
-                anim.SetTrigger("hurt");
-            }
+            anim.SetTrigger("hurt");
             StartCoroutine(Invunerability());
         }
         else
         {
             if (!dead)
             {
-                if (gameObject.tag == "Player")
-                {
-                    pAnimHandler.ChangeAnimationState("Player_Dead");
-                }
-                else
+                if(gameObject.tag != "Player")
                 {
                     anim.SetTrigger("hurt");
                     anim.SetBool("Dead", true);
                 }
                 foreach (Behaviour component in components)
                 {
-                    if(component.name != "Health" && component.name != "PlayerController")
+                    if(component.name != "Health")
                         component.enabled = false;
-                }
-                if(gameObject.tag == "Player")
-                {
-                    playerController.gameOver = true;
                 }
                 dead = true;
             }
