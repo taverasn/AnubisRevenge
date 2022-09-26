@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
         
         if(gameObject.tag == "Dynamite")
         {
-            direction = transform.right + Vector3.up;
+            direction = transform.right + (Vector3.up * 2);
             GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
         }
         transform.Translate(LaunchOffset);
@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
             anim.SetBool("explode", true);
@@ -45,14 +45,9 @@ public class Projectile : MonoBehaviour
             anim.SetBool("explode", true);
 
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.tag == "Enemy")
+        if(other.gameObject.tag != "Player")
         {
-            other.gameObject.GetComponent<Health>().TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
-
 }
