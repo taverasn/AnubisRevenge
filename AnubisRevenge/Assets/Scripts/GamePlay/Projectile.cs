@@ -3,53 +3,51 @@ using UnityEngine.UI;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
-    private float lifetime;
-
+    public Vector3 LaunchOffset;
     public int damage;
-
+    private float movementSpeed;
+    public PlayerController pCtrl;
     private Animator anim;
-    private BoxCollider2D boxCollider;
-
-    private void Awake()
+    private Rigidbody2D rb;
+    private Vector3 direction;
+    private void Start()
     {
+        pCtrl = GetComponent<PlayerController>();
+        
+        if(gameObject.tag == "Dynamite")
+        {
+            direction = transform.right + (Vector3.up * 2);
+            GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
+        }
+        transform.Translate(LaunchOffset);
+
         anim = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
     }
     private void Update()
     {
-        float movementSpeed = speed * Time.deltaTime;
-        transform.Translate(movementSpeed, 0, 0);
-
-        lifetime += Time.deltaTime;
-        if (lifetime > 5)
-            gameObject.SetActive(false);
-
+        if(gameObject.tag == "Bullet")
+        {
+            movementSpeed = -speed * Time.deltaTime;
+            transform.Translate(movementSpeed, 0, 0);
+            if (anim.GetBool("explode") == true)
+            Destroy(gameObject, 5);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
-            anim.SetTrigger("explode");
+            anim.SetBool("explode", true);
+        }
+        else if (other.gameObject.tag != "Player")
+        {
+            anim.SetBool("explode", true);
+
+        }
+        if(other.gameObject.tag != "Player")
+        {
             Destroy(gameObject);
         }
     }
-/*    public void SetDirection(float _direction)
-    {
-        lifetime = 0;
-        direction = _direction;
-        gameObject.SetActive(true);
-        boxCollider.enabled = true;
-
-        float localScaleX = transform.localScale.x;
-        if (Mathf.Sign(localScaleX) != _direction)
-            localScaleX = -localScaleX;
-
-        transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
-    }*/
-    private void Deactivate()
-    {
-        gameObject.SetActive(false);
-    }
-
 }
