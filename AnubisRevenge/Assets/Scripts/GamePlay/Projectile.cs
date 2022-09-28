@@ -10,13 +10,17 @@ public class Projectile : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
     private Vector3 direction;
+    private float xAxis;
+    private GameObject player;
     private void Start()
     {
-        pCtrl = GetComponent<PlayerController>();
+        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
+        player = GameObject.Find("PlayerCharacter");
         
+        xAxis = Input.GetAxis("Horizontal");
         if(gameObject.tag == "Dynamite")
         {
-            direction = transform.right + (Vector3.up * 2);
+            direction = (transform.right) + (Vector3.up * 1.5f);
             GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
         }
         transform.Translate(LaunchOffset);
@@ -27,6 +31,7 @@ public class Projectile : MonoBehaviour
     {
         if(gameObject.tag == "Bullet")
         {
+
             movementSpeed = -speed * Time.deltaTime;
             transform.Translate(movementSpeed, 0, 0);
             if (anim.GetBool("explode") == true)
@@ -38,12 +43,6 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
-            anim.SetBool("explode", true);
-        }
-        else if (other.gameObject.tag != "Player")
-        {
-            anim.SetBool("explode", true);
-
         }
         if(other.gameObject.tag != "Player")
         {
