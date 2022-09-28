@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = vel;
         }
     }
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Ground")
         {
