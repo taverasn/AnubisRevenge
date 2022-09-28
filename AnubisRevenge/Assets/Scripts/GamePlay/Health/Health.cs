@@ -8,8 +8,8 @@ public class Health : MonoBehaviour
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }
     private Animator anim;
-    private PlayerAnimationHandler pAnimHandler;
     private bool dead;
+    private bool isDamaged;
     public float despawnTimer;
     [SerializeField] private Behaviour[] components;
 
@@ -17,18 +17,11 @@ public class Health : MonoBehaviour
     [SerializeField] private float iFramesDuration;
     [SerializeField] private int numberOfFlashes;
     private SpriteRenderer spriteRend;
-    private PlayerController playerController;
-
     private void Awake()
     {
         currentHealth = startingHealth;
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
-        if(gameObject.tag == "Player")
-        {
-            pAnimHandler = GetComponent<PlayerAnimationHandler>();
-            playerController = gameObject.GetComponent<PlayerController>();
-        }
     }
 
     private void Update()
@@ -51,7 +44,7 @@ public class Health : MonoBehaviour
         {
             if(gameObject.tag == "Player")
             {
-                pAnimHandler.ChangeAnimationState("Player_Hurt");
+                isDamaged = true;
             }
             else
             {
@@ -63,27 +56,27 @@ public class Health : MonoBehaviour
         {
             if (!dead)
             {
-                if (gameObject.tag == "Player")
+                if(currentHealth <= 0)
                 {
-                    pAnimHandler.ChangeAnimationState("Player_Dead");
-                }
-                else
-                {
-                    anim.SetTrigger("hurt");
-                    anim.SetBool("Dead", true);
-                }
-                foreach (Behaviour component in components)
-                {
-                    if(component.name != "Health" && component.name != "PlayerController")
-                        component.enabled = false;
-                }
-                if(gameObject.tag == "Player")
-                {
-                    playerController.gameOver = true;
+                    if (gameObject.tag != "Player")
+                    {
+                        anim.SetTrigger("hurt");
+                        anim.SetBool("Dead", true);
+                    }
                 }
                 dead = true;
             }
         }
+    }
+
+    public bool GetIsDamaged()
+    {
+        return isDamaged;
+    }
+
+    public void SetIsDamaged(bool _isDamaged)
+    {
+        isDamaged = _isDamaged;
     }
     public void AddHealth(float _value)
     {

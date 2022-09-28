@@ -27,7 +27,6 @@ public class PlayerAttack : MonoBehaviour
     private bool isMelee;
     private Animator anim;
     private bool thrown;
-    Vector3 throwSpawnPos;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +34,6 @@ public class PlayerAttack : MonoBehaviour
         pTime = GetComponent<PlayerTimeManager>();
         pInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
-        throwSpawnPos = launchableProjectilePrefab.transform.position + transform.forward;
     }
     // Update is called once per frame
     private void Update()
@@ -73,7 +71,7 @@ public class PlayerAttack : MonoBehaviour
             isThrowing = true;
             thrown = false;
             pTime.SetThrowDelayTimer(0);
-            Instantiate(launchableProjectilePrefab, launchableProjectilePrefab.transform.position, launchableProjectilePrefab.transform.rotation);
+            Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, transform.rotation);
             yield return new WaitForSeconds(throwRate);
             isThrowing = false;
         }
