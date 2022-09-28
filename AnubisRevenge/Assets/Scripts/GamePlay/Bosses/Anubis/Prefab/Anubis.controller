@@ -183,6 +183,15 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+<<<<<<< Updated upstream:AnubisRevenge/Assets/Anubis/Prefab/Anubis.controller
+=======
+  - m_Name: hurt
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+>>>>>>> Stashed changes:AnubisRevenge/Assets/Scripts/GamePlay/Bosses/Anubis/Prefab/Anubis.controller
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -233,7 +242,11 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -8420444081056634003}
+<<<<<<< Updated upstream:AnubisRevenge/Assets/Anubis/Prefab/Anubis.controller
     m_Position: {x: 20, y: 90, z: 0}
+=======
+    m_Position: {x: 10, y: 90, z: 0}
+>>>>>>> Stashed changes:AnubisRevenge/Assets/Scripts/GamePlay/Bosses/Anubis/Prefab/Anubis.controller
   - serializedVersion: 1
     m_State: {fileID: 3676361741897737355}
     m_Position: {x: 240, y: 90, z: 0}
@@ -242,30 +255,30 @@ AnimatorStateMachine:
     m_Position: {x: 240, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8964476042608744389}
-    m_Position: {x: 240, y: 150, z: 0}
+    m_Position: {x: 470, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5678121199257348336}
     m_Position: {x: 240, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3417048320531049605}
-    m_Position: {x: 510, y: 50, z: 0}
+    m_Position: {x: 470, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 892440239719094453}
-    m_Position: {x: 500, y: -50, z: 0}
+    m_Position: {x: 470, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8568271109691315191}
     m_Position: {x: 10, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6230253153046427326}
-    m_Position: {x: 45, y: 35, z: 0}
+    m_Position: {x: 10, y: 30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 530, y: 90, z: 0}
-  m_EntryPosition: {x: -300, y: 100, z: 0}
-  m_ExitPosition: {x: 740, y: 90, z: 0}
+  m_AnyStatePosition: {x: -300, y: 20, z: 0}
+  m_EntryPosition: {x: -300, y: 90, z: 0}
+  m_ExitPosition: {x: -300, y: -40, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -8420444081056634003}
 --- !u!1102 &3676361741897737355
