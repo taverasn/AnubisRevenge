@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 3633384184022455818}
   - component: {fileID: 2035010390}
   - component: {fileID: 2035010391}
-  - component: {fileID: 6430093633337945180}
+  - component: {fileID: 3041036991331939024}
   m_Layer: 3
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -122,7 +122,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fc7a1160c2f1c3f4eadf83321431e3de, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -221,7 +221,9 @@ MonoBehaviour:
     m_Bits: 64
   meleeAttackRange: 0.75
   damage: 20
-  throwDelay: 0.4
+  throwRate: 0.4
+  shootRate: 1
+  meleeRate: 1
 --- !u!114 &2025616720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
-  damageTaken: 0
   despawnTimer: 0
   components: []
   iFramesDuration: 0
@@ -323,7 +324,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 3.1899998, y: 4.8599997}
   m_Direction: 0
---- !u!114 &6430093633337945180
+--- !u!114 &3041036991331939024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
