@@ -31,6 +31,37 @@ Transform:
   m_Father: {fileID: 2175762156409862562}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1674394343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1674394344}
+  m_Layer: 3
+  m_Name: DynamiteAttackPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1674394344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674394343}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7, y: -1.339, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2175762156409862562}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2175762156409862563
 GameObject:
   m_ObjectHideFlags: 0
@@ -50,6 +81,7 @@ GameObject:
   - component: {fileID: 3633384184022455818}
   - component: {fileID: 2035010390}
   - component: {fileID: 2035010391}
+  - component: {fileID: 6430093633337945180}
   m_Layer: 3
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -70,6 +102,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 620721877}
+  - {fileID: 1674394344}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,7 +122,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 6200000, guid: fc7a1160c2f1c3f4eadf83321431e3de, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -179,18 +212,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 763234597230285465, guid: 27541fc2667352741bcdfc1c0b8a465a, type: 3}
-  launchableProjectilePrefab: {fileID: 8187868918125348289, guid: d632215d2c8e25d4597fb084c5d505b3, type: 3}
+  launchableProjectilePrefab: {fileID: 3296815274219968004, guid: d632215d2c8e25d4597fb084c5d505b3, type: 3}
   projectileSpawnPoint: {fileID: 2175762156409862562}
-  launchableProjectileSpawnPoint: {fileID: 8187868918125348292, guid: d632215d2c8e25d4597fb084c5d505b3, type: 3}
-  startTimeMeleeBtwAttack: 2
-  startTimeRangeBtwAttack: 2
-  startTimeThrowBtwAttack: 2
+  launchableProjectileSpawnPoint: {fileID: 1674394344}
   attackPos: {fileID: 620721877}
-  meleeAttackRange: 0.75
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 64
+  meleeAttackRange: 0.75
   damage: 20
+  throwDelay: 0.4
 --- !u!114 &2025616720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +238,7 @@ MonoBehaviour:
   horizontalSprintSpeed: 7.5
   facingRight: 1
   gameOver: 0
-  jumpVelocity: 9.9
+  jumpVelocity: 600
   jumpTimeCounter: 0
   jumpTime: 0.35
 --- !u!114 &2035010389
@@ -237,8 +268,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1ce31f1d99caa42a55f2d09aea510d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBtwThrowAttack: 0
-  startTimeThrowBtwAttack: 0
+  throwDelayTimer: 0
+  startTimeBtwMeleeAttack: 2
+  startTimeBtwRangeAttack: 2
+  startTimeBtwThrowAttack: 2
 --- !u!114 &3633384184022455818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+  damageTaken: 0
   despawnTimer: 0
   components: []
   iFramesDuration: 0
@@ -289,3 +323,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 3.1899998, y: 4.8599997}
   m_Direction: 0
+--- !u!114 &6430093633337945180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175762156409862563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab84163cadf77847a540014933c0eae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMelee: 0
+  isShooting: 0
+  isThrowing: 0

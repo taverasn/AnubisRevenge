@@ -47,22 +47,22 @@ public class PlayerInput : MonoBehaviour
             releasedJump = true;
         }
         // Sprint Key Pressed?
-        if (Input.GetButtonDown("Sprint"))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isRunning = true;
         }
         // Sprint Key Released?
-        if (Input.GetButtonUp("Sprint"))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isRunning = false;
         }
         // Crouch Key Pressed?
-        if (Input.GetButtonDown("Crouch"))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             isCrouching = true;
         }
         // Crouch Key Released?
-        if (Input.GetButtonUp("Crouch"))
+        if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             isCrouching = false;
         }

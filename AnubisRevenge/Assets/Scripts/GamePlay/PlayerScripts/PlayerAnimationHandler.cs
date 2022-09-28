@@ -7,13 +7,14 @@ public class PlayerAnimationHandler : MonoBehaviour
     private Animator animator;
     private PlayerController pCtrl;
     private PlayerInput pInput;
+    private Health pHealth;
     
-    private string currentState;
+    public string currentState;
 
     public bool isMelee;
     public bool isShooting;
     public bool isThrowing;
-    
+    private bool takingDamage;
     private float attackDelay;
 
     //Animation States
@@ -33,12 +34,15 @@ public class PlayerAnimationHandler : MonoBehaviour
     private const string PLAYER_JUMPTHROW = "Player_JumpThrow";
     private const string PLAYER_WALKSHOOT = "Player_WalkShoot";
     private const string PLAYER_RUNSHOOT = "Player_RunShoot";
+    private const string PLAYER_HURT = "Player_Hurt";
+    private const string PLAYER_DEATH = "Player_Death";
     // Start is called before the first frame update
     void Start()
     {
         pInput = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
         pCtrl = GetComponent<PlayerController>();
+        pHealth = GetComponent<Health>();
     }
 
     public void ChangeAnimationState(string newState)
@@ -60,11 +64,37 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
-            if (pCtrl.GetisGrounded())
-                ChangeAnimationState(PLAYER_IDLE);
-        MovementAnimations();
-        AttackAnimations();
+        if(!pCtrl.gameOver)
+        {
+            DamagedAnimations();
+            if(currentState != PLAYER_DEATH || currentState != PLAYER_HURT)
+            {
+                MovementAnimations();
+                AttackAnimations();
+            }
+        }
+    }
+    void DamagedAnimations()
+    {
+        if (pHealth.damageTaken)
+        {
+            pHealth.damageTaken = false;
+            if (!takingDamage)
+            {
+                takingDamage = true;
+                if (pHealth.currentHealth > 0)
+                {
+                    ChangeAnimationState(PLAYER_HURT);
+                }
+                else
+                {
+                    ChangeAnimationState(PLAYER_DEATH);
+                }
+                attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+                // calls Function after time of attack delay
+                Invoke("TakingDamageComplete", attackDelay);
+            }
+        }
     }
     void AttackAnimations()
     {
@@ -154,6 +184,18 @@ public class PlayerAnimationHandler : MonoBehaviour
             Invoke("ShootAttackComplete", attackDelay);
         }
     }
+    void TakingDamageComplete()
+    {
+        takingDamage = false;
+        if(pHealth.currentHealth <= 0)
+        {
+            pCtrl.gameOver = true;
+        }
+        else
+        {
+            ChangeAnimationState(PLAYER_IDLE);
+        }
+    }
     void ThrowAttackComplete()
     {
         isThrowing = false;
@@ -174,6 +216,11 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void MovementAnimations()
     {
+        if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
+        {
+            if (pCtrl.GetisGrounded())
+                ChangeAnimationState(PLAYER_IDLE);
+        }
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
