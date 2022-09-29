@@ -112,7 +112,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("MeleeAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isThrowPressed;
+        else if (pCtrl.pInput.isThrowPressed)
         {
             pCtrl.pInput.isThrowPressed = false;
             // changes Throw animations based on input
