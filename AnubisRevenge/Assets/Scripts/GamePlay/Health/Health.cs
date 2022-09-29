@@ -8,82 +8,65 @@ public class Health : MonoBehaviour
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }
     private Animator anim;
-    private PlayerAnimationHandler pAnimHandler;
     private bool dead;
-    public float despawnTimer;
+    [SerializeField] private bool isDamaged;
+    [SerializeField ]private float despawnDelay;
     [SerializeField] private Behaviour[] components;
 
     [Header("iFrames")]
     [SerializeField] private float iFramesDuration;
     [SerializeField] private int numberOfFlashes;
     private SpriteRenderer spriteRend;
-    private PlayerController playerController;
-
     private void Awake()
     {
         currentHealth = startingHealth;
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
-        if(gameObject.tag == "Player")
-        {
-            pAnimHandler = GetComponent<PlayerAnimationHandler>();
-            playerController = gameObject.GetComponent<PlayerController>();
-        }
     }
 
     private void Update()
     {
         if (dead == true && gameObject.tag == "Enemy")
         {
-            despawnTimer += Time.deltaTime;
             startFading();
-        }
-        if(dead == true && gameObject.tag == "Enemy" && despawnTimer >= 5)
-        {
-            Destroy(gameObject.transform.parent.gameObject);
+            Destroy(gameObject.transform.parent.gameObject, 5);
         }
     }
 
     public void TakeDamage(float _damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-        if (currentHealth > 0)
+        if(gameObject.tag == "Player")
         {
-            if(gameObject.tag == "Player")
-            {
-                pAnimHandler.ChangeAnimationState("Player_Hurt");
-            }
-            else
-            {
-                anim.SetTrigger("hurt");
-            }
-            StartCoroutine(Invunerability());
+            isDamaged = true;
         }
         else
         {
-            if (!dead)
+            if (currentHealth > 0)
             {
-                if (gameObject.tag == "Player")
-                {
-                    pAnimHandler.ChangeAnimationState("Player_Dead");
-                }
-                else
-                {
-                    anim.SetTrigger("hurt");
-                    anim.SetBool("Dead", true);
-                }
-                foreach (Behaviour component in components)
-                {
-                    if(component.name != "Health" && component.name != "PlayerController")
-                        component.enabled = false;
-                }
-                if(gameObject.tag == "Player")
-                {
-                    playerController.gameOver = true;
-                }
-                dead = true;
+                anim.SetTrigger("hurt");
+                StartCoroutine(Invunerability());
             }
         }
+        if (!dead && currentHealth <= 0 && gameObject.tag != "Player")
+        {
+            if(currentHealth <= 0)
+            {
+                    anim.SetTrigger("hurt");
+                    anim.SetBool("Dead", true);
+            }
+            dead = true;
+        }
+    }
+
+    public bool GetIsDamaged()
+    {
+        return isDamaged;
+    }
+
+    public void SetIsDamaged(bool _isDamaged)
+    {
+        isDamaged = _isDamaged;
     }
     public void AddHealth(float _value)
     {

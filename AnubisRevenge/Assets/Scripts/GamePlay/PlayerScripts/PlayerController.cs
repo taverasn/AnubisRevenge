@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float xAxis;
+    // Component Variables
     private Rigidbody2D rb;
     private PlayerAnimationHandler pAnimHandler;
     private PlayerInput pInput;
+
+    // Player X Movement Variables
+    private float xAxis;
     public float horizontalSpeed = 10;
     public float horizontalSprintSpeed = 20;
-    private bool isGrounded;
-    public bool facingRight = true;
-    public bool gameOver;
+    public bool facingRight;
 
+    // State Variables
+    private bool isGrounded;
+    public bool gameOver;
 
     // Jump Variables
     public float jumpVelocity = 850;
@@ -31,20 +35,24 @@ public class PlayerController : MonoBehaviour
         jumpTimeCounter = jumpTime;
     }
 
+    // Getter
     public bool GetisGrounded()
     {
         return isGrounded;
     }
     private void Update()
     {
+        // If game over stop player movement
         if(!gameOver)
         {
             // Checking for inputs
             xAxis = Input.GetAxis("Horizontal");
+            // Check to see is player is on the floor
             if(pInput.GetisJumping())
             {
                 isGrounded = false;
             }
+            // Force Releases jump button if user is holding it for to long
             if (startTimer)
             {
                 jumpTimeCounter -= Time.deltaTime;
@@ -57,14 +65,19 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        // If game over stop player movement
         if (!gameOver)
         {
             Vector2 vel = new Vector2(0, rb.velocity.y);
+            // Crouching not pressed?
             if(!pInput.GetisCrouching())
             {
                 // Check movement update based on input
+                // Player Moving in +X or -X direction
                 if (xAxis < 0)
                 {
+                    facingRight = false;
+                    // Change between running and walking speed depending if the run button input is true
                     if(pInput.GetisRunning())
                     {
                         vel.x = -horizontalSprintSpeed;
@@ -73,10 +86,13 @@ public class PlayerController : MonoBehaviour
                     {
                         vel.x = -horizontalSpeed;
                     }
+                    // flips player to the left
                     transform.localScale = new Vector2(-.5f, .5f);
                 }
                 else if (xAxis > 0)
                 {
+                    facingRight = true;
+                    // Change between running and walking speed depending if the run button input is true
                     if (pInput.GetisRunning())
                     {
                         vel.x = horizontalSprintSpeed;
@@ -85,6 +101,7 @@ public class PlayerController : MonoBehaviour
                     {
                         vel.x = horizontalSpeed;
                     }
+                    // flips player to the right
                     transform.localScale = new Vector2(.5f, .5f);
                 }
                 else
