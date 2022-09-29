@@ -7,10 +7,13 @@ public class Projectile : MonoBehaviour
     public int damage;
     private float movementSpeed;
     public PlayerController pCtrl;
+    private Animator anim;
     private Rigidbody2D rb;
     private Vector3 direction;
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
         if(gameObject.tag == "Dynamite")
         {
@@ -24,21 +27,17 @@ public class Projectile : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, 37.66f);
                 direction = -transform.right + (Vector3.up * 1.5f);
             }
-            GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
+            rb.AddForce(direction * speed, ForceMode2D.Impulse);
         }
-
-    }
-    private void Update()
-    {
         if(gameObject.tag == "Bullet")
         {
             if(pCtrl.facingRight)
-                movementSpeed = speed * Time.deltaTime;
+                movementSpeed = speed;
             else
-                movementSpeed = -speed * Time.deltaTime;
-            transform.Translate(movementSpeed, 0, 0);
-            Destroy(gameObject, 5);
+                movementSpeed = -speed;
+            rb.velocity = new Vector2(movementSpeed, 0);
         }
+
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -48,7 +47,9 @@ public class Projectile : MonoBehaviour
         }
         if(other.gameObject.tag != "Player")
         {
-            Destroy(gameObject);
+            anim.SetBool("explode", true);
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length);
         }
     }
 }
