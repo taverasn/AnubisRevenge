@@ -260,7 +260,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 5
   horizontalSprintSpeed: 7.5
-  facingRight: 1
   gameOver: 0
   jumpVelocity: 600
   jumpTimeCounter: 0
@@ -293,9 +292,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwDelayTimer: 0
-  startTimeBtwMeleeAttack: 2
-  startTimeBtwRangeAttack: 2
-  startTimeBtwThrowAttack: 2
+  startTimeBtwMeleeAttack: 0.5
+  startTimeBtwRangeAttack: 1
+  startTimeBtwThrowAttack: 1
 --- !u!114 &3633384184022455818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,11 +353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab84163cadf77847a540014933c0eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 
   isMelee: 0
   isShooting: 0
   isThrowing: 0
-  takingDamage: 0
 --- !u!61 &1377238356
 BoxCollider2D:
   m_ObjectHideFlags: 0
