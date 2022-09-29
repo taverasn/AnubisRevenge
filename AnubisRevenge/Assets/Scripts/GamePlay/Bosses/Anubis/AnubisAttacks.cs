@@ -8,7 +8,8 @@ public class AnubisAttacks : MonoBehaviour
     public GameObject player;
     private string currentState;
     private Animator animator;
-    private float cooldownTimer = Mathf.Infinity;
+    
+    //private float coolDown = 3.5f;
     private TestWalk testwalk;
     public Transform attackPos;
     public LayerMask whatisPlayer;
@@ -23,7 +24,7 @@ public class AnubisAttacks : MonoBehaviour
     const string ANUBIS_SLASH = "Anubis_Slash";
     const string ANUBIS_RUNSLASH = "Anubis_RunSlash";
    
-    //const string ANUBIS_IDLE2 = "Anubis_Phase2Idle";
+
 
     [Header("Attack Parameters")]
     [SerializeField] private float attackCooldown;
@@ -44,8 +45,6 @@ public class AnubisAttacks : MonoBehaviour
     }
     void Update()
     {
-        cooldownTimer += Time.deltaTime;
-        //PlayerInSight();
         distanceCheck();
         if (inRange)
         {
