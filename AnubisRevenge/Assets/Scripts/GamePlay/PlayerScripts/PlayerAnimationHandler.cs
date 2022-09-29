@@ -59,11 +59,8 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-    }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!pCtrl.gameOver)
         {
@@ -192,7 +189,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (pHealth.currentHealth <= 0)
         {
             pCtrl.gameOver = true;
-        } 
+        }
         ChangeAnimationState(PLAYER_IDLE);
     }
     void ThrowAttackComplete()

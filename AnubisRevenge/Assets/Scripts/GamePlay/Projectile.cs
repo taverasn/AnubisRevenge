@@ -20,10 +20,10 @@ public class Projectile : MonoBehaviour
         xAxis = Input.GetAxis("Horizontal");
         if(gameObject.tag == "Dynamite")
         {
-            direction = (transform.right) + (Vector3.up * 1.5f);
+            direction = (transform.right) += (Vector3.up * 1.5f);
             GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
         }
-        transform.Translate(LaunchOffset);
+        //transform.Translate(LaunchOffset);
 
         anim = GetComponent<Animator>();
     }
@@ -31,7 +31,10 @@ public class Projectile : MonoBehaviour
     {
         if(gameObject.tag == "Bullet")
         {
-            movementSpeed = -speed * Time.deltaTime;
+            if(pCtrl.facingRight)
+                movementSpeed = -speed * Time.deltaTime;
+            else
+                movementSpeed = speed * Time.deltaTime;
             transform.Translate(movementSpeed, 0, 0);
             Destroy(gameObject, 5);
         }
