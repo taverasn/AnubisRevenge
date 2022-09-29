@@ -34,10 +34,6 @@ Future Enhancements:
 
 UnSolved Problems:
 - If you spam the jump key really fast you get stuck in the jump animation
-- 
-- 
-- 
-
 
 ## Technologies Used 💻
 
