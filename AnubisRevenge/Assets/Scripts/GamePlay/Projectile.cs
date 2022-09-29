@@ -31,10 +31,8 @@ public class Projectile : MonoBehaviour
     {
         if(gameObject.tag == "Bullet")
         {
-
             movementSpeed = -speed * Time.deltaTime;
             transform.Translate(movementSpeed, 0, 0);
-            if (anim.GetBool("explode") == true)
             Destroy(gameObject, 5);
         }
     }
