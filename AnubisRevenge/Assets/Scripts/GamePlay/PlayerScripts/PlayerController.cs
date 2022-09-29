@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float horizontalSpeed = 10;
     public float horizontalSprintSpeed = 20;
     private bool isGrounded;
-    public bool facingRight = true;
+    public bool facingRight;
     public bool gameOver;
 
 
@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
                 // Check movement update based on input
                 if (xAxis < 0)
                 {
+                    facingRight = false;
                     if(pInput.GetisRunning())
                     {
                         vel.x = -horizontalSprintSpeed;
@@ -77,6 +78,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (xAxis > 0)
                 {
+                    facingRight = true;
                     if (pInput.GetisRunning())
                     {
                         vel.x = horizontalSprintSpeed;
