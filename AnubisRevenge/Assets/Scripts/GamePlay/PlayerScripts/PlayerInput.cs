@@ -4,40 +4,38 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private bool isRunning;
-    [SerializeField] private bool isCrouching;
-    [SerializeField] private bool isIdle;
-    [SerializeField] private bool isWalking;
-    [SerializeField] private bool isJumping;
+    //Component Variables
     private PlayerAnimationHandler pAnimHandler;
+    private PlayerController pCtrl;
+    private PlayerTimeManager pTime;
+
+    // State Variables
+    private bool isRunning;
+    private bool isCrouching;
+    private bool isIdle;
+    private bool isWalking;
+    private bool isJumping;
     private bool isMeleePressed;
     private bool isShootPressed;
     private bool isThrowPressed;
-
     private bool releasedJump;
-
     private float xAxis;
-    private float yAxis;
 
-    private PlayerController pCtrl;
-    private PlayerAttack pAttack;
-    private PlayerTimeManager pTime;
-    // Start is called before the first frame update
+
     void Start()
     {
         pTime = GetComponent<PlayerTimeManager>();
         pCtrl = GetComponent<PlayerController>();
-        pAttack = GetComponent<PlayerAttack>();
         pAnimHandler = GetComponent<PlayerAnimationHandler>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
             xAxis = Input.GetAxis("Horizontal");
-            yAxis = Input.GetAxis("Vertical");
             // Jump Key Pressed?
             if (Input.GetButtonDown("Jump") && pCtrl.GetisGrounded())
             {
@@ -95,6 +93,7 @@ public class PlayerInput : MonoBehaviour
         // Player Collider hitting Ground Collider?
         if (pCtrl.GetisGrounded() && !pAnimHandler.isMelee && !pAnimHandler.isShooting && !pAnimHandler.isThrowing)
         {
+            // If xAxis is != to 0 check if player is using running input if not set running to true
             if (xAxis != 0)
             {
                 isIdle = false;
@@ -107,6 +106,7 @@ public class PlayerInput : MonoBehaviour
                     isWalking = true;
                 }
             }
+            // If xAxis is = 0 set Idle to true
             else
             {
                 isWalking = false;

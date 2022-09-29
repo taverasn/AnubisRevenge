@@ -179,9 +179,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         }
     }
 
+    // Functions to break out of animation loops
     void TakingDamageComplete()
     {
         takingDamage = false;
+        // When health is <= to 0 the player death animation will take place and gameover is set to true causing all player input to stop
         if (pHealth.currentHealth <= 0)
         {
             ChangeAnimationState(PLAYER_DEATH);
@@ -206,8 +208,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         ChangeAnimationState(PLAYER_IDLE);
 
     }
+
+    // Function to control animations for Walking, Running and Jumping
     void MovementAnimations()
     {
+        // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
             if (pCtrl.GetisGrounded())
                 ChangeAnimationState(PLAYER_IDLE);

@@ -2,23 +2,31 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    public Vector3 LaunchOffset;
-    public int damage;
-    private float movementSpeed;
+    // Component Variables
     public PlayerController pCtrl;
     private Animator anim;
     private Rigidbody2D rb;
+
+    // Speed and Direction Variables
+    [SerializeField] private float speed;
+    private float movementSpeed;
     private Vector3 direction;
+
+    // Damage Variable
+    public int damage;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
+        // Tag Dynamite?
+        // Causes Dynamite to move in a parabola depnding on direction player is facing
         if(gameObject.tag == "Dynamite")
         {
             if(pCtrl.facingRight)
             {
+                // Set Dynamite Rotation
                 transform.rotation = Quaternion.Euler(0, 0, -37.66f);
                 direction = transform.right + (Vector3.up * 1.5f);
             }
@@ -29,6 +37,8 @@ public class Projectile : MonoBehaviour
             }
             rb.AddForce(direction * speed, ForceMode2D.Impulse);
         }
+        // Tag Bullet?
+        // Causes bullet to move in a straight line depending on direction player is facing
         if(gameObject.tag == "Bullet")
         {
             if(pCtrl.facingRight)
@@ -41,10 +51,13 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Deal damage if the game object is an Enemy
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
         }
+        // If the game object is not the player use the explode animation and freeze the gameobject
+        // and destroy it after the animation has played
         if(other.gameObject.tag != "Player")
         {
             anim.SetBool("explode", true);
