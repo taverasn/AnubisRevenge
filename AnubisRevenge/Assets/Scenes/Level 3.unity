@@ -34511,10 +34511,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 1
   constant: 1
-  reverse: 0
+  reverseC: 0
+  switchDirectionsN: 0
   speed: 3
   distance: 3
-  switchDirections: 0
 --- !u!1 &608571756
 GameObject:
   m_ObjectHideFlags: 0
@@ -45679,10 +45679,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 1
   constant: 0
-  reverse: 0
-  speed: 0.02
+  reverseC: 0
+  switchDirectionsN: 0
+  speed: 6
   distance: 3
-  switchDirections: 0
 --- !u!1 &1770961499
 GameObject:
   m_ObjectHideFlags: 0
@@ -45844,10 +45844,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 0
   constant: 1
-  reverse: 0
+  reverseC: 0
+  switchDirectionsN: 0
   speed: 3
   distance: 3
-  switchDirections: 0
 --- !u!1 &1795279109
 GameObject:
   m_ObjectHideFlags: 0
@@ -46014,10 +46014,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 0
   constant: 0
-  reverse: 0
-  speed: 0.02
+  reverseC: 0
+  switchDirectionsN: 0
+  speed: 6
   distance: 3
-  switchDirections: 0
 --- !u!1 &1880512038
 GameObject:
   m_ObjectHideFlags: 0
@@ -46413,10 +46413,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: 0
   constant: 1
-  reverse: 1
+  reverseC: 0
+  switchDirectionsN: 0
   speed: 3
   distance: 3
-  switchDirections: 0
 --- !u!1001 &1450567481538295722
 PrefabInstance:
   m_ObjectHideFlags: 0
