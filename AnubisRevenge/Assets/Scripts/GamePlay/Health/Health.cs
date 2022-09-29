@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     public float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
-    private bool isDamaged;
+    [SerializeField] private bool isDamaged;
     public float despawnTimer;
     [SerializeField] private Behaviour[] components;
 

@@ -14,7 +14,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     public bool isMelee;
     public bool isShooting;
     public bool isThrowing;
-    private bool takingDamage;
+    [SerializeField] private bool takingDamage;
     
     private float attackDelay;
 
@@ -192,7 +192,8 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (pHealth.currentHealth <= 0)
         {
             pCtrl.gameOver = true;
-        }
+        } 
+        ChangeAnimationState(PLAYER_IDLE);
     }
     void ThrowAttackComplete()
     {
