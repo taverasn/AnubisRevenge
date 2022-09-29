@@ -9,7 +9,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private PlayerInput pInput;
     private Health pHealth;
     
-    private string currentState;
+    [SerializeField] private string currentState;
 
     public bool isMelee;
     public bool isShooting;
@@ -192,10 +192,6 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (pHealth.currentHealth <= 0)
         {
             pCtrl.gameOver = true;
-        }
-        else
-        {
-            ChangeAnimationState(PLAYER_IDLE);
         }
     }
     void ThrowAttackComplete()

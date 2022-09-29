@@ -40,32 +40,26 @@ public class Health : MonoBehaviour
     public void TakeDamage(float _damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-        if (currentHealth > 0)
+        if(gameObject.tag == "Player")
         {
-            if(gameObject.tag == "Player")
-            {
-                isDamaged = true;
-            }
-            else
-            {
-                anim.SetTrigger("hurt");
-            }
-            StartCoroutine(Invunerability());
+            isDamaged = true;
         }
         else
         {
-            if (!dead)
+            if (currentHealth > 0)
             {
-                if(currentHealth <= 0)
-                {
-                    if (gameObject.tag != "Player")
-                    {
-                        anim.SetTrigger("hurt");
-                        anim.SetBool("Dead", true);
-                    }
-                }
-                dead = true;
+                anim.SetTrigger("hurt");
+                StartCoroutine(Invunerability());
             }
+        }
+        if (!dead && currentHealth <= 0 && gameObject.tag != "Player")
+        {
+            if(currentHealth <= 0)
+            {
+                    anim.SetTrigger("hurt");
+                    anim.SetBool("Dead", true);
+            }
+            dead = true;
         }
     }
 
