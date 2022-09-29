@@ -5,39 +5,36 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     //Component Variables
-    private PlayerAnimationHandler pAnimHandler;
     private PlayerController pCtrl;
-    private PlayerTimeManager pTime;
 
     // State Variables
-    private bool isRunning;
-    private bool isCrouching;
-    private bool isIdle;
-    private bool isWalking;
-    private bool isJumping;
-    private bool isMeleePressed;
-    private bool isShootPressed;
-    private bool isThrowPressed;
-    private bool releasedJump;
+    internal bool isRunning;
+    internal bool isCrouching;
+    internal bool isIdle;
+    internal bool isWalking;
+    internal bool isJumping;
+    internal bool isMeleePressed;
+    internal bool isShootPressed;
+    internal bool isThrowPressed;
+    internal bool releasedJump;
     private float xAxis;
 
 
     void Start()
     {
-        pTime = GetComponent<PlayerTimeManager>();
+        Debug.Log("Controller");
         pCtrl = GetComponent<PlayerController>();
-        pAnimHandler = GetComponent<PlayerAnimationHandler>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // If Game Over Stop Player Input
-        if(!pCtrl.gameOver)
+        if(!pCtrl.pMove.gameOver)
         {
             xAxis = Input.GetAxis("Horizontal");
             // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && pCtrl.GetisGrounded())
+            if (Input.GetButtonDown("Jump") && pCtrl.pMove.GetisGrounded())
             {
                 isJumping = true;
             }
@@ -68,21 +65,21 @@ public class PlayerInput : MonoBehaviour
             }
 
             // Melee Key Pressed and not Running and not Walking?
-            if (Input.GetKeyDown(KeyCode.Mouse0) && pTime.GetTimeBtwMeleeAttack() > pTime.GetStartTimeBtwMeleeAttack() && !isRunning && !isWalking)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking)
             {
-                pTime.SetTimeBtwMeleeAttack(0);
+                pCtrl.pTime.timeBtwMeleeAttack = 0;
                 isMeleePressed = true;
             }
             // Shoot Key Pressed?
-            if (Input.GetKeyDown(KeyCode.Mouse1) && pTime.GetTimeBtwRangeAttack() > pTime.GetStartTimeBtwRangeAttack())
+            if (Input.GetKeyDown(KeyCode.Mouse1) && pCtrl.pTime.timeBtwRangeAttack > pCtrl.pTime.startTimeBtwRangeAttack)
             {
-                pTime.SetTimeBtwRangeAttack(0);
+                pCtrl.pTime.timeBtwRangeAttack = 0;
                 isShootPressed = true;
             }
             // Throw Key Pressed and not Running and not Walking?
-            if (Input.GetKeyDown(KeyCode.F) && pTime.GetTimeBtwThrowAttack() > pTime.GetStartTimeBtwThrowAttack() && !isRunning && !isWalking)
+            if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking)
             {
-                pTime.SetTimeBtwThrowAttack(0);
+                pCtrl.pTime.timeBtwThrowAttack = 0;
                 isThrowPressed = true;
             }
         }
@@ -91,13 +88,13 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Player Collider hitting Ground Collider?
-        if (pCtrl.GetisGrounded() && !pAnimHandler.isMelee && !pAnimHandler.isShooting && !pAnimHandler.isThrowing)
+        if (pCtrl.pMove.GetisGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
         {
             // If xAxis is != to 0 check if player is using running input if not set running to true
             if (xAxis != 0)
             {
                 isIdle = false;
-                if (GetisRunning())
+                if (isRunning)
                 {
                     isWalking = false;
                 }
@@ -113,63 +110,5 @@ public class PlayerInput : MonoBehaviour
                 isIdle = true;
             }
         }
-    }
-
-    // Getters and Setters
-    public bool GetisMeleePressed()
-    {
-        return isMeleePressed;
-    }
-    public void SetisMeleePressed(bool _isMeleePressed)
-    {
-        isMeleePressed = _isMeleePressed;
-    }    
-    public bool GetisShootPressed()
-    {
-        return isShootPressed;
-    }
-    public void SetisShootPressed(bool _isShootPressed)
-    {
-        isShootPressed = _isShootPressed;
-    }    
-    public bool GetisThrowPressed()
-    {
-        return isThrowPressed;
-    }
-    public void SetisThrowPressed(bool _isThrowPressed)
-    {
-        isThrowPressed = _isThrowPressed;
-    }
-    public bool GetisJumping()
-    {
-        return isJumping;
-    }
-    public void SetisJumping(bool _isJumping)
-    {
-        isJumping = _isJumping;
-    }
-    public bool GetreleasedJump()
-    {
-        return releasedJump;
-    }    
-    public void SetreleasedJump(bool _releasedJump)
-    {
-        releasedJump = _releasedJump;
-    }
-    public bool GetisCrouching()
-    {
-        return isCrouching;
-    }
-    public bool GetisRunning()
-    {
-        return isRunning;
-    }
-    public bool GetisIdle()
-    {
-        return isIdle;
-    }
-    public bool GetisWalking()
-    {
-        return isWalking;
     }
 }

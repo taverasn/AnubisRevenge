@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class PlayerAnimationHandler : MonoBehaviour
 {
-    private Animator animator;
     private PlayerController pCtrl;
-    private PlayerInput pInput;
-    private Health pHealth;
     
-    [SerializeField] private string currentState;
+    private string currentState;
 
     public bool isMelee;
     public bool isShooting;
     public bool isThrowing;
-    [SerializeField] private bool takingDamage;
+    private bool takingDamage;
     
     private float attackDelay;
 
@@ -40,9 +37,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pHealth = GetComponent<Health>();
-        pInput = GetComponent<PlayerInput>();
-        animator = GetComponent<Animator>();
         pCtrl = GetComponent<PlayerController>();
     }
 
@@ -52,7 +46,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (currentState == newState) return;
 
         // play the animation
-        animator.Play(newState);
+        pCtrl.anim.Play(newState);
 
         // reassign the current state
         currentState = newState;
@@ -62,7 +56,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
-        if (!pCtrl.gameOver)
+        if (!pCtrl.pMove.gameOver)
         {
             DamagedAnimations();
             if (!takingDamage)
@@ -74,18 +68,18 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void DamagedAnimations()
     {
-        if (pHealth.GetIsDamaged())
+        if (pCtrl.pHealth.GetIsDamaged())
         {
-            pHealth.SetIsDamaged(false);
+            pCtrl.pHealth.SetIsDamaged(false);
             if (!takingDamage)
             {
                 takingDamage = true;
-                if (pHealth.currentHealth > 0)
+                if (pCtrl.pHealth.currentHealth > 0)
                 {
                     ChangeAnimationState(PLAYER_HURT);
                 }
             }
-            attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
             Invoke("TakingDamageComplete", attackDelay);
         }
@@ -93,87 +87,87 @@ public class PlayerAnimationHandler : MonoBehaviour
     void AttackAnimations()
     {
         // Melee Pressed?
-        if (pInput.GetisMeleePressed())
+        if (pCtrl.pInput.isMeleePressed)
         {
-            pInput.SetisMeleePressed(false);
+            pCtrl.pInput.isMeleePressed = false;
             if (!isMelee)
             {
                 isMelee = true;
                 // changes melee animations based on input
-                if (pInput.GetisCrouching())
+                if (pCtrl.pInput.isCrouching)
                 {
                     ChangeAnimationState(PLAYER_CROUCHMELEE);
                 }
-                else if (!pCtrl.GetisGrounded())
+                else if (!pCtrl.pMove.GetisGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPMELEE);
                 }
-                else if (pInput.GetisIdle())
+                else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_MELEE);
                 }
             }
             // attack delay set to the length in seconds of the current animation
-            attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
             Invoke("MeleeAttackComplete", attackDelay);
         }
-        else if (pInput.GetisThrowPressed())
+        else if (pCtrl.pInput.isThrowPressed;
         {
-            pInput.SetisThrowPressed(false);
+            pCtrl.pInput.isThrowPressed = false;
             // changes Throw animations based on input
             if(!isThrowing)
             {
                 isThrowing = true;
-                if (pInput.GetisCrouching())
+                if (pCtrl.pInput.isCrouching)
                 {
                     ChangeAnimationState(PLAYER_CROUCHTHROW);
                 }
-                else if (!pCtrl.GetisGrounded())
+                else if (!pCtrl.pMove.GetisGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPTHROW);
                 }
-                else if (pInput.GetisIdle())
+                else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_THROW);
                 }
             }
             // attack delay set to the length in seconds of the current animation
-            attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
             Invoke("ThrowAttackComplete", attackDelay);
         }
-        else if (pInput.GetisShootPressed())
+        else if (pCtrl.pInput.isShootPressed)
         {
-            pInput.SetisShootPressed(false);
+            pCtrl.pInput.isShootPressed = false;
             if(!isShooting)
             {
                 isShooting = true;
                 // Changes Shoot animation based on user input
-                if(pInput.GetisCrouching())
+                if(pCtrl.pInput.isCrouching)
                 {
                     ChangeAnimationState(PLAYER_CROUCHSHOOT);
                 }
-                else if (!pCtrl.GetisGrounded())
+                else if (!pCtrl.pMove.GetisGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPSHOOT);
                 }
-                else if (pInput.GetisIdle())
+                else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_SHOOT);
                 }
-                else if (pInput.GetisWalking())
+                else if (pCtrl.pInput.isWalking)
                 {
                     ChangeAnimationState(PLAYER_WALKSHOOT);
                 }
-                else if (pInput.GetisRunning())
+                else if (pCtrl.pInput.isRunning)
                 {
                     ChangeAnimationState(PLAYER_RUNSHOOT);
                 }
             }
             
             // attack delay set to the length in seconds of the current animation
-            attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
             Invoke("ShootAttackComplete", attackDelay);
         }
@@ -184,10 +178,10 @@ public class PlayerAnimationHandler : MonoBehaviour
     {
         takingDamage = false;
         // When health is <= to 0 the player death animation will take place and gameover is set to true causing all player input to stop
-        if (pHealth.currentHealth <= 0)
+        if (pCtrl.pHealth.currentHealth <= 0)
         {
             ChangeAnimationState(PLAYER_DEATH);
-            pCtrl.gameOver = true;
+            pCtrl.pMove.gameOver = true;
         }
     }
     void ThrowAttackComplete()
@@ -214,22 +208,22 @@ public class PlayerAnimationHandler : MonoBehaviour
     {
         // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
-            if (pCtrl.GetisGrounded())
+            if (pCtrl.pMove.GetisGrounded())
                 ChangeAnimationState(PLAYER_IDLE);
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if (pCtrl.GetisGrounded())
+            if (pCtrl.pMove.GetisGrounded())
             {
                 // Crouch not pressed?
-                if (!pInput.GetisCrouching())
+                if (!pCtrl.pInput.isCrouching)
                 {
                     // Player X Input != 0?
-                    if (!pInput.GetisIdle())
+                    if (!pCtrl.pInput.isIdle)
                     {
                         // Walk pressed?
-                        if (pInput.GetisWalking())
+                        if (pCtrl.pInput.isWalking)
                         {
                             ChangeAnimationState(PLAYER_WALK);
                         }
