@@ -15,9 +15,15 @@ public class Projectile : MonoBehaviour
         if(gameObject.tag == "Dynamite")
         {
             if(pCtrl.facingRight)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, -37.66f);
                 direction = transform.right + (Vector3.up * 1.5f);
+            }
             else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 37.66f);
                 direction = -transform.right + (Vector3.up * 1.5f);
+            }
             GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
         }
 
