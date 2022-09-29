@@ -6,6 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     private PlayerInput pInput;
     private PlayerTimeManager pTime;
+    private PlayerController pCtrl;
 
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject launchableProjectilePrefab;
@@ -31,6 +32,7 @@ public class PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pCtrl = GetComponent<PlayerController>();
         pTime = GetComponent<PlayerTimeManager>();
         pInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
@@ -38,9 +40,12 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        StartCoroutine(shoot());
-        StartCoroutine(dynamiteThrow());
-        StartCoroutine(melee());
+        if(!pCtrl.gameOver)
+        {
+            StartCoroutine(shoot());
+            StartCoroutine(dynamiteThrow());
+            StartCoroutine(melee());
+        }
     }
     IEnumerator melee()
     {

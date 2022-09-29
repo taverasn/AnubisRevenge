@@ -34,56 +34,59 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xAxis = Input.GetAxis("Horizontal");
-        yAxis = Input.GetAxis("Vertical");
-        // Jump Key Pressed?
-        if (Input.GetButtonDown("Jump") && pCtrl.GetisGrounded())
+        if(!pCtrl.gameOver)
         {
-            isJumping = true;
-        }
-        // Jump Key Released?
-        if (Input.GetButtonUp("Jump"))
-        {
-            releasedJump = true;
-        }
-        // Sprint Key Pressed?
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            isRunning = true;
-        }
-        // Sprint Key Released?
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            isRunning = false;
-        }
-        // Crouch Key Pressed?
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            isCrouching = true;
-        }
-        // Crouch Key Released?
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            isCrouching = false;
-        }
+            xAxis = Input.GetAxis("Horizontal");
+            yAxis = Input.GetAxis("Vertical");
+            // Jump Key Pressed?
+            if (Input.GetButtonDown("Jump") && pCtrl.GetisGrounded())
+            {
+                isJumping = true;
+            }
+            // Jump Key Released?
+            if (Input.GetButtonUp("Jump"))
+            {
+                releasedJump = true;
+            }
+            // Sprint Key Pressed?
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isRunning = true;
+            }
+            // Sprint Key Released?
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                isRunning = false;
+            }
+            // Crouch Key Pressed?
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                isCrouching = true;
+            }
+            // Crouch Key Released?
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                isCrouching = false;
+            }
 
-        // Melee Key Pressed and not Running and not Walking?
-        if (Input.GetKeyDown(KeyCode.Mouse0) && pTime.GetTimeBtwMeleeAttack() > pTime.GetStartTimeBtwMeleeAttack() && !isRunning && !isWalking)
-        {
-            pTime.SetTimeBtwMeleeAttack(0);
-            isMeleePressed = true;
-        }
-        // Shoot Key Pressed?
-        if (Input.GetKeyDown(KeyCode.Mouse1) && pTime.GetTimeBtwRangeAttack() > pTime.GetStartTimeBtwRangeAttack())
-        {
-            pTime.SetTimeBtwRangeAttack(0);
-            isShootPressed = true;
-        }
-        // Throw Key Pressed and not Running and not Walking?
-        if (Input.GetKeyDown(KeyCode.F) && pTime.GetTimeBtwThrowAttack() > pTime.GetStartTimeBtwThrowAttack() && !isRunning && !isWalking)
-        {
-            pTime.SetTimeBtwThrowAttack(0);
-            isThrowPressed = true;
+            // Melee Key Pressed and not Running and not Walking?
+            if (Input.GetKeyDown(KeyCode.Mouse0) && pTime.GetTimeBtwMeleeAttack() > pTime.GetStartTimeBtwMeleeAttack() && !isRunning && !isWalking)
+            {
+                pTime.SetTimeBtwMeleeAttack(0);
+                isMeleePressed = true;
+            }
+            // Shoot Key Pressed?
+            if (Input.GetKeyDown(KeyCode.Mouse1) && pTime.GetTimeBtwRangeAttack() > pTime.GetStartTimeBtwRangeAttack())
+            {
+                pTime.SetTimeBtwRangeAttack(0);
+                isShootPressed = true;
+            }
+            // Throw Key Pressed and not Running and not Walking?
+            if (Input.GetKeyDown(KeyCode.F) && pTime.GetTimeBtwThrowAttack() > pTime.GetStartTimeBtwThrowAttack() && !isRunning && !isWalking)
+            {
+                pTime.SetTimeBtwThrowAttack(0);
+                isThrowPressed = true;
+            }
         }
     }
 
