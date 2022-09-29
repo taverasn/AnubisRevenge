@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 2035010390}
   - component: {fileID: 2035010391}
   - component: {fileID: 3041036991331939024}
+  - component: {fileID: 1377238356}
   m_Layer: 3
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -336,6 +337,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab84163cadf77847a540014933c0eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 
   isMelee: 0
   isShooting: 0
   isThrowing: 0
+--- !u!61 &1377238356
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175762156409862563}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -2.2174244}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.19, y: 4.86}
+    newSize: {x: 3.19, y: 4.86}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.19, y: 0.42515182}
+  m_EdgeRadius: 0
