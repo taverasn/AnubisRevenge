@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
     private Animator anim;
     private bool dead;
     [SerializeField] private bool isDamaged;
-    public float despawnTimer;
+    [SerializeField ]private float despawnDelay;
     [SerializeField] private Behaviour[] components;
 
     [Header("iFrames")]
@@ -28,12 +28,8 @@ public class Health : MonoBehaviour
     {
         if (dead == true && gameObject.tag == "Enemy")
         {
-            despawnTimer += Time.deltaTime;
             startFading();
-        }
-        if(dead == true && gameObject.tag == "Enemy" && despawnTimer >= 5)
-        {
-            Destroy(gameObject.transform.parent.gameObject);
+            Destroy(gameObject.transform.parent.gameObject, despawnDelay);
         }
     }
 

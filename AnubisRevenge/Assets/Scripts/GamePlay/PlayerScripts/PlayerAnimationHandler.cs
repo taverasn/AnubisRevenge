@@ -65,7 +65,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (!pCtrl.gameOver)
         {
             DamagedAnimations();
-            if (currentState != PLAYER_DEATH || currentState != PLAYER_HURT)
+            if (!takingDamage)
             {
                 MovementAnimations();
                 AttackAnimations();
@@ -83,10 +83,6 @@ public class PlayerAnimationHandler : MonoBehaviour
                 if (pHealth.currentHealth > 0)
                 {
                     ChangeAnimationState(PLAYER_HURT);
-                }
-                else
-                {
-                    ChangeAnimationState(PLAYER_DEATH);
                 }
             }
             attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
@@ -188,9 +184,9 @@ public class PlayerAnimationHandler : MonoBehaviour
         takingDamage = false;
         if (pHealth.currentHealth <= 0)
         {
+            ChangeAnimationState(PLAYER_DEATH);
             pCtrl.gameOver = true;
         }
-        ChangeAnimationState(PLAYER_IDLE);
     }
     void ThrowAttackComplete()
     {
