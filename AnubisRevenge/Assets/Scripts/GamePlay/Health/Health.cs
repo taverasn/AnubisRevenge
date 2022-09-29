@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Health : MonoBehaviour
 {
+    private PlayerController pCtrl;
     [Header("Health")]
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }
@@ -19,6 +20,7 @@ public class Health : MonoBehaviour
     private SpriteRenderer spriteRend;
     private void Awake()
     {
+        pCtrl = GetComponent<PlayerController>();
         currentHealth = startingHealth;
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();

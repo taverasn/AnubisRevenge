@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 2175762156409862562}
   - component: {fileID: 2025616716}
   - component: {fileID: 2025616721}
+  - component: {fileID: 4137138182412089751}
   - component: {fileID: 2025616718}
   - component: {fileID: 2025616719}
   - component: {fileID: 2025616720}
@@ -123,7 +124,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 6200000, guid: fc7a1160c2f1c3f4eadf83321431e3de, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -180,6 +181,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4137138182412089751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175762156409862563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8795102d601baf446b154664df9317d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pMove: {fileID: 2025616720}
+  pAnimHandler: {fileID: 3041036991331939024}
+  pAttack: {fileID: 2025616719}
+  pInput: {fileID: 3633384184022455818}
+  pTime: {fileID: -3707740838375089029}
+  pHealth: {fileID: 2035010390}
+  anim: {fileID: 2025616718}
+  rb: {fileID: 2025616716}
 --- !u!95 &2025616718
 Animator:
   serializedVersion: 4
@@ -287,11 +308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72608c2089807f34db26926efc742142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRunning: 0
-  isCrouching: 0
-  isIdle: 0
-  isWalking: 0
-  isJumping: 0
 --- !u!114 &2035010390
 MonoBehaviour:
   m_ObjectHideFlags: 0

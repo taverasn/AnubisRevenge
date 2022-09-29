@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
     public PlayerController pCtrl;
     private Animator anim;
     private Rigidbody2D rb;
-
     // Speed and Direction Variables
     [SerializeField] private float speed;
     private float movementSpeed;
@@ -17,14 +16,14 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
+        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
         // Tag Dynamite?
         // Causes Dynamite to move in a parabola depnding on direction player is facing
         if(gameObject.tag == "Dynamite")
         {
-            if(pCtrl.facingRight)
+            if(pCtrl.pMove.facingRight)
             {
                 // Set Dynamite Rotation
                 transform.rotation = Quaternion.Euler(0, 0, -37.66f);
@@ -41,7 +40,7 @@ public class Projectile : MonoBehaviour
         // Causes bullet to move in a straight line depending on direction player is facing
         if(gameObject.tag == "Bullet")
         {
-            if(pCtrl.facingRight)
+            if(pCtrl.pMove.facingRight)
                 movementSpeed = speed;
             else
                 movementSpeed = -speed;
