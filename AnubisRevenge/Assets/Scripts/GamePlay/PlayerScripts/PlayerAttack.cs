@@ -76,7 +76,7 @@ public class PlayerAttack : MonoBehaviour
             isThrowing = true;
             thrown = false;
             pTime.SetThrowDelayTimer(0);
-            Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, transform.rotation);
+            Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, launchableProjectilePrefab.transform.rotation);
             yield return new WaitForSeconds(throwRate);
             isThrowing = false;
         }
