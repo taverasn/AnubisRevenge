@@ -8,6 +8,7 @@ public class BMMovement : MonoBehaviour
     public Animator animator;
     private string currentState;
     public float speed;
+
     private bool isFlipped = false;
     private Transform playerPos;
 
@@ -16,7 +17,6 @@ public class BMMovement : MonoBehaviour
     
     void Start()
     {
-        speed = 3.0f;
         playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         cool = GetComponent<BMAttacking>();
     }
@@ -26,17 +26,14 @@ public class BMMovement : MonoBehaviour
         LookAtPlayer();
         if (speed == 3.0f)
         {
-            Debug.Log("Player not in range");
             FollowPlayer();
         }
         else if (cool.onCoolDown == true)
         {
-            Debug.Log("Stopped player in range");
             ChangeAnimationState(BM_IDLE);
         }
         else
         {
-            Debug.Log("Following player");
             speed = 3.0f;
             FollowPlayer();
         }

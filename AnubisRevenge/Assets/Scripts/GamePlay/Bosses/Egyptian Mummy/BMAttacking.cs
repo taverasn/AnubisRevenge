@@ -51,11 +51,10 @@ public class BMAttacking : MonoBehaviour
     {
         if (onCoolDown)
         {
+            ChangeAnimationState(BM_ATTACK);
+            Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
             return;
         }
-        ChangeAnimationState(BM_ATTACK);
-        Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
-
         onCoolDown = true;
         StartCoroutine(delayAttack());
     }
