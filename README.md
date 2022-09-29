@@ -35,4 +35,7 @@ UnSolved Problems:
 ---
 
 ## Screenshots 📸
- ## Trello Planning @ [Anubis' Revenge Trello](https://trello.com/b/ceclvDCV/2-d-platformer)
+
+---
+
+## Trello Planning @ [Anubis' Revenge Trello](https://trello.com/b/ceclvDCV/2-d-platformer)
