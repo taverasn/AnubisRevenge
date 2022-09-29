@@ -9,18 +9,20 @@ public class BMAttacking : MonoBehaviour
     //public bool inRange;
     //public LayerMask whatisPlayer;
     //public float ARange;
-
+    BMMovement moving;
     Health playerHealth;
     public Animator animator;
     private string currentState;
     const string player = "PlayerCharacter";
     const string BM_IDLE = "BM_Idle";
+    const string BM_WALK = "BM_Walk";
     const string BM_ATTACK = "BM_Attack";
-    
+
     public float delay;
+
     public Transform circleOrigin;
     public float radius;
-    private bool onCoolDown;
+    public bool onCoolDown;
     [SerializeField] private int damage;
 
     /* [Header("Attack Parameters")]
@@ -37,6 +39,7 @@ public class BMAttacking : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        moving = GetComponent<BMMovement>();
         playerHealth = GameObject.Find("PlayerCharacter").GetComponent<Health>();
     }
 
@@ -79,10 +82,6 @@ public class BMAttacking : MonoBehaviour
         ChangeAnimationState(BM_ATTACK);
         Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
 
-        /*for (int i = 0; i < PlayerToDamage.Length; i++)
-        {
-            PlayerToDamage[i].GetComponent<Health>().TakeDamage(damage);
-        }*/
         onCoolDown = true;
         StartCoroutine(delayAttack());
     }
@@ -107,7 +106,6 @@ public class BMAttacking : MonoBehaviour
         Gizmos.color = Color.blue;
         Vector3 position = circleOrigin == null ? Vector3.zero : circleOrigin.position;
         Gizmos.DrawWireSphere(position, radius);
-        //Gizmos.DrawWireSphere(attackPos.position, ARange);
     }
     public void DetectPlayer()
     {
@@ -115,6 +113,7 @@ public class BMAttacking : MonoBehaviour
         {
             if (collider.name == player)
             {
+                moving.speed = 0;
                 attack();
             }
         }
