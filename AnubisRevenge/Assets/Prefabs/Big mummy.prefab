@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef565df166380614ebe05d10020f8404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 6133217373711170958}
   currentHealth: 100
   maxHealth: 100
   dead: 0
@@ -320,9 +320,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6133217373711170958}
-  delay: 4.3
+  delay: 1.5
   circleOrigin: {fileID: 6133217373118460123}
   radius: 2
+  onCoolDown: 0
   damage: 5
 --- !u!114 &2317689589897829991
 MonoBehaviour:
@@ -336,3 +337,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a6f7b5817023841aa5d88921d97e11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 6133217373711170958}
+  speed: 3

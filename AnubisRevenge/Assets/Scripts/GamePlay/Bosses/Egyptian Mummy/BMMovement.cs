@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BMMovement : MonoBehaviour
-{ 
+{
     BMAttacking cool;
     public Animator animator;
     private string currentState;
     public float speed;
+    private bool isFlipped = false;
     private Transform playerPos;
 
     const string BM_IDLE = "BM_Idle";
     const string BM_WALK = "BM_Walk";
+    
     void Start()
     {
         speed = 3.0f;
@@ -21,17 +23,22 @@ public class BMMovement : MonoBehaviour
 
     void Update()
     {
+        LookAtPlayer();
         if (speed == 3.0f)
         {
-            Debug.Log("Part 1");
-            ChangeAnimationState(BM_WALK);
-            Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
-            animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed * Time.deltaTime);
+            Debug.Log("Player not in range");
+            FollowPlayer();
         }
         else if (cool.onCoolDown == true)
         {
-            Debug.Log("Part 2");
+            Debug.Log("Stopped player in range");
             ChangeAnimationState(BM_IDLE);
+        }
+        else
+        {
+            Debug.Log("Following player");
+            speed = 3.0f;
+            FollowPlayer();
         }
     }
 
@@ -45,5 +52,31 @@ public class BMMovement : MonoBehaviour
 
         // reassign the current state
         currentState = newState;
+    }
+    
+    void FollowPlayer()
+    {
+        ChangeAnimationState(BM_WALK);
+        Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
+        animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed * Time.deltaTime);
+    }
+
+    public void LookAtPlayer()
+    {
+        Vector3 flipped = transform.localScale;
+        flipped.z *= -1f;
+
+        if (transform.position.x > playerPos.position.x && isFlipped)
+        {
+            transform.localScale = flipped;
+            transform.Rotate(0f, 180f, 0f);
+            isFlipped = false;
+        }
+        else if (transform.position.x < playerPos.position.x && !isFlipped)
+        {
+            transform.localScale = flipped;
+            transform.Rotate(0f, 180f, 0f);
+            isFlipped = true;
+        }
     }
 }

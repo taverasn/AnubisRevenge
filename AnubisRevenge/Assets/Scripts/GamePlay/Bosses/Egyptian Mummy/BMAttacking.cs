@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class BMAttacking : MonoBehaviour
 {
-    //public GameObject player;
-    //public Transform attackPos
-    //public bool inRange;
-    //public LayerMask whatisPlayer;
-    //public float ARange;
     BMMovement moving;
     Health playerHealth;
+   
     public Animator animator;
     private string currentState;
+    
     const string player = "PlayerCharacter";
     const string BM_IDLE = "BM_Idle";
     const string BM_WALK = "BM_Walk";
@@ -25,17 +22,7 @@ public class BMAttacking : MonoBehaviour
     public bool onCoolDown;
     [SerializeField] private int damage;
 
-    /* [Header("Attack Parameters")]
-     [SerializeField] private float range;
-     [SerializeField] private int damage;
-
-     [Header("Collider Parameters")]
-     [SerializeField] private float colliderDistance;
-     [SerializeField] private PolygonCollider2D polygonCollider;
-
-     [Header("Player Layer")]
-     [SerializeField] private LayerMask playerLayer;
- */
+   
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -46,19 +33,6 @@ public class BMAttacking : MonoBehaviour
     void Update()
     {
         DetectPlayer();
-        /*distanceCheck();
-        if (inRange)
-        {
-            inRange = true;
-            Debug.Log("Player In Range");
-            ChangeAnimationState(BM_IDLE);
-            if (onCoolDown)
-            {
-                Debug.Log("Player attacked");
-                Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(attackPos.position, ARange, whatisPlayer);
-            }
-            delayAttack();
-        }*/
     }
 
     void ChangeAnimationState(string newState)
@@ -93,20 +67,13 @@ public class BMAttacking : MonoBehaviour
         onCoolDown = false;
     }
 
-    /*private void distanceCheck()
-    {
-        if (player.transform.position.x - transform.position.x < 10)
-        {
-            inRange = true;
-        }
-    }*/
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Vector3 position = circleOrigin == null ? Vector3.zero : circleOrigin.position;
         Gizmos.DrawWireSphere(position, radius);
     }
+    
     public void DetectPlayer()
     {
         foreach (Collider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
