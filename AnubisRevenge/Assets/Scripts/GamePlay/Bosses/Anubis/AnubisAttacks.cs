@@ -4,109 +4,38 @@ using UnityEngine;
 
 public class AnubisAttacks : MonoBehaviour
 {
+    private PlayerController PC;
+    AnubisMovement moving;
     Health playerHealth;
-    public GameObject player;
+    BossHealth bosshealth;
+    public Animator animator;
     private string currentState;
-    private Animator animator;
-    
-    //private float coolDown = 3.5f;
-    private TestWalk testwalk;
-    public Transform attackPos;
-    public LayerMask whatisPlayer;
-    public float ARange;
 
-    //Bools
-    public bool inRange;
-    public bool attackRange;
-    public bool canAttack;
-    //Animations
+    const string player = "PlayerCharacter";
     const string ANUBIS_IDLE = "Anubis_Idle";
     const string ANUBIS_SLASH = "Anubis_Slash";
     const string ANUBIS_RUNSLASH = "Anubis_RunSlash";
-   
 
+    public float delay;
 
-    [Header("Attack Parameters")]
-    [SerializeField] private float attackCooldown;
-    [SerializeField] private float range;
+    public Transform circleOrigin;
+    public float radius;
+    public bool onCoolDown;
     [SerializeField] private int damage;
-
-    [Header("Collider Parameters")]
-    [SerializeField] private float colliderDistance;
-    [SerializeField] private PolygonCollider2D polygonCollider;
-
-    [Header("Player Layer")]
-    [SerializeField] private LayerMask playerLayer;
 
     void Start()
     {
+        PC = GameObject.Find(player).GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
-        playerHealth = GameObject.Find("PlayerCharacter").GetComponent<Health>();
+        moving = GetComponent<AnubisMovement>();
+        bosshealth = GetComponent<BossHealth>();
     }
+    
     void Update()
     {
-        distanceCheck();
-        if (inRange)
-        {
-            inRange = false;
-            ChangeAnimationState(ANUBIS_IDLE);
-            if (!canAttack)
-            {
-                ChangeAnimationState(ANUBIS_SLASH);
-                Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(attackPos.position, ARange, whatisPlayer);
-                for (int i = 0; i < PlayerToDamage.Length; i++)
-                {
-                    PlayerToDamage[i].GetComponent<Health>().TakeDamage(damage);
-                }
-                canAttack = true;
-            }
-            Invoke("AttackComplete", 0.35f);
-        }
+        if (!bosshealth.dead)
+            DetectPlayer();
     }
-   
-
-    private void distanceCheck()
-    {
-        if (player.transform.position.x - transform.position.x < 10)
-        {
-            inRange = true;
-        }
-    }
-
-
-    private void PlayerInSight()
-    {
-
-        Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(attackPos.position, ARange, whatisPlayer);
-        for (int i = 0; i < PlayerToDamage.Length; i++)
-        {
-            PlayerToDamage[i].GetComponent<Health>().TakeDamage(damage);
-        }
-       
-        /*RaycastHit2D hit = Physics2D.BoxCast(polygonCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
-            new Vector2(polygonCollider.bounds.size.x * range, polygonCollider.bounds.size.y),
-            0, Vector2.left, 0, playerLayer);
-
-        if (hit.collider != null && hit.transform.tag == "Player")
-        {
-            playerHealth = hit.transform.GetComponent<Health>();
-            inRange = true;
-            DamagePlayer();
-        }
-        else if (hit.collider != null && hit.transform.tag != "Player")
-        {
-            inRange = false;
-            ChangeAnimationState(ANUBIS_IDLE);
-        }*/
-
-    }
-
-   /* private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(polygonCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
-            new Vector3(polygonCollider.bounds.size.x * range, polygonCollider.bounds.size.y, polygonCollider.bounds.size.z));
-    }*/
 
     void ChangeAnimationState(string newState)
     {
@@ -119,20 +48,43 @@ public class AnubisAttacks : MonoBehaviour
         // reassign the current state
         currentState = newState;
     }
-    
-    /*private void DamagePlayer()
+
+    public void attack()
     {
-        if (inRange)
-            playerHealth.TakeDamage(damage);
+        if (onCoolDown)
+        {
+            ChangeAnimationState(ANUBIS_SLASH);
+            PC.pHealth.TakeDamage(damage);
+            Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
+            return;
+        }
+        onCoolDown = true;
+        StartCoroutine(delayAttack());
     }
-*/
-    private void AttackComplete()
+
+    private IEnumerator delayAttack()
     {
-        canAttack = false;
+        ChangeAnimationState(ANUBIS_IDLE);
+        yield return new WaitForSeconds(delay);
+        onCoolDown = false;
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos.position, ARange);
+        Vector3 position = circleOrigin == null ? Vector3.zero : circleOrigin.position;
+        Gizmos.DrawWireSphere(position, radius);
+    }
+
+    public void DetectPlayer()
+    {
+        foreach (Collider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
+        {
+            if (collider.name == player)
+            {
+                moving.speed = 0;
+                attack();
+            }
+        }
     }
 }
