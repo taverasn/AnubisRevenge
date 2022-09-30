@@ -26,11 +26,11 @@ public class PlayerCollisions : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Obstacle" || other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Obstacle")
         {
             if (pCtrl.pHealth.currentHealth > 0)
             {
-                pCtrl.pHealth.TakeDamage(50);
+                pCtrl.pHealth.TakeDamage(pCtrl.pHealth.currentHealth);
             }
         }
     }
