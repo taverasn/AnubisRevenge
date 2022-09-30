@@ -12,6 +12,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isShooting;
     internal bool isThrowing;
     private bool takingDamage;
+    private float xAxis;
     
     private float attackDelay;
 
@@ -34,6 +35,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private const string PLAYER_RUNSHOOT = "Player_RunShoot";
     private const string PLAYER_DEATH = "Player_Death";
     private const string PLAYER_HURT = "Player_Hurt";
+    private const string PLAYER_CLIMB = "Player_Climb";
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
+        xAxis = Input.GetAxis("Horizontal");
         if (!pCtrl.gameOver)
         {
             DamagedAnimations();
@@ -74,10 +77,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             if (!takingDamage)
             {
                 takingDamage = true;
-                if (pCtrl.pHealth.currentHealth > 0)
-                {
-                    ChangeAnimationState(PLAYER_HURT);
-                }
+                ChangeAnimationState(PLAYER_HURT);
             }
             attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
@@ -98,7 +98,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHMELEE);
                 }
-                else if (!pCtrl.pColl.isGrounded)
+                else if (!pCtrl.pColl.isGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPMELEE);
                 }
@@ -123,7 +123,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHTHROW);
                 }
-                else if (!pCtrl.pColl.isGrounded)
+                else if (!pCtrl.pColl.isGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPTHROW);
                 }
@@ -148,7 +148,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHSHOOT);
                 }
-                else if (!pCtrl.pColl.isGrounded)
+                else if (!pCtrl.pColl.isGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPSHOOT);
                 }
@@ -208,19 +208,19 @@ public class PlayerAnimationHandler : MonoBehaviour
     {
         // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
-            if (pCtrl.pColl.isGrounded)
+            if (pCtrl.pColl.isGrounded())
                 ChangeAnimationState(PLAYER_IDLE);
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if (pCtrl.pColl.isGrounded)
+            if (pCtrl.pColl.isGrounded())
             {
                 // Crouch not pressed?
                 if (!pCtrl.pInput.isCrouching)
                 {
                     // Player X Input != 0?
-                    if (!pCtrl.pInput.isIdle)
+                    if (!pCtrl.pInput.isIdle && xAxis != 0)
                     {
                         // Walk pressed?
                         if (pCtrl.pInput.isWalking)
@@ -241,6 +241,10 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCH);
                 }
+            }
+            else if (pCtrl.pInput.isClimbing)
+            {
+                ChangeAnimationState(PLAYER_CLIMB);
             }
             else
             {
