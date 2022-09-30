@@ -2,41 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnubisMovement : MonoBehaviour
+public class BMMovement : MonoBehaviour
 {
-    AnubisAttacks cool;
+    BMAttacking cool;
     public Animator animator;
     private string currentState;
     public float speed;
-    private bool isFlipped;
+
+    private bool isFlipped = false;
     private Transform playerPos;
 
-    const string ANUBIS_IDLE = "Anubis_Idle";
-    const string ANUBIS_WALK = "Anubis_Walk";
-
+    const string BM_IDLE = "BM_Idle";
+    const string BM_WALK = "BM_Walk";
+    
     void Start()
     {
         playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        cool = GetComponent<AnubisAttacks>();
+        cool = GetComponent<BMAttacking>();
     }
 
     void Update()
     {
         LookAtPlayer();
-        if (speed == 5.0f)
+        if (speed == 3.0f)
         {
-            Debug.Log("Player not in range");
             FollowPlayer();
         }
         else if (cool.onCoolDown == true)
         {
-            Debug.Log("Stopped player in range");
-            ChangeAnimationState(ANUBIS_IDLE);
+            ChangeAnimationState(BM_IDLE);
         }
         else
         {
-            Debug.Log("Following player");
-            speed = 5.0f;
+            speed = 3.0f;
             FollowPlayer();
         }
     }
@@ -52,10 +50,10 @@ public class AnubisMovement : MonoBehaviour
         // reassign the current state
         currentState = newState;
     }
-
+    
     void FollowPlayer()
     {
-        ChangeAnimationState(ANUBIS_WALK);
+        ChangeAnimationState(BM_WALK);
         Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
         animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed * Time.deltaTime);
     }
