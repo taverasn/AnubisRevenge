@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class AnubisAttacks : MonoBehaviour
 {
+    private PlayerController PC;
     AnubisMovement moving;
     Health playerHealth;
-
+    BossHealth bosshealth;
     public Animator animator;
     private string currentState;
 
@@ -24,13 +25,16 @@ public class AnubisAttacks : MonoBehaviour
 
     void Start()
     {
+        PC = GameObject.Find(player).GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         moving = GetComponent<AnubisMovement>();
+        bosshealth = GetComponent<BossHealth>();
     }
     
     void Update()
     {
-        DetectPlayer();
+        if (!bosshealth.dead)
+            DetectPlayer();
     }
 
     void ChangeAnimationState(string newState)
@@ -50,6 +54,7 @@ public class AnubisAttacks : MonoBehaviour
         if (onCoolDown)
         {
             ChangeAnimationState(ANUBIS_SLASH);
+            PC.pHealth.TakeDamage(damage);
             Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
             return;
         }
