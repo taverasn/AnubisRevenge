@@ -42,12 +42,13 @@ public class TestWalk : MonoBehaviour
     {
 
 
-        LookAtPlayer();
+
+        /*LookAtPlayer();
         if (speed > 3 && !AA.canAttack)
         {
             isRunning = true;
         }
-        /*else
+        else
         {
             isWalking = true;
         }*/
