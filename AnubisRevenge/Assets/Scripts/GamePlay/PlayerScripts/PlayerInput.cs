@@ -19,10 +19,8 @@ public class PlayerInput : MonoBehaviour
     internal bool releasedJump;
     private float xAxis;
 
-
     void Start()
     {
-        Debug.Log("Controller");
         pCtrl = GetComponent<PlayerController>();
     }
 
@@ -30,11 +28,11 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         // If Game Over Stop Player Input
-        if(!pCtrl.pMove.gameOver)
+        if(!pCtrl.gameOver)
         {
             xAxis = Input.GetAxis("Horizontal");
             // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && pCtrl.pMove.GetisGrounded())
+            if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded)
             {
                 isJumping = true;
             }
@@ -88,7 +86,7 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Player Collider hitting Ground Collider?
-        if (pCtrl.pMove.GetisGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+        if (pCtrl.pColl.isGrounded && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
         {
             // If xAxis is != to 0 check if player is using running input if not set running to true
             if (xAxis != 0)

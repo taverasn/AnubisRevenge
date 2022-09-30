@@ -56,7 +56,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
-        if (!pCtrl.pMove.gameOver)
+        if (!pCtrl.gameOver)
         {
             DamagedAnimations();
             if (!takingDamage)
@@ -98,7 +98,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHMELEE);
                 }
-                else if (!pCtrl.pMove.GetisGrounded())
+                else if (!pCtrl.pColl.isGrounded)
                 {
                     ChangeAnimationState(PLAYER_JUMPMELEE);
                 }
@@ -123,7 +123,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHTHROW);
                 }
-                else if (!pCtrl.pMove.GetisGrounded())
+                else if (!pCtrl.pColl.isGrounded)
                 {
                     ChangeAnimationState(PLAYER_JUMPTHROW);
                 }
@@ -148,7 +148,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHSHOOT);
                 }
-                else if (!pCtrl.pMove.GetisGrounded())
+                else if (!pCtrl.pColl.isGrounded)
                 {
                     ChangeAnimationState(PLAYER_JUMPSHOOT);
                 }
@@ -181,7 +181,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (pCtrl.pHealth.currentHealth <= 0)
         {
             ChangeAnimationState(PLAYER_DEATH);
-            pCtrl.pMove.gameOver = true;
+            pCtrl.gameOver = true;
         }
     }
     void ThrowAttackComplete()
@@ -208,13 +208,13 @@ public class PlayerAnimationHandler : MonoBehaviour
     {
         // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
-            if (pCtrl.pMove.GetisGrounded())
+            if (pCtrl.pColl.isGrounded)
                 ChangeAnimationState(PLAYER_IDLE);
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if (pCtrl.pMove.GetisGrounded())
+            if (pCtrl.pColl.isGrounded)
             {
                 // Crouch not pressed?
                 if (!pCtrl.pInput.isCrouching)

@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 2025616721}
   - component: {fileID: 4137138182412089751}
   - component: {fileID: 2025616718}
+  - component: {fileID: 2421853960498260028}
   - component: {fileID: 2025616719}
   - component: {fileID: 2025616720}
   - component: {fileID: 2035010389}
@@ -198,6 +199,7 @@ MonoBehaviour:
   pAttack: {fileID: 2025616719}
   pInput: {fileID: 3633384184022455818}
   pTime: {fileID: -3707740838375089029}
+  pColl: {fileID: 2421853960498260028}
   pHealth: {fileID: 2035010390}
   anim: {fileID: 2025616718}
   rb: {fileID: 2025616716}
@@ -221,6 +223,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2421853960498260028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175762156409862563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fac9df907740964c941fbb05001a16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2025616719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +274,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 5
   horizontalSprintSpeed: 7.5
-  gameOver: 0
   jumpVelocity: 600
   jumpTimeCounter: 0
   jumpTime: 0.35
