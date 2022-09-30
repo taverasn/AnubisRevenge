@@ -2,52 +2,66 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    public Vector3 LaunchOffset;
-    public int damage;
-    private float movementSpeed;
+    // Component Variables
     public PlayerController pCtrl;
     private Animator anim;
     private Rigidbody2D rb;
+    // Speed and Direction Variables
+    [SerializeField] private float speed;
+    private float movementSpeed;
     private Vector3 direction;
+
+    // Damage Variable
+    public int damage;
+
     private void Start()
     {
-        pCtrl = GetComponent<PlayerController>();
-        
+        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        // Tag Dynamite?
+        // Causes Dynamite to move in a parabola depnding on direction player is facing
         if(gameObject.tag == "Dynamite")
         {
-            direction = transform.right + (Vector3.up * 2);
-            GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Impulse);
+            if(pCtrl.pMove.facingRight)
+            {
+                // Set Dynamite Rotation
+                transform.rotation = Quaternion.Euler(0, 0, -37.66f);
+                direction = transform.right + (Vector3.up * 1.5f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 37.66f);
+                direction = -transform.right + (Vector3.up * 1.5f);
+            }
+            rb.AddForce(direction * speed, ForceMode2D.Impulse);
         }
-        transform.Translate(LaunchOffset);
-
-        anim = GetComponent<Animator>();
-    }
-    private void Update()
-    {
+        // Tag Bullet?
+        // Causes bullet to move in a straight line depending on direction player is facing
         if(gameObject.tag == "Bullet")
         {
-            movementSpeed = -speed * Time.deltaTime;
-            transform.Translate(movementSpeed, 0, 0);
-            if (anim.GetBool("explode") == true)
-            Destroy(gameObject, 5);
+            if(pCtrl.pMove.facingRight)
+                movementSpeed = speed;
+            else
+                movementSpeed = -speed;
+            rb.velocity = new Vector2(movementSpeed, 0);
         }
+
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Deal damage if the game object is an Enemy
         if (other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
-            anim.SetBool("explode", true);
         }
-        else if (other.gameObject.tag != "Player")
-        {
-            anim.SetBool("explode", true);
-
-        }
+        // If the game object is not the player use the explode animation and freeze the gameobject
+        // and destroy it after the animation has played
         if(other.gameObject.tag != "Player")
         {
-            Destroy(gameObject);
+            anim.SetBool("explode", true);
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length);
         }
     }
 }
