@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     // Player X Movement Variables
     private float xAxis;
+    private float yAxis;
+    [SerializeField] private float verticalSpeed;
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float horizontalSprintSpeed;
     internal bool facingRight = true;
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Checking for inputs
             xAxis = Input.GetAxis("Horizontal") * .1f;
+            yAxis = Input.GetAxis("Vertical") * .1f;
             // Force Releases jump button if user is holding it for to long
             if (startTimer)
             {
@@ -89,6 +92,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     vel.x = 0;
                 }
+            }
+            else if(yAxis != 0)
+            {
+                vel.y = verticalSpeed;
             }
             // Check if trying to jump
             if (pCtrl.pInput.isJumping && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
