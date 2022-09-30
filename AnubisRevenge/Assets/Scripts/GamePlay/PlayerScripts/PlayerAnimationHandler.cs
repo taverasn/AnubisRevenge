@@ -12,6 +12,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isShooting;
     internal bool isThrowing;
     private bool takingDamage;
+    private float xAxis;
     
     private float attackDelay;
 
@@ -57,6 +58,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
+        xAxis = Input.GetAxis("Horizontal");
         if (!pCtrl.gameOver)
         {
             DamagedAnimations();
@@ -218,7 +220,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 if (!pCtrl.pInput.isCrouching)
                 {
                     // Player X Input != 0?
-                    if (!pCtrl.pInput.isIdle)
+                    if (!pCtrl.pInput.isIdle && xAxis != 0)
                     {
                         // Walk pressed?
                         if (pCtrl.pInput.isWalking)
@@ -240,7 +242,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                     ChangeAnimationState(PLAYER_CROUCH);
                 }
             }
-            else if (pCtrl.pColl.canClimb && pCtrl.pInput.isClimbing)
+            else if (pCtrl.pInput.isClimbing)
             {
                 ChangeAnimationState(PLAYER_CLIMB);
             }
