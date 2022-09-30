@@ -30,7 +30,7 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
-            xAxis = Input.GetAxis("Horizontal");
+            xAxis = Input.GetAxis("Horizontal") * .1f;
             // Jump Key Pressed?
             if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded)
             {

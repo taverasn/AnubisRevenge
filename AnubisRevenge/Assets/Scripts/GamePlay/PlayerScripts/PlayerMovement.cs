@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         if(!pCtrl.gameOver)
         {
             // Checking for inputs
-            xAxis = Input.GetAxis("Horizontal");
+            xAxis = Input.GetAxis("Horizontal") * .1f;
             // Check to see is player is on the floor
             if(pCtrl.pInput.isJumping)
             {
