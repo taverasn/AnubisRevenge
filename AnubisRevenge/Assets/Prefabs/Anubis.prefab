@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 5772254629002037226}
   - component: {fileID: 5772254629002037225}
   - component: {fileID: 1980217949764925835}
+  - component: {fileID: 439375097579943870}
   m_Layer: 6
   m_Name: Anubis
-  m_TagString: Enemy
+  m_TagString: Anubis
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,11 +272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5761e7b80f1ee4b8229948205a41c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 1.2
+  animator: {fileID: 5772254629002037216}
+  delay: 2
   circleOrigin: {fileID: 89972004340964097}
   radius: 2.3
   onCoolDown: 0
-  animator: {fileID: 5772254629002037216}
+  damage: 10
 --- !u!114 &1980217949764925835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +292,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 5772254629002037216}
   speed: 5
+--- !u!114 &439375097579943870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5772254629002037217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef565df166380614ebe05d10020f8404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 50
+  despawnTimer: 5
+  components: []
+  iFramesDuration: 3
+  numberOfFlashes: 2
 --- !u!1 &5960846856007148024
 GameObject:
   m_ObjectHideFlags: 0

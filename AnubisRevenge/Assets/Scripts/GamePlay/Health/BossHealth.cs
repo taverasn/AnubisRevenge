@@ -4,53 +4,61 @@ using UnityEngine;
 
 public class BossHealth : MonoBehaviour
 {
-    public Animator animator;
+    const string ANUBIS_IDLE = "Anubis_Idle";
+    const string ANUBIS_HURT = "Anubis_Hurt";
+    const string ANUBIS_DEAD = "Anubis_Dead";
     private string currentState;
-    const string BM_IDLE = "BM_Idle";
-    const string BM_HURT = "BM_Hurt";
-
-    [SerializeField] private float currentHealth;
-    [SerializeField] private float maxHealth;
-    [SerializeField] private bool dead;
+    private bool isDamaged;
+    [Header("Health")]
+    [SerializeField] float startingHealth;
+    public float currentHealth { get; private set; }
+    private Animator animator;
+    internal bool dead;
+    public float despawnTimer;
+    [SerializeField] private Behaviour[] components;
 
     [Header("iFrames")]
     [SerializeField] private float iFramesDuration;
     [SerializeField] private int numberOfFlashes;
-    public float despawnTimer;
     private SpriteRenderer spriteRend;
-    void Start()
+    private PlayerController playerController;
+
+    private void Awake()
     {
-        
+        currentHealth = startingHealth;
+        animator = GetComponent<Animator>();
+        spriteRend = GetComponent<SpriteRenderer>();
     }
 
-    
-    void Update()
+    private void Update()
     {
         if (dead == true && gameObject.tag == "Enemy")
         {
-            despawnTimer += Time.deltaTime;
             startFading();
-        }
-        if (dead == true && gameObject.tag == "Enemy" && despawnTimer >= 5)
-        {
-            Destroy(gameObject.transform.parent.gameObject);
+            Destroy(gameObject.transform.parent.gameObject, 5);
         }
     }
 
     public void TakeDamage(float _damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, maxHealth);
-        if (currentHealth > 0)
+        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+
+        if (!dead)
         {
-            if (gameObject.tag == "Enemy")
+            if (currentHealth > 0)
             {
-                ChangeAnimationState(BM_HURT);
+                ChangeAnimationState(ANUBIS_HURT);
+                StartCoroutine(Invunerability());
             }
-            StartCoroutine(Invunerability());
+            else
+            {
+                ChangeAnimationState(ANUBIS_DEAD);
+                dead = true;
+            }
         }
     }
 
-     void ChangeAnimationState(string newState)
+    void ChangeAnimationState(string newState)
     {
         // stop same animation from interrupting itself
         if (currentState == newState) return;
@@ -62,11 +70,9 @@ public class BossHealth : MonoBehaviour
         currentState = newState;
     }
 
-    public void StartingHealth(int hp)
+    public void AddHealth(float _value)
     {
-        currentHealth = hp;
-        maxHealth = hp;
-        dead = false;
+        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
     }
 
     private IEnumerator FadeOut()
