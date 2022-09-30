@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     internal Animator anim;
     internal Rigidbody2D rb;
     [SerializeField] internal LayerMask groundLayer;
+    [SerializeField] internal LayerMask climbLayer;
     internal CapsuleCollider2D capCollider;
     internal BoxCollider2D boxCollider;
 
