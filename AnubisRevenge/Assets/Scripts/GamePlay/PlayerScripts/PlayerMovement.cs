@@ -33,11 +33,6 @@ public class PlayerMovement : MonoBehaviour
         {
             // Checking for inputs
             xAxis = Input.GetAxis("Horizontal") * .1f;
-            // Check to see is player is on the floor
-            if(pCtrl.pInput.isJumping)
-            {
-                pCtrl.pColl.isGrounded = false;
-            }
             // Force Releases jump button if user is holding it for to long
             if (startTimer)
             {
@@ -56,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
             // Crouching not pressed?
-            if(!pCtrl.pInput.isCrouching)
+            if(!pCtrl.pInput.isCrouching && !pCtrl.pInput.isClimbing)
             {
                 // Check movement update based on input
                 // Player Moving in +X or -X direction
@@ -96,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             // Check if trying to jump
-            if (pCtrl.pInput.isJumping && !pCtrl.pColl.isGrounded && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+            if (pCtrl.pInput.isJumping && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 pCtrl.rb.gravityScale = 1;
                 pCtrl.rb.AddForce(new Vector2(0, jumpVelocity));

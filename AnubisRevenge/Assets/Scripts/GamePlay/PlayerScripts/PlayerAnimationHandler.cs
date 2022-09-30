@@ -34,6 +34,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private const string PLAYER_RUNSHOOT = "Player_RunShoot";
     private const string PLAYER_DEATH = "Player_Death";
     private const string PLAYER_HURT = "Player_Hurt";
+    private const string PLAYER_CLIMB = "Player_Climb";
     // Start is called before the first frame update
     void Start()
     {
@@ -95,7 +96,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHMELEE);
                 }
-                else if (!pCtrl.pColl.isGrounded)
+                else if (!pCtrl.pColl.isGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPMELEE);
                 }
@@ -120,7 +121,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHTHROW);
                 }
-                else if (!pCtrl.pColl.isGrounded)
+                else if (!pCtrl.pColl.isGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPTHROW);
                 }
@@ -145,7 +146,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCHSHOOT);
                 }
-                else if (!pCtrl.pColl.isGrounded)
+                else if (!pCtrl.pColl.isGrounded())
                 {
                     ChangeAnimationState(PLAYER_JUMPSHOOT);
                 }
@@ -205,13 +206,13 @@ public class PlayerAnimationHandler : MonoBehaviour
     {
         // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
-            if (pCtrl.pColl.isGrounded)
+            if (pCtrl.pColl.isGrounded())
                 ChangeAnimationState(PLAYER_IDLE);
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if (pCtrl.pColl.isGrounded)
+            if (pCtrl.pColl.isGrounded())
             {
                 // Crouch not pressed?
                 if (!pCtrl.pInput.isCrouching)
@@ -238,6 +239,10 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CROUCH);
                 }
+            }
+            else if (pCtrl.pColl.canClimb && pCtrl.pInput.isClimbing)
+            {
+                ChangeAnimationState(PLAYER_CLIMB);
             }
             else
             {

@@ -17,6 +17,7 @@ public class PlayerInput : MonoBehaviour
     internal bool isShootPressed;
     internal bool isThrowPressed;
     internal bool releasedJump;
+    internal bool isClimbing;
     private float xAxis;
 
     void Start()
@@ -32,7 +33,7 @@ public class PlayerInput : MonoBehaviour
         {
             xAxis = Input.GetAxis("Horizontal") * .1f;
             // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded)
+            if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded())
             {
                 isJumping = true;
             }
@@ -61,7 +62,16 @@ public class PlayerInput : MonoBehaviour
             {
                 isCrouching = false;
             }
-
+            // Climbing Key Pressed?
+            if(Input.GetKeyDown(KeyCode.W) && pCtrl.pColl.canClimb)
+            {
+                isClimbing = true;
+            }            
+            // Climbing Key Released
+            if(Input.GetKeyUp(KeyCode.W))
+            {
+                isClimbing = false;
+            }
             // Melee Key Pressed and not Running and not Walking?
             if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking)
             {
@@ -86,7 +96,7 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Player Collider hitting Ground Collider?
-        if (pCtrl.pColl.isGrounded && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+        if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
         {
             // If xAxis is != to 0 check if player is using running input if not set running to true
             if (xAxis != 0)
