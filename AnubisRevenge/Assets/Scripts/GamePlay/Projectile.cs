@@ -55,6 +55,10 @@ public class Projectile : MonoBehaviour
         {
             other.gameObject.GetComponent<Health>().TakeDamage(damage);
         }
+        else if(other.gameObject.tag == "Anubis")
+        {
+            other.gameObject.GetComponent<BossHealth>().TakeDamage(damage);
+        }
         // If the game object is not the player use the explode animation and freeze the gameobject
         // and destroy it after the animation has played
         if(other.gameObject.tag != "Player")
