@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float startingHealth;
     internal float currentHealth { get; private set; }
+    [SerializeField] private HealthBar healthBar;
     private Animator anim;
     private bool dead;
     internal bool isDamaged;
@@ -22,6 +23,12 @@ public class Health : MonoBehaviour
     {
         pCtrl = GetComponent<PlayerController>();
         currentHealth = startingHealth;
+
+        if (gameObject.tag == "Player")
+        {
+            healthBar.SetMaxHealth(currentHealth);
+        }
+
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
     }
@@ -38,6 +45,9 @@ public class Health : MonoBehaviour
     public void TakeDamage(float _damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+
+        healthBar.SetHealth(currentHealth);
+
         if(gameObject.tag == "Player")
         {
             isDamaged = true;
