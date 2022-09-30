@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AnubisMovement : MonoBehaviour
 {
+    BossHealth BossHP;
     AnubisAttacks cool;
     public Animator animator;
     private string currentState;
@@ -16,31 +17,31 @@ public class AnubisMovement : MonoBehaviour
 
     void Start()
     {
+        BossHP = GetComponent<BossHealth>();
         playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         cool = GetComponent<AnubisAttacks>();
     }
 
     void Update()
     {
-        LookAtPlayer();
-        if (speed == 5.0f)
+        if (!BossHP.dead)
         {
-            Debug.Log("Player not in range");
-            FollowPlayer();
-        }
-        else if (cool.onCoolDown == true)
-        {
-            Debug.Log("Stopped player in range");
-            ChangeAnimationState(ANUBIS_IDLE);
-        }
-        else
-        {
-            Debug.Log("Following player");
-            speed = 5.0f;
-            FollowPlayer();
+            LookAtPlayer();
+            if (speed == 5.0f)
+            {
+                FollowPlayer();
+            }
+            else if (cool.onCoolDown == true)
+            {
+                ChangeAnimationState(ANUBIS_IDLE);
+            }
+            else
+            {
+                speed = 5.0f;
+                FollowPlayer();
+            }
         }
     }
-
     void ChangeAnimationState(string newState)
     {
         // stop same animation from interrupting itself
@@ -55,9 +56,12 @@ public class AnubisMovement : MonoBehaviour
 
     void FollowPlayer()
     {
-        ChangeAnimationState(ANUBIS_WALK);
-        Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
-        animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed * Time.deltaTime);
+        if (!BossHP.dead)
+        {
+            ChangeAnimationState(ANUBIS_WALK);
+            Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
+            animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed * Time.deltaTime);
+        }
     }
 
     public void LookAtPlayer()
