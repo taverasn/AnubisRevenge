@@ -17,7 +17,9 @@ public class PlayerInput : MonoBehaviour
     internal bool isShootPressed;
     internal bool isThrowPressed;
     internal bool releasedJump;
+    internal bool isClimbing;
     private float xAxis;
+    private float yAxis;
 
     void Start()
     {
@@ -30,9 +32,10 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
-            xAxis = Input.GetAxis("Horizontal");
+            xAxis = Input.GetAxis("Horizontal") * .1f;
+            yAxis = Input.GetAxis("Vertical") * .1f;
             // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded)
+            if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded())
             {
                 isJumping = true;
             }
@@ -61,7 +64,6 @@ public class PlayerInput : MonoBehaviour
             {
                 isCrouching = false;
             }
-
             // Melee Key Pressed and not Running and not Walking?
             if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking)
             {
@@ -86,7 +88,7 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Player Collider hitting Ground Collider?
-        if (pCtrl.pColl.isGrounded && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+        if (pCtrl.pColl.isGrounded() && !pCtrl.pColl.isClimbing() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
         {
             // If xAxis is != to 0 check if player is using running input if not set running to true
             if (xAxis != 0)
@@ -107,6 +109,14 @@ public class PlayerInput : MonoBehaviour
                 isWalking = false;
                 isIdle = true;
             }
+        }
+        if(pCtrl.pColl.isClimbing() && yAxis != 0 && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+        {
+            isClimbing = true;
+        }
+        else
+        {
+            isClimbing = false;
         }
     }
 }

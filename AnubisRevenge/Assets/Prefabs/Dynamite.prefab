@@ -100,10 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5a0972c31e22e4fb77ea7685821eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7.5
-  LaunchOffset: {x: 0, y: 0, z: 0}
-  damage: 100
   pCtrl: {fileID: 0}
+  speed: 10
+  damage: 100
 --- !u!50 &3296815274219968027
 Rigidbody2D:
   serializedVersion: 4
