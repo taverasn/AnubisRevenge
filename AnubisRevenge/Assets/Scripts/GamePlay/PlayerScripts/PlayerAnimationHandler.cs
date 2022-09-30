@@ -8,9 +8,9 @@ public class PlayerAnimationHandler : MonoBehaviour
     
     private string currentState;
 
-    public bool isMelee;
-    public bool isShooting;
-    public bool isThrowing;
+    internal bool isMelee;
+    internal bool isShooting;
+    internal bool isThrowing;
     private bool takingDamage;
     
     private float attackDelay;
@@ -68,9 +68,9 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void DamagedAnimations()
     {
-        if (pCtrl.pHealth.GetIsDamaged())
+        if (pCtrl.pHealth.isDamaged)
         {
-            pCtrl.pHealth.SetIsDamaged(false);
+            pCtrl.pHealth.isDamaged = false;
             if (!takingDamage)
             {
                 takingDamage = true;

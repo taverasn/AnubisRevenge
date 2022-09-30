@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     internal bool gameOver;
     void Awake()
     {
-        Debug.Log("Controller");
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }

@@ -9,16 +9,16 @@ public class PlayerMovement : MonoBehaviour
 
     // Player X Movement Variables
     private float xAxis;
-    public float horizontalSpeed = 10;
-    public float horizontalSprintSpeed = 20;
+    [SerializeField] private float horizontalSpeed;
+    [SerializeField] private float horizontalSprintSpeed;
     internal bool facingRight = true;
 
     // Jump Variables
-    public float jumpVelocity = 850;
-    [SerializeField] private float jumpTimeCounter;
+    [SerializeField] private float jumpVelocity;
+    private float jumpTimeCounter;
     [SerializeField] private float jumpTime;
     private bool startTimer;
-    private float gravityScale = 4f;
+    [SerializeField] private float gravityScale;
 
     // Start is called before the first frame update
     private void Start()
