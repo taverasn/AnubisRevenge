@@ -74,10 +74,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             if (!takingDamage)
             {
                 takingDamage = true;
-                if (pCtrl.pHealth.currentHealth > 0)
-                {
-                    ChangeAnimationState(PLAYER_HURT);
-                }
+                ChangeAnimationState(PLAYER_HURT);
             }
             attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
