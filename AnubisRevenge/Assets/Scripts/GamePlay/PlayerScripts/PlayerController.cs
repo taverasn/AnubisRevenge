@@ -10,20 +10,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal PlayerAttack pAttack;
     [SerializeField] internal PlayerInput pInput;
     [SerializeField] internal PlayerTimeManager pTime;
+    [SerializeField] internal PlayerCollisions pColl;
     [SerializeField] internal Health pHealth;
 
     [SerializeField] internal Animator anim;
     [SerializeField] internal Rigidbody2D rb;
+
+    internal bool gameOver;
     void Awake()
     {
-        Debug.Log("Controller");
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

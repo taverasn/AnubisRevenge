@@ -7,10 +7,10 @@ public class Health : MonoBehaviour
     private PlayerController pCtrl;
     [Header("Health")]
     [SerializeField] private float startingHealth;
-    public float currentHealth { get; private set; }
+    internal float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
-    [SerializeField] private bool isDamaged;
+    internal bool isDamaged;
     [SerializeField ]private float despawnDelay;
     [SerializeField] private Behaviour[] components;
 
@@ -18,7 +18,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float iFramesDuration;
     [SerializeField] private int numberOfFlashes;
     private SpriteRenderer spriteRend;
-    private void Awake()
+    private void Start()
     {
         pCtrl = GetComponent<PlayerController>();
         currentHealth = startingHealth;
@@ -59,16 +59,6 @@ public class Health : MonoBehaviour
             }
             dead = true;
         }
-    }
-
-    public bool GetIsDamaged()
-    {
-        return isDamaged;
-    }
-
-    public void SetIsDamaged(bool _isDamaged)
-    {
-        isDamaged = _isDamaged;
     }
     public void AddHealth(float _value)
     {

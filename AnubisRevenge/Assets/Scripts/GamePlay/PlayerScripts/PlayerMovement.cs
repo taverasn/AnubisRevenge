@@ -9,20 +9,16 @@ public class PlayerMovement : MonoBehaviour
 
     // Player X Movement Variables
     private float xAxis;
-    public float horizontalSpeed = 10;
-    public float horizontalSprintSpeed = 20;
-    internal bool facingRight;
-
-    // State Variables
-    private bool isGrounded;
-    public bool gameOver;
+    [SerializeField] private float horizontalSpeed;
+    [SerializeField] private float horizontalSprintSpeed;
+    internal bool facingRight = true;
 
     // Jump Variables
-    public float jumpVelocity = 850;
-    [SerializeField] private float jumpTimeCounter;
+    [SerializeField] private float jumpVelocity;
+    private float jumpTimeCounter;
     [SerializeField] private float jumpTime;
     private bool startTimer;
-    private float gravityScale = 4f;
+    [SerializeField] private float gravityScale;
 
     // Start is called before the first frame update
     private void Start()
@@ -30,23 +26,17 @@ public class PlayerMovement : MonoBehaviour
         pCtrl = GetComponent<PlayerController>();
         jumpTimeCounter = jumpTime;
     }
-
-    // Getter
-    public bool GetisGrounded()
-    {
-        return isGrounded;
-    }
     private void Update()
     {
         // If game over stop player movement
-        if(!gameOver)
+        if(!pCtrl.gameOver)
         {
             // Checking for inputs
             xAxis = Input.GetAxis("Horizontal");
             // Check to see is player is on the floor
             if(pCtrl.pInput.isJumping)
             {
-                isGrounded = false;
+                pCtrl.pColl.isGrounded = false;
             }
             // Force Releases jump button if user is holding it for to long
             if (startTimer)
@@ -62,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // If game over stop player movement
-        if (!gameOver)
+        if (!pCtrl.gameOver)
         {
             Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
             // Crouching not pressed?
@@ -106,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             // Check if trying to jump
-            if (pCtrl.pInput.isJumping && !isGrounded && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+            if (pCtrl.pInput.isJumping && !pCtrl.pColl.isGrounded && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 pCtrl.rb.gravityScale = 1;
                 pCtrl.rb.AddForce(new Vector2(0, jumpVelocity));
@@ -122,13 +112,6 @@ public class PlayerMovement : MonoBehaviour
                 startTimer = false;
             }
             pCtrl.rb.velocity = vel;
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.tag == "Ground")
-        {
-            isGrounded = true;
         }
     }
 }

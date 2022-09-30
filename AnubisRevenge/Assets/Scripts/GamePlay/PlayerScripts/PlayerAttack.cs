@@ -39,14 +39,13 @@ public class PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Attack");
         pCtrl = GetComponent<PlayerController>();
     }
     // Update is called once per frame
     private void Update()
     {
         // If game over stop the user input from calling attack functions
-        if(!pCtrl.pMove.gameOver)
+        if(!pCtrl.gameOver)
         {
             StartCoroutine(shoot());
             StartCoroutine(dynamiteThrow());
