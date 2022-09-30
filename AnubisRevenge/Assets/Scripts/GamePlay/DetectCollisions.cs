@@ -18,15 +18,6 @@ public class DetectCollisions : MonoBehaviour
     {
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Player" && gameObject.tag == "Obstacle")
-        {
-            if (playerHealth.currentHealth > 0)
-            {
-                playerHealth.TakeDamage(50);
-            }
-        }
-    }
+
 
 }

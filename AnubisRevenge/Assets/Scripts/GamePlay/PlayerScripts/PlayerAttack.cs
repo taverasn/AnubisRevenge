@@ -4,49 +4,60 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private PlayerInput pInput;
-    private PlayerTimeManager pTime;
+    // Component Variables
+    private PlayerController pCtrl;
 
+    // Prefab Variables
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject launchableProjectilePrefab;
 
+    // Attack Position Variables
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private Transform launchableProjectileSpawnPoint;
     [SerializeField] private Transform attackPos;
 
+    // Layermask Variable
     [SerializeField] private LayerMask whatIsEnemies;
 
+    // Melee Range Variable
     [SerializeField] private float meleeAttackRange;
+
+    // Damage Variable
     [SerializeField] private float damage;
 
-    private bool isThrowing;
+    // Attack Rate Variables
     [SerializeField] private float throwRate;
-    private bool isShooting;
     [SerializeField] private float shootRate;
     [SerializeField] private float meleeRate;
+
+    // State Variables to prevent looping
+    private bool isThrowing;
+    private bool isShooting;
     private bool isMelee;
-    private Animator anim;
     private bool thrown;
-    Vector3 throwSpawnPos;
 
     // Start is called before the first frame update
     void Start()
     {
-        pTime = GetComponent<PlayerTimeManager>();
-        pInput = GetComponent<PlayerInput>();
-        anim = GetComponent<Animator>();
-        throwSpawnPos = launchableProjectilePrefab.transform.position + transform.forward;
+        pCtrl = GetComponent<PlayerController>();
     }
     // Update is called once per frame
     private void Update()
     {
-        StartCoroutine(shoot());
-        StartCoroutine(dynamiteThrow());
-        StartCoroutine(melee());
+        // If game over stop the user input from calling attack functions
+        if(!pCtrl.gameOver)
+        {
+            StartCoroutine(shoot());
+            StartCoroutine(dynamiteThrow());
+            StartCoroutine(melee());
+        }
     }
+
+    // Attack Functions
     IEnumerator melee()
     {
-        if(pInput.GetisMeleePressed() && !isMelee)
+        // Melee Pressed? and not currently in melee
+        if(pCtrl.pInput.isMeleePressed && !isMelee)
         {
             isMelee = true;
             Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, meleeAttackRange, whatIsEnemies);
@@ -63,17 +74,20 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator dynamiteThrow()
     {
-        if (pInput.GetisThrowPressed())
+        // Throw Pressed?
+        if (pCtrl.pInput.isThrowPressed)
         {
             thrown = true;
-            // Spawns Bullet Game Object at set position and rotation
         }
-        if (thrown && !isThrowing && pTime.GetThrowDelayTimer() >= throwRate)
+        // Thrown true? not currently throwing?
+        // Also checks if throwdelay timer is greater than throw rate to cause the object to spawn at the right time during the animation
+        if (thrown && !isThrowing && pCtrl.pTime.throwDelayTimer >= throwRate)
         {
             isThrowing = true;
             thrown = false;
-            pTime.SetThrowDelayTimer(0);
-            Instantiate(launchableProjectilePrefab, launchableProjectilePrefab.transform.position, launchableProjectilePrefab.transform.rotation);
+            pCtrl.pTime.throwDelayTimer = 0;
+            // Spawn Object at set position and rotation
+            Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, launchableProjectilePrefab.transform.rotation);
             yield return new WaitForSeconds(throwRate);
             isThrowing = false;
         }
@@ -81,10 +95,12 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator shoot()
     {
-        if(pInput.GetisShootPressed() && !isShooting)
+        // Shoot Pressed? and not currently shooting
+        if(pCtrl.pInput.isShootPressed && !isShooting)
         {
             isShooting = true;
-            shootRate = anim.GetCurrentAnimatorStateInfo(0).length;
+            shootRate = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
+            // Spawn Object at set position and rotation
             Instantiate(projectilePrefab, projectileSpawnPoint.transform.position, transform.rotation);
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
@@ -97,6 +113,7 @@ public class PlayerAttack : MonoBehaviour
         return thrown;
     }
 
+    // Draws the players melee attack range in the editor using the attackPos game object to get the position and the melee Range as a float to decide how big the circle will be
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
