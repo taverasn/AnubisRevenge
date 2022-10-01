@@ -6,7 +6,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     private PlayerController pCtrl;
     
-    private string currentState;
+    [SerializeField] private string currentState;
 
     internal bool isMelee;
     internal bool isShooting;
@@ -65,7 +65,8 @@ public class PlayerAnimationHandler : MonoBehaviour
             if (!takingDamage)
             {
                 MovementAnimations();
-                AttackAnimations();
+                if(!pCtrl.pInput.isClimbing)
+                    AttackAnimations();
             }
         }
     }
@@ -214,41 +215,44 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if (pCtrl.pColl.isGrounded())
+            if(!pCtrl.pInput.isClimbing)
             {
-                // Crouch not pressed?
-                if (!pCtrl.pInput.isCrouching)
+                if (pCtrl.pColl.isGrounded())
                 {
-                    // Player X Input != 0?
-                    if (!pCtrl.pInput.isIdle && xAxis != 0)
+                    // Crouch not pressed?
+                    if (!pCtrl.pInput.isCrouching)
                     {
-                        // Walk pressed?
-                        if (pCtrl.pInput.isWalking)
+                        // Player X Input != 0?
+                        if (!pCtrl.pInput.isIdle && xAxis != 0)
                         {
-                            ChangeAnimationState(PLAYER_WALK);
+                            // Walk pressed?
+                            if (pCtrl.pInput.isWalking)
+                            {
+                                ChangeAnimationState(PLAYER_WALK);
+                            }
+                            else
+                            {
+                                ChangeAnimationState(PLAYER_RUN);
+                            }
                         }
                         else
                         {
-                            ChangeAnimationState(PLAYER_RUN);
+                            ChangeAnimationState(PLAYER_IDLE);
                         }
                     }
                     else
                     {
-                        ChangeAnimationState(PLAYER_IDLE);
+                        ChangeAnimationState(PLAYER_CROUCH);
                     }
                 }
                 else
                 {
-                    ChangeAnimationState(PLAYER_CROUCH);
+                    ChangeAnimationState(PLAYER_JUMP);
                 }
-            }
-            else if (pCtrl.pInput.isClimbing)
-            {
-                ChangeAnimationState(PLAYER_CLIMB);
             }
             else
             {
-                ChangeAnimationState(PLAYER_JUMP);
+                ChangeAnimationState(PLAYER_CLIMB);
             }
         }
     }

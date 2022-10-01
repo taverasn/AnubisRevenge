@@ -18,7 +18,7 @@ public class PlayerCollisions : MonoBehaviour
     }
     public bool isClimbing()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(pCtrl.capCollider.bounds.center, pCtrl.capCollider.bounds.size,
+        RaycastHit2D hit = Physics2D.BoxCast(pCtrl.climbCollider.bounds.center, pCtrl.climbCollider.bounds.size,
             0, Vector2.one, 0.1f, pCtrl.climbLayer);
         return hit.collider != null;
     }
