@@ -61,7 +61,7 @@ public class Projectile : MonoBehaviour
         }
         // If the game object is not the player use the explode animation and freeze the gameobject
         // and destroy it after the animation has played
-        if(other.gameObject.tag != "Player")
+        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Ladder")
         {
             anim.SetBool("explode", true);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
