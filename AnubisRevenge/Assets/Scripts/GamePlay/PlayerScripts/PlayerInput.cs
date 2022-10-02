@@ -34,15 +34,18 @@ public class PlayerInput : MonoBehaviour
         {
             xAxis = Input.GetAxis("Horizontal") * .1f;
             yAxis = Input.GetAxis("Vertical") * .1f;
-            // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded())
+            if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
-                isJumping = true;
-            }
-            // Jump Key Released?
-            if (Input.GetButtonUp("Jump"))
-            {
-                releasedJump = true;
+                // Jump Key Pressed?
+                if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded())
+                {
+                    isJumping = true;
+                }
+                // Jump Key Released?
+                if (Input.GetButtonUp("Jump"))
+                {
+                    releasedJump = true;
+                }
             }
             // Sprint Key Pressed?
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -64,23 +67,29 @@ public class PlayerInput : MonoBehaviour
             {
                 isCrouching = false;
             }
-            // Melee Key Pressed and not Running and not Walking?
-            if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking)
+            if(!isClimbing)
             {
-                pCtrl.pTime.timeBtwMeleeAttack = 0;
-                isMeleePressed = true;
-            }
-            // Shoot Key Pressed?
-            if (Input.GetKeyDown(KeyCode.Mouse1) && pCtrl.pTime.timeBtwRangeAttack > pCtrl.pTime.startTimeBtwRangeAttack)
-            {
-                pCtrl.pTime.timeBtwRangeAttack = 0;
-                isShootPressed = true;
-            }
-            // Throw Key Pressed and not Running and not Walking?
-            if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking)
-            {
-                pCtrl.pTime.timeBtwThrowAttack = 0;
-                isThrowPressed = true;
+                // Shoot Key Pressed?
+                if (Input.GetKeyDown(KeyCode.Mouse1) && pCtrl.pTime.timeBtwRangeAttack > pCtrl.pTime.startTimeBtwRangeAttack && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isThrowing)
+                {
+                    pCtrl.pTime.timeBtwRangeAttack = 0;
+                    isShootPressed = true;
+                }
+                if(!isRunning && !isWalking)
+                {
+                    // Melee Key Pressed and not Running and not Walking?
+                    if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+                    {
+                        pCtrl.pTime.timeBtwMeleeAttack = 0;
+                        isMeleePressed = true;
+                    }
+                    // Throw Key Pressed and not Running and not Walking?
+                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee)
+                    {
+                        pCtrl.pTime.timeBtwThrowAttack = 0;
+                        isThrowPressed = true;
+                    }
+                }
             }
         }
     }
@@ -88,7 +97,7 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Player Collider hitting Ground Collider?
-        if (pCtrl.pColl.isGrounded() && !pCtrl.pColl.isClimbing() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+        if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
         {
             // If xAxis is != to 0 check if player is using running input if not set running to true
             if (xAxis != 0)
@@ -110,7 +119,7 @@ public class PlayerInput : MonoBehaviour
                 isIdle = true;
             }
         }
-        if(pCtrl.pColl.isClimbing() && yAxis != 0 && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+        if(pCtrl.pColl.isClimbing() && yAxis != 0)
         {
             isClimbing = true;
         }

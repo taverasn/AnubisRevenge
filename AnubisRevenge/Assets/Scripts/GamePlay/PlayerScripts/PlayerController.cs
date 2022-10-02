@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal LayerMask groundLayer;
     [SerializeField] internal LayerMask climbLayer;
     internal CapsuleCollider2D capCollider;
+    [SerializeField] internal BoxCollider2D climbCollider;
     internal BoxCollider2D boxCollider;
 
     internal bool gameOver;
