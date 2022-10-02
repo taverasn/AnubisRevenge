@@ -84,7 +84,7 @@ public class PlayerInput : MonoBehaviour
                         isMeleePressed = true;
                     }
                     // Throw Key Pressed and not Running and not Walking?
-                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee)
+                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
                     {
                         pCtrl.pTime.timeBtwThrowAttack = 0;
                         isThrowPressed = true;
