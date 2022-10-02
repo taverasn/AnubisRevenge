@@ -46,10 +46,11 @@ public class Health : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
 
-        healthBar.SetHealth(currentHealth);
 
         if(gameObject.tag == "Player")
         {
+            Debug.Log(PlayerPrefs.GetInt("dynamite"));
+            healthBar.SetHealth(currentHealth);
             isDamaged = true;
         }
         else
