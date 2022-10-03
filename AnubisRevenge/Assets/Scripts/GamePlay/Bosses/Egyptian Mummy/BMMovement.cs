@@ -10,6 +10,7 @@ public class BMMovement : MonoBehaviour
     public float speed;
 
     private bool isFlipped = false;
+    public bool behind = false;
     private Transform playerPos;
 
     const string BM_IDLE = "BM_Idle";
@@ -23,6 +24,7 @@ public class BMMovement : MonoBehaviour
 
     void Update()
     {
+        behind = false;
         LookAtPlayer();
         if (speed == 3.0f)
         {
@@ -53,6 +55,7 @@ public class BMMovement : MonoBehaviour
     
     void FollowPlayer()
     {
+        behind = true;
         ChangeAnimationState(BM_WALK);
         Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
         animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed * Time.deltaTime);

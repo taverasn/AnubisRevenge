@@ -20,9 +20,9 @@ public class BMAttacking : MonoBehaviour
     public Transform circleOrigin;
     public float radius;
     public bool onCoolDown;
+
     [SerializeField] private int damage;
 
-   
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -55,6 +55,7 @@ public class BMAttacking : MonoBehaviour
             Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
             return;
         }
+        moving.behind = false;
         onCoolDown = true;
         StartCoroutine(delayAttack());
     }
