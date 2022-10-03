@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     private Animator anim;
     private bool dead;
     internal bool isDamaged;
-    [SerializeField ]private float despawnDelay;
+    [SerializeField] private float despawnDelay;
     [SerializeField] private Behaviour[] components;
 
     [Header("iFrames")]
