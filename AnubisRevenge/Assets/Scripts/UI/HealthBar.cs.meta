@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:AnubisRevenge/Assets/Scripts/UI/HealthBar.cs.meta
+guid: bf3d32848beb8fb46bbb8cadc39382b6
+========
+guid: b8a6f7b5817023841aa5d88921d97e11
+>>>>>>>> a9faec7b355a45bc626dd20604d5833861023e6a:AnubisRevenge/Assets/Scripts/GamePlay/Bosses/Egyptian Mummy/BMMovement.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
