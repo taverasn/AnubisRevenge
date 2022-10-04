@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     internal bool isMeleePressed;
     internal bool isShootPressed;
     internal bool isThrowPressed;
-    internal bool releasedJump;
+    internal bool releasedJump = true;
     [SerializeField] internal bool isClimbing;
     private float xAxis;
     private float yAxis;
@@ -37,7 +37,7 @@ public class PlayerInput : MonoBehaviour
             if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 // Jump Key Pressed?
-                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
+                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || isClimbing))
                 {
                     isJumping = true;
                     isClimbing = false;
@@ -93,10 +93,6 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
         // Player Collider hitting Ground Collider?
         if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
         {
@@ -104,13 +100,16 @@ public class PlayerInput : MonoBehaviour
             if (xAxis != 0)
             {
                 isIdle = false;
-                if (isRunning)
+                if(pCtrl.pColl.isGrounded())
                 {
-                    isWalking = false;
-                }
-                else
-                {
-                    isWalking = true;
+                    if (isRunning)
+                    {
+                        isWalking = false;
+                    }
+                    else
+                    {
+                        isWalking = true;
+                    }
                 }
             }
             // If xAxis is = 0 set Idle to true
@@ -120,7 +119,7 @@ public class PlayerInput : MonoBehaviour
                 isIdle = true;
             }
         }
-        if(pCtrl.pColl.isClimbing() && yAxis != 0)
+        if(pCtrl.pColl.isClimbing() && yAxis != 0 && !Input.GetButtonDown("Jump"))
         {
             isClimbing = true;
         }

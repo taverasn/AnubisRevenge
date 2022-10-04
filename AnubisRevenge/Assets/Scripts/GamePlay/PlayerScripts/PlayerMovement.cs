@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private bool startTimer;
     [SerializeField] internal float gravityScale;
 
+    internal bool isMoving = true;
     // Start is called before the first frame update
     private void Start()
     {
@@ -55,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
             // Crouching not pressed?
-            if(!pCtrl.pInput.isCrouching)
+            if(!pCtrl.pInput.isCrouching && isMoving)
             {
                 // Check movement update based on input
                 // Player Moving in +X or -X direction
@@ -63,7 +64,11 @@ public class PlayerMovement : MonoBehaviour
                 {
                     facingRight = false;
                     // Change between running and walking speed depending if the run button input is true
-                    if(pCtrl.pInput.isRunning)
+                    if(pCtrl.pInput.isClimbing)
+                    {
+                        vel.x = -horizontalClimbSpeed;
+                    }
+                    else if(pCtrl.pInput.isRunning)
                     {
                         vel.x = -horizontalSprintSpeed;
                     }
@@ -78,7 +83,11 @@ public class PlayerMovement : MonoBehaviour
                 {
                     facingRight = true;
                     // Change between running and walking speed depending if the run button input is true
-                    if (pCtrl.pInput.isRunning)
+                    if (pCtrl.pInput.isClimbing)
+                    {
+                        vel.x = horizontalClimbSpeed;
+                    }
+                    else if (pCtrl.pInput.isRunning)
                     {
                         vel.x = horizontalSprintSpeed;
                     }
@@ -94,21 +103,22 @@ public class PlayerMovement : MonoBehaviour
                     vel.x = 0;
                 }
             }
-            if(pCtrl.pInput.isClimbing && yAxis > 0)
+            if(pCtrl.pInput.isClimbing)
             {
-                vel.x = horizontalClimbSpeed;
-                vel.y = verticalClimbSpeed;
+                if (yAxis > 0)
+                {
+                    vel.y = verticalClimbSpeed;
+                }
+                else if(yAxis < 0)
+                {
+                    vel.y = -verticalClimbSpeed;
+                }
+                else if (pCtrl.pInput.isClimbing && yAxis == 0 && xAxis == 0)
+                {
+                    pCtrl.rb.gravityScale = 0;
+                    vel = Vector2.zero;
+                }
             }            
-            else if(yAxis < 0)
-            {
-                vel.y = -verticalClimbSpeed;
-            }
-            else if (pCtrl.pInput.isClimbing && yAxis == 0 && xAxis == 0)
-            {
-                pCtrl.rb.gravityScale = 0;
-                vel.y = 0;
-                vel.x = 0;
-            }
             else if(!pCtrl.pInput.isClimbing && pCtrl.rb.gravityScale == 0)
             {
                 pCtrl.rb.gravityScale = gravityScale;

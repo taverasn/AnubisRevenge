@@ -23,7 +23,7 @@ public class PlayerCollisions : MonoBehaviour
             0, Vector2.one, 0.1f, pCtrl.climbLayer);
         if(pCtrl.pInput.isClimbing && hit && xAxis == 0)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(hit.transform.position.x, transform.position.y, transform.position.z), pCtrl.pMove.horizontalClimbSpeed);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(hit.transform.position.x, transform.position.y, transform.position.z), pCtrl.pMove.horizontalClimbSpeed * Time.deltaTime);
         }
         return hit.collider != null;
     }
