@@ -439,34 +439,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 690783184, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: m_Size.x
-      value: 0.18780518
-      objectReference: {fileID: 0}
-    - target: {fileID: 690783184, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.13887024
-      objectReference: {fileID: 0}
-    - target: {fileID: 2025616720, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: gravityScale
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2025616720, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: verticalSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2025616720, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: horizontalSpeed
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2025616720, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: horizontalSprintSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2025616721, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: m_SortingOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 2035010390, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
       propertyPath: healthBar
       value: 
@@ -519,17 +491,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 4137138182412089751, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: climbLayer.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 4137138182412089751, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 690783184, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
-    - {fileID: 2035010389, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 158ff24a4ec287a4c80e54bb7218246d, type: 3}
 --- !u!1 &838049036 stripped
 GameObject:
@@ -12617,7 +12579,7 @@ GameObject:
   - component: {fileID: 1362222084}
   - component: {fileID: 1362222083}
   - component: {fileID: 1362222082}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ladders
   m_TagString: Ladder
   m_Icon: {fileID: 0}
