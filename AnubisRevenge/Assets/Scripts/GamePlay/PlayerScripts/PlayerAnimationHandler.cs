@@ -90,7 +90,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     void AttackAnimations()
     {
         // Melee Pressed?
-        if (pCtrl.pInput.isMeleePressed)
+        if (pCtrl.pInput.isMeleePressed && pCtrl.pAttack.isMelee)
         {
             pCtrl.pInput.isMeleePressed = false;
             if (!isMelee)
@@ -115,7 +115,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("MeleeAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isThrowPressed)
+        else if (pCtrl.pInput.isThrowPressed && pCtrl.pAttack.GetThrown())
         {
             pCtrl.pInput.isThrowPressed = false;
             // changes Throw animations based on input
@@ -140,7 +140,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("ThrowAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isShootPressed)
+        else if (pCtrl.pInput.isShootPressed && pCtrl.pAttack.isShooting)
         {
             pCtrl.pInput.isShootPressed = false;
             if(!isShooting)
