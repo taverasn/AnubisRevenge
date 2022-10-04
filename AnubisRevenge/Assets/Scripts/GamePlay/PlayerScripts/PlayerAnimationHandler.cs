@@ -188,20 +188,14 @@ public class PlayerAnimationHandler : MonoBehaviour
     void ThrowAttackComplete()
     {
         isThrowing = false;
-        ChangeAnimationState(PLAYER_IDLE);
-
     }
     void ShootAttackComplete()
     {
         isShooting = false;
-        ChangeAnimationState(PLAYER_IDLE);
-
     }
     void MeleeAttackComplete()
     {
         isMelee = false;
-        ChangeAnimationState(PLAYER_IDLE);
-
     }
 
     // Function to control animations for Walking, Running and Jumping
