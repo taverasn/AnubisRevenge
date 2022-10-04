@@ -152,12 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9617205b94bc62d45b5a560c75e05068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalSpeed: 5
-  horizontalSpeed: 5
-  horizontalSprintSpeed: 7.5
+  verticalClimbSpeed: 5
+  horizontalClimbSpeed: 0.1
+  horizontalSpeed: 7.5
+  horizontalSprintSpeed: 10
   jumpVelocity: 600
   jumpTime: 0.35
-  gravityScale: 4
+  gravityScale: 6
 --- !u!114 &2025616719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72608c2089807f34db26926efc742142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClimbing: 0
 --- !u!114 &3041036991331939024
 MonoBehaviour:
   m_ObjectHideFlags: 0
