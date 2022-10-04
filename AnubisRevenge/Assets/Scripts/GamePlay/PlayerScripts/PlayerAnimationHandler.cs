@@ -13,6 +13,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isThrowing;
     private bool takingDamage;
     private float xAxis;
+    private float yAxis;
     
     private float attackDelay;
 
@@ -59,6 +60,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private void Update()
     {
         xAxis = Input.GetAxis("Horizontal");
+        yAxis = Input.GetAxis("Vertical");
         if (!pCtrl.gameOver)
         {
             DamagedAnimations();
@@ -209,7 +211,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if(!pCtrl.pInput.isClimbing)
+            if (!pCtrl.pInput.isClimbing)
             {
                 if (pCtrl.pColl.isGrounded())
                 {
@@ -241,12 +243,19 @@ public class PlayerAnimationHandler : MonoBehaviour
                 }
                 else
                 {
+                    pCtrl.anim.speed = 1;
                     ChangeAnimationState(PLAYER_JUMP);
                 }
             }
-            else
+            else if (pCtrl.pInput.isClimbing)
             {
-                ChangeAnimationState(PLAYER_CLIMB);
+                pCtrl.anim.speed = 1;
+                if (yAxis != 0)
+                {
+                    ChangeAnimationState(PLAYER_CLIMB);
+                }
+                else if (yAxis == 0 && xAxis == 0)
+                    pCtrl.anim.speed = 0;
             }
         }
     }
