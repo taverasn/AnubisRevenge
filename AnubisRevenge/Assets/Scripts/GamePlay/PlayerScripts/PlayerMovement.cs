@@ -10,7 +10,8 @@ public class PlayerMovement : MonoBehaviour
     // Player X Movement Variables
     private float xAxis;
     private float yAxis;
-    [SerializeField] private float verticalSpeed;
+    [SerializeField] private float verticalClimbSpeed;
+    [SerializeField] internal float horizontalClimbSpeed;
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float horizontalSprintSpeed;
     internal bool facingRight = true;
@@ -20,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTimeCounter;
     [SerializeField] private float jumpTime;
     private bool startTimer;
-    [SerializeField] private float gravityScale;
+    [SerializeField] internal float gravityScale;
 
     // Start is called before the first frame update
     private void Start()
@@ -34,8 +35,8 @@ public class PlayerMovement : MonoBehaviour
         if(!pCtrl.gameOver)
         {
             // Checking for inputs
-            xAxis = Input.GetAxis("Horizontal") * .1f;
-            yAxis = Input.GetAxis("Vertical") * .1f;
+            xAxis = Input.GetAxis("Horizontal");
+            yAxis = Input.GetAxis("Vertical");
             // Force Releases jump button if user is holding it for to long
             if (startTimer)
             {
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
             // Crouching not pressed?
-            if(!pCtrl.pInput.isCrouching && !pCtrl.pInput.isClimbing)
+            if(!pCtrl.pInput.isCrouching)
             {
                 // Check movement update based on input
                 // Player Moving in +X or -X direction
@@ -93,9 +94,24 @@ public class PlayerMovement : MonoBehaviour
                     vel.x = 0;
                 }
             }
-            else if(yAxis != 0)
+            if(pCtrl.pInput.isClimbing && yAxis > 0)
             {
-                vel.y = verticalSpeed;
+                vel.x = horizontalClimbSpeed;
+                vel.y = verticalClimbSpeed;
+            }            
+            else if(yAxis < 0)
+            {
+                vel.y = -verticalClimbSpeed;
+            }
+            else if (pCtrl.pInput.isClimbing && yAxis == 0 && xAxis == 0)
+            {
+                pCtrl.rb.gravityScale = 0;
+                vel.y = 0;
+                vel.x = 0;
+            }
+            else if(!pCtrl.pInput.isClimbing && pCtrl.rb.gravityScale == 0)
+            {
+                pCtrl.rb.gravityScale = gravityScale;
             }
             // Check if trying to jump
             if (pCtrl.pInput.isJumping && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)

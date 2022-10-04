@@ -17,7 +17,7 @@ public class PlayerInput : MonoBehaviour
     internal bool isShootPressed;
     internal bool isThrowPressed;
     internal bool releasedJump;
-    internal bool isClimbing;
+    [SerializeField] internal bool isClimbing;
     private float xAxis;
     private float yAxis;
 
@@ -37,9 +37,10 @@ public class PlayerInput : MonoBehaviour
             if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 // Jump Key Pressed?
-                if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded())
+                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
                 {
                     isJumping = true;
+                    isClimbing = false;
                 }
                 // Jump Key Released?
                 if (Input.GetButtonUp("Jump"))
@@ -84,7 +85,7 @@ public class PlayerInput : MonoBehaviour
                         isMeleePressed = true;
                     }
                     // Throw Key Pressed and not Running and not Walking?
-                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee)
+                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
                     {
                         pCtrl.pTime.timeBtwThrowAttack = 0;
                         isThrowPressed = true;
@@ -123,7 +124,7 @@ public class PlayerInput : MonoBehaviour
         {
             isClimbing = true;
         }
-        else
+        else if (!pCtrl.pColl.isClimbing())
         {
             isClimbing = false;
         }
