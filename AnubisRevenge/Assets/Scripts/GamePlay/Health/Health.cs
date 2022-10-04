@@ -49,7 +49,6 @@ public class Health : MonoBehaviour
 
         if(gameObject.tag == "Player")
         {
-            Debug.Log(PlayerPrefs.GetInt("dynamite"));
             healthBar.SetHealth(currentHealth);
             isDamaged = true;
         }

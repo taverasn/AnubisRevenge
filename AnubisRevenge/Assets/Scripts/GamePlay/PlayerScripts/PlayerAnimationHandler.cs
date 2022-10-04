@@ -90,7 +90,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     void AttackAnimations()
     {
         // Melee Pressed?
-        if (pCtrl.pInput.isMeleePressed)
+        if (pCtrl.pInput.isMeleePressed && pCtrl.pAttack.isMelee)
         {
             pCtrl.pInput.isMeleePressed = false;
             if (!isMelee)
@@ -108,6 +108,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_MELEE);
+                    pCtrl.pMove.isMoving = false;
                 }
             }
             // attack delay set to the length in seconds of the current animation
@@ -115,7 +116,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("MeleeAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isThrowPressed)
+        else if (pCtrl.pInput.isThrowPressed && pCtrl.pAttack.GetThrown())
         {
             pCtrl.pInput.isThrowPressed = false;
             // changes Throw animations based on input
@@ -133,6 +134,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_THROW);
+                    pCtrl.pMove.isMoving = false;
                 }
             }
             // attack delay set to the length in seconds of the current animation
@@ -140,7 +142,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("ThrowAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isShootPressed)
+        else if (pCtrl.pInput.isShootPressed && pCtrl.pAttack.isShooting)
         {
             pCtrl.pInput.isShootPressed = false;
             if(!isShooting)
@@ -158,6 +160,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_SHOOT);
+                    pCtrl.pMove.isMoving = false;
                 }
                 else if (pCtrl.pInput.isWalking)
                 {
@@ -190,14 +193,17 @@ public class PlayerAnimationHandler : MonoBehaviour
     void ThrowAttackComplete()
     {
         isThrowing = false;
+        pCtrl.pMove.isMoving = true;
     }
     void ShootAttackComplete()
     {
         isShooting = false;
+        pCtrl.pMove.isMoving = true;
     }
     void MeleeAttackComplete()
     {
         isMelee = false;
+        pCtrl.pMove.isMoving = true;
     }
 
     // Function to control animations for Walking, Running and Jumping

@@ -32,8 +32,8 @@ public class PlayerAttack : MonoBehaviour
 
     // State Variables to prevent looping
     private bool isThrowing;
-    private bool isShooting;
-    private bool isMelee;
+    internal bool isShooting;
+    internal bool isMelee;
     private bool thrown;
 
     // Start is called before the first frame update
@@ -77,6 +77,7 @@ public class PlayerAttack : MonoBehaviour
         // Throw Pressed?
         if (pCtrl.pInput.isThrowPressed)
         {
+            Debug.Log("thrown");
             thrown = true;
         }
         // Thrown true? not currently throwing?
