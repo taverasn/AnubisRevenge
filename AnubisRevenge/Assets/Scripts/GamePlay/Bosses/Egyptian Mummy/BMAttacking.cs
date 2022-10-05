@@ -5,7 +5,6 @@ using UnityEngine;
 public class BMAttacking : MonoBehaviour
 {
     BMMovement moving;
-    Health playerHealth;
    
     public Animator animator;
     private string currentState;
@@ -27,7 +26,6 @@ public class BMAttacking : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         moving = GetComponent<BMMovement>();
-        playerHealth = GameObject.Find("PlayerCharacter").GetComponent<Health>();
     }
 
     void Update()
