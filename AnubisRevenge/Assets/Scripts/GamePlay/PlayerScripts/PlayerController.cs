@@ -13,12 +13,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal PlayerCollisions pColl;
     [SerializeField] internal Health pHealth;
 
-    [SerializeField] internal Animator anim;
-    [SerializeField] internal Rigidbody2D rb;
+    internal Animator anim;
+    internal Rigidbody2D rb;
+    [SerializeField] internal LayerMask groundLayer;
+    [SerializeField] internal LayerMask climbLayer;
+    internal CapsuleCollider2D capCollider;
+    internal BoxCollider2D boxCollider;
 
     internal bool gameOver;
     void Awake()
     {
+        boxCollider = GetComponent<BoxCollider2D>();
+        capCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
