@@ -16,10 +16,8 @@ public class PlayerInput : MonoBehaviour
     internal bool isMeleePressed;
     internal bool isShootPressed;
     internal bool isThrowPressed;
-    internal bool releasedJump;
-    internal bool isClimbing;
-    private float xAxis;
-    private float yAxis;
+    internal bool releasedJump = true;
+    [SerializeField] internal bool isClimbing;
 
     void Start()
     {
@@ -32,14 +30,13 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
-            xAxis = Input.GetAxis("Horizontal") * .1f;
-            yAxis = Input.GetAxis("Vertical") * .1f;
             if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 // Jump Key Pressed?
-                if (Input.GetButtonDown("Jump") && pCtrl.pColl.isGrounded())
+                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
                 {
                     isJumping = true;
+                    isClimbing = false;
                 }
                 // Jump Key Released?
                 if (Input.GetButtonUp("Jump"))
@@ -48,7 +45,7 @@ public class PlayerInput : MonoBehaviour
                 }
             }
             // Sprint Key Pressed?
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && pCtrl.pColl.isGrounded())
             {
                 isRunning = true;
             }
@@ -75,57 +72,53 @@ public class PlayerInput : MonoBehaviour
                     pCtrl.pTime.timeBtwRangeAttack = 0;
                     isShootPressed = true;
                 }
-                if(!isRunning && !isWalking)
+                // Melee Key Pressed and not Running and not Walking?
+                if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
                 {
-                    // Melee Key Pressed and not Running and not Walking?
-                    if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
-                    {
-                        pCtrl.pTime.timeBtwMeleeAttack = 0;
-                        isMeleePressed = true;
-                    }
-                    // Throw Key Pressed and not Running and not Walking?
-                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee)
-                    {
-                        pCtrl.pTime.timeBtwThrowAttack = 0;
-                        isThrowPressed = true;
-                    }
+                    pCtrl.pTime.timeBtwMeleeAttack = 0;
+                    isMeleePressed = true;
+                }
+                // Throw Key Pressed and not Running and not Walking?
+                if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
+                {
+                    pCtrl.pTime.timeBtwThrowAttack = 0;
+                    isThrowPressed = true;
                 }
             }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        // Player Collider hitting Ground Collider?
-        if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
-        {
-            // If xAxis is != to 0 check if player is using running input if not set running to true
-            if (xAxis != 0)
+            // Player Collider hitting Ground Collider?
+            if (pCtrl.pColl.isGrounded())
             {
-                isIdle = false;
-                if (isRunning)
+                // If xAxis is != to 0 check if player is using running input if not set running to true
+                if (pCtrl.xAxis != 0)
                 {
-                    isWalking = false;
+                    isIdle = false;
+                    if(pCtrl.pColl.isGrounded())
+                    {
+                        if (isRunning)
+                        {
+                            isWalking = false;
+                        }
+                        else
+                        {
+                            isWalking = true;
+                        }
+                    }
                 }
+                // If xAxis is = 0 set Idle to true
                 else
                 {
-                    isWalking = true;
+                    isWalking = false;
+                    isIdle = true;
                 }
             }
-            // If xAxis is = 0 set Idle to true
-            else
+            if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0 && !Input.GetButtonDown("Jump"))
             {
-                isWalking = false;
-                isIdle = true;
+                isClimbing = true;
             }
-        }
-        if(pCtrl.pColl.isClimbing() && yAxis != 0)
-        {
-            isClimbing = true;
-        }
-        else
-        {
-            isClimbing = false;
+            else if (!pCtrl.pColl.isClimbing())
+            {
+                isClimbing = false;
+            }
         }
     }
 }

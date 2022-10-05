@@ -8,7 +8,6 @@ public class Health : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float startingHealth;
     internal float currentHealth { get; private set; }
-    [SerializeField] private HealthBar healthBar;
     private Animator anim;
     private bool dead;
     internal bool isDamaged;
@@ -26,7 +25,7 @@ public class Health : MonoBehaviour
 
         if (gameObject.tag == "Player")
         {
-            healthBar.SetMaxHealth(currentHealth);
+            gameManager.instance.healthBar.SetMaxHealth(currentHealth);
         }
 
         anim = GetComponent<Animator>();
@@ -49,8 +48,7 @@ public class Health : MonoBehaviour
 
         if(gameObject.tag == "Player")
         {
-            Debug.Log(PlayerPrefs.GetInt("dynamite"));
-            healthBar.SetHealth(currentHealth);
+            gameManager.instance.healthBar.SetHealth(currentHealth);
             isDamaged = true;
         }
         else

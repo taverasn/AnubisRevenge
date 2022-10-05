@@ -32,8 +32,8 @@ public class PlayerAttack : MonoBehaviour
 
     // State Variables to prevent looping
     private bool isThrowing;
-    private bool isShooting;
-    private bool isMelee;
+    internal bool isShooting;
+    internal bool isMelee;
     private bool thrown;
 
     // Start is called before the first frame update
@@ -77,12 +77,14 @@ public class PlayerAttack : MonoBehaviour
         // Throw Pressed?
         if (pCtrl.pInput.isThrowPressed)
         {
+            Debug.Log("thrown");
             thrown = true;
         }
         // Thrown true? not currently throwing?
         // Also checks if throwdelay timer is greater than throw rate to cause the object to spawn at the right time during the animation
         if (thrown && !isThrowing && pCtrl.pTime.throwDelayTimer >= throwRate)
         {
+            gameManager.instance.limitedProjectile.UseDynamite();
             isThrowing = true;
             thrown = false;
             pCtrl.pTime.throwDelayTimer = 0;
