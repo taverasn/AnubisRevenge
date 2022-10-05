@@ -213,7 +213,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
-  healthBar: {fileID: 0}
   despawnDelay: 0
   components: []
   iFramesDuration: 0
@@ -237,6 +236,8 @@ MonoBehaviour:
   pTime: {fileID: -3707740838375089029}
   pColl: {fileID: 2421853960498260028}
   pHealth: {fileID: 2035010390}
+  xAxis: 0
+  yAxis: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -269,6 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 
+  takingDamage: 0
 --- !u!114 &2421853960498260028
 MonoBehaviour:
   m_ObjectHideFlags: 0
