@@ -54,7 +54,7 @@ public class AnubisAttacks : MonoBehaviour
         if (onCoolDown)
         {
             ChangeAnimationState(ANUBIS_SLASH);
-            PC.pHealth.TakeDamage(damage);
+            PC.takeDamage(damage);
             Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
             return;
         }
