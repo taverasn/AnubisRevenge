@@ -60,6 +60,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         if (!pCtrl.gameOver)
         {
             pCtrl.anim.speed = 1;
+            if (takingDamage && pCtrl.pInput.isClimbing && currentState == PLAYER_HURT)
+            {
+                pCtrl.pInput.isClimbing = false;
+                takingDamage = false;
+            }
             DamagedAnimations();
             if (!takingDamage)
             {
@@ -81,7 +86,6 @@ public class PlayerAnimationHandler : MonoBehaviour
             attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
             Invoke("TakingDamageComplete", attackDelay);
-            Debug.Log("taking damage");
         }
     }
     void AttackAnimations()
@@ -210,7 +214,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
             if (pCtrl.pColl.isGrounded())
-                ChangeAnimationState(PLAYER_IDLE);
+            {
+                isMelee = false;
+                isShooting = false;
+                isThrowing = false;
+            }
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
