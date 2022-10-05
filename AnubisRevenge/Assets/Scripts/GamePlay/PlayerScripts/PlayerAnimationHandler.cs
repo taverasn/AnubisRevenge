@@ -11,7 +11,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isMelee;
     internal bool isShooting;
     internal bool isThrowing;
-    private bool takingDamage;
+    internal bool takingDamage;
     private float xAxis;
     private float yAxis;
     
@@ -63,6 +63,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         yAxis = Input.GetAxis("Vertical");
         if (!pCtrl.gameOver)
         {
+            pCtrl.anim.speed = 1;
             DamagedAnimations();
             if (!takingDamage)
             {
@@ -85,6 +86,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             attackDelay = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // calls Function after time of attack delay
             Invoke("TakingDamageComplete", attackDelay);
+            Debug.Log("taking damage");
         }
     }
     void AttackAnimations()
@@ -183,6 +185,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     void TakingDamageComplete()
     {
         takingDamage = false;
+        Debug.Log("damage complete");
         // When health is <= to 0 the player death animation will take place and gameover is set to true causing all player input to stop
         if (pCtrl.pHealth.currentHealth <= 0)
         {
@@ -255,12 +258,11 @@ public class PlayerAnimationHandler : MonoBehaviour
             }
             else if (pCtrl.pInput.isClimbing)
             {
-                pCtrl.anim.speed = 1;
                 if (yAxis != 0)
                 {
                     ChangeAnimationState(PLAYER_CLIMB);
                 }
-                else if (yAxis == 0 && xAxis == 0)
+                else if (yAxis == 0 && xAxis == 0 && currentState == PLAYER_CLIMB)
                     pCtrl.anim.speed = 0;
             }
         }
