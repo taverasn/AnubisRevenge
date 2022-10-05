@@ -75,9 +75,9 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void DamagedAnimations()
     {
-        if (pCtrl.pHealth.isDamaged)
+        if (pCtrl.isDamaged)
         {
-            pCtrl.pHealth.isDamaged = false;
+            pCtrl.isDamaged = false;
             if (!takingDamage)
             {
                 takingDamage = true;
@@ -186,7 +186,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         takingDamage = false;
         Debug.Log("damage complete");
         // When health is <= to 0 the player death animation will take place and gameover is set to true causing all player input to stop
-        if (pCtrl.pHealth.currentHealth <= 0)
+        if (pCtrl.HP <= 0)
         {
             ChangeAnimationState(PLAYER_DEATH);
             pCtrl.gameOver = true;

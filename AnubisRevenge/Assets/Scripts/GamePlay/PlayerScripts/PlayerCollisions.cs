@@ -37,9 +37,9 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.tag == "Obstacle")
         {
-            if (pCtrl.pHealth.currentHealth > 0)
+            if (pCtrl.HP > 0)
             {
-                pCtrl.pHealth.TakeDamage(pCtrl.pHealth.currentHealth);
+                pCtrl.takeDamage(pCtrl.HP);
             }
         }
     }
