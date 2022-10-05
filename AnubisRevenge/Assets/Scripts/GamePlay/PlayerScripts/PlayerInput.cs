@@ -18,7 +18,6 @@ public class PlayerInput : MonoBehaviour
     internal bool isThrowPressed;
     internal bool releasedJump = true;
     [SerializeField] internal bool isClimbing;
-    private float yAxis;
 
     void Start()
     {
@@ -31,11 +30,10 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
-            yAxis = Input.GetAxis("Vertical") * .1f;
             if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 // Jump Key Pressed?
-                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || isClimbing))
+                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
                 {
                     isJumping = true;
                     isClimbing = false;
@@ -47,7 +45,7 @@ public class PlayerInput : MonoBehaviour
                 }
             }
             // Sprint Key Pressed?
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && pCtrl.pColl.isGrounded())
             {
                 isRunning = true;
             }
@@ -74,20 +72,17 @@ public class PlayerInput : MonoBehaviour
                     pCtrl.pTime.timeBtwRangeAttack = 0;
                     isShootPressed = true;
                 }
-                if(!isRunning && !isWalking)
+                // Melee Key Pressed and not Running and not Walking?
+                if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
                 {
-                    // Melee Key Pressed and not Running and not Walking?
-                    if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
-                    {
-                        pCtrl.pTime.timeBtwMeleeAttack = 0;
-                        isMeleePressed = true;
-                    }
-                    // Throw Key Pressed and not Running and not Walking?
-                    if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !isRunning && !isWalking && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
-                    {
-                        pCtrl.pTime.timeBtwThrowAttack = 0;
-                        isThrowPressed = true;
-                    }
+                    pCtrl.pTime.timeBtwMeleeAttack = 0;
+                    isMeleePressed = true;
+                }
+                // Throw Key Pressed and not Running and not Walking?
+                if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
+                {
+                    pCtrl.pTime.timeBtwThrowAttack = 0;
+                    isThrowPressed = true;
                 }
             }
             // Player Collider hitting Ground Collider?
@@ -116,11 +111,11 @@ public class PlayerInput : MonoBehaviour
                     isIdle = true;
                 }
             }
-            if(pCtrl.pColl.isClimbing() && yAxis != 0 && !Input.GetButtonDown("Jump"))
+            if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0 && !Input.GetButtonDown("Jump"))
             {
                 isClimbing = true;
             }
-            else if (!pCtrl.pColl.isClimbing() || pCtrl.pAnimHandler.takingDamage)
+            else if (!pCtrl.pColl.isClimbing())
             {
                 isClimbing = false;
             }
