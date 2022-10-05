@@ -92,40 +92,40 @@ public class PlayerInput : MonoBehaviour
                     }
                 }
             }
-        }
-        // Player Collider hitting Ground Collider?
-        if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
-        {
-            // If xAxis is != to 0 check if player is using running input if not set running to true
-            if (xAxis != 0)
+            // Player Collider hitting Ground Collider?
+            if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
-                isIdle = false;
-                if(pCtrl.pColl.isGrounded())
+                // If xAxis is != to 0 check if player is using running input if not set running to true
+                if (xAxis != 0)
                 {
-                    if (isRunning)
+                    isIdle = false;
+                    if(pCtrl.pColl.isGrounded())
                     {
-                        isWalking = false;
-                    }
-                    else
-                    {
-                        isWalking = true;
+                        if (isRunning)
+                        {
+                            isWalking = false;
+                        }
+                        else
+                        {
+                            isWalking = true;
+                        }
                     }
                 }
+                // If xAxis is = 0 set Idle to true
+                else
+                {
+                    isWalking = false;
+                    isIdle = true;
+                }
             }
-            // If xAxis is = 0 set Idle to true
-            else
+            if(pCtrl.pColl.isClimbing() && yAxis != 0 && !Input.GetButtonDown("Jump"))
             {
-                isWalking = false;
-                isIdle = true;
+                isClimbing = true;
             }
-        }
-        if(pCtrl.pColl.isClimbing() && yAxis != 0 && !Input.GetButtonDown("Jump"))
-        {
-            isClimbing = true;
-        }
-        else if (!pCtrl.pColl.isClimbing())
-        {
-            isClimbing = false;
+            else if (!pCtrl.pColl.isClimbing() || pCtrl.pAnimHandler.takingDamage)
+            {
+                isClimbing = false;
+            }
         }
     }
 }
