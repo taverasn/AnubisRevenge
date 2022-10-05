@@ -7,16 +7,18 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] float visionRange;
     [SerializeField] float speed;
-
+    [SerializeField] float scaleX;
+    [SerializeField] float scaleY;
+    private Vector2 velocity;
     [SerializeField] private Animator anim;
 
     private Rigidbody2D body;
-    private bool isFlipped;
     
     [Header("Attack Parameters")]
     [SerializeField] private float attackCooldown;
     [SerializeField] private float range;
     [SerializeField] private int damage;
+    [SerializeField] private Transform attackPos;
 
     [Header("Collider Parameters")]
     [SerializeField] private float colliderDistance;
@@ -26,12 +28,10 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private float cooldownTimer = Mathf.Infinity;
 
-    private Health playerHealth;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        playerHealth = GameObject.Find("PlayerCharacter").GetComponent<Health>();
     }
 
 
@@ -45,12 +45,14 @@ public class EnemyScript : MonoBehaviour
             LookAtPlayer();
             FollowPlayer();
             anim.SetBool("moving", true);
-            if (PlayerInSight())
+            if(cooldownTimer >= attackCooldown)
             {
-                if (cooldownTimer >= attackCooldown)
+                cooldownTimer = 0;
+                Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(attackPos.position, range, playerLayer);
+                anim.SetTrigger("meleeAttack");
+                for (int i = 0; i < playerToDamage.Length; i++)
                 {
-                    cooldownTimer = 0;
-                    anim.SetTrigger("meleeAttack");
+                    playerToDamage[i].GetComponent<PlayerController>().takeDamage(damage);
                 }
             }
         }
@@ -60,17 +62,19 @@ public class EnemyScript : MonoBehaviour
             RemainIdle();
         }
     }
+    
     void FollowPlayer()
     {
         //If the enemy is to the left or right of the player
         if(transform.position.x < player.position.x)
         {
-            body.velocity = new Vector2(speed, 0);
+            velocity.x = speed;
         }
         else
         {
-            body.velocity = new Vector2(-speed, 0);
+            velocity.x = -speed;
         }
+        body.velocity = velocity;
     }
     
     void RemainIdle()
@@ -78,48 +82,41 @@ public class EnemyScript : MonoBehaviour
         body.velocity = new Vector2(0,0);
     }
 
+   /*void YLevelCheck()
+    {
+        if(transform.position.y > player.position.y)
+        {
+            if(transform.position.x < player.position.x)
+            {
+            velocity.x = speed;
+            }
+            else
+            {
+            velocity.x = -speed;
+            }
+            body.velocity = velocity;
+        }
+        else
+        {
+            RemainIdles();
+        }
+    }*/
+
     public void LookAtPlayer()
     {
-        Vector3 flipped = transform.localScale;
-        flipped.z *= -1f;
-
-        if (transform.position.x < player.position.x && isFlipped)
+        if (transform.position.x < player.position.x) 
         {
-            transform.localScale = flipped;
-            transform.Rotate(0f, 180f, 0f);
-            isFlipped = false;
+            transform.localScale = new Vector2(scaleX, scaleY);
         }
-        else if (transform.position.x > player.position.x && !isFlipped)
+        else if (transform.position.x > player.position.x) 
         {
-            transform.localScale = flipped;
-            transform.Rotate(0f, 180f, 0f);
-            isFlipped = true;
+            transform.localScale = new Vector2(-scaleX, scaleY);
         }
     }
-
-    private void OnDrawGizmos()
+    
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(polygonCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance, new Vector3(polygonCollider.bounds.size.x * range, polygonCollider.bounds.size.y, polygonCollider.bounds.size.z));
-    }
-
-    private bool PlayerInSight()
-    {
-
-        RaycastHit2D hit =
-            Physics2D.BoxCast(polygonCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
-            new Vector2(polygonCollider.bounds.size.x * range, polygonCollider.bounds.size.y),
-            0, Vector2.left, 0, playerLayer);
-
-        if (hit.collider != null && hit.transform.tag == "Player")
-            playerHealth = hit.transform.GetComponent<Health>();
-
-        return hit.collider != null;
-    }
-
-    private void DamagePlayer()
-    {
-        if (PlayerInSight())
-            playerHealth.TakeDamage(damage);
+        Gizmos.DrawWireSphere(attackPos.position, range);
     }
 }
