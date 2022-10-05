@@ -12,7 +12,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isShooting;
     internal bool isThrowing;
     internal bool takingDamage;
-    private float xAxis;
     private float yAxis;
     
     private float attackDelay;
@@ -227,7 +226,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                     if (!pCtrl.pInput.isCrouching)
                     {
                         // Player X Input != 0?
-                        if (!pCtrl.pInput.isIdle && xAxis != 0)
+                        if (!pCtrl.pInput.isIdle && pCtrl.xAxis != 0)
                         {
                             // Walk pressed?
                             if (pCtrl.pInput.isWalking)
@@ -261,7 +260,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 {
                     ChangeAnimationState(PLAYER_CLIMB);
                 }
-                else if (yAxis == 0 && xAxis == 0 && currentState == PLAYER_CLIMB)
+                else if (yAxis == 0 && pCtrl.xAxis == 0 && currentState == PLAYER_CLIMB)
                     pCtrl.anim.speed = 0;
             }
         }
