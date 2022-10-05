@@ -6,13 +6,12 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     private PlayerController pCtrl;
     
-    private string currentState;
+    [SerializeField] private string currentState;
 
     internal bool isMelee;
     internal bool isShooting;
     internal bool isThrowing;
-    private bool takingDamage;
-    private float xAxis;
+    [SerializeField] internal bool takingDamage;
     
     private float attackDelay;
 
@@ -58,9 +57,14 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
-        xAxis = Input.GetAxis("Horizontal");
         if (!pCtrl.gameOver)
         {
+            pCtrl.anim.speed = 1;
+            if (takingDamage && pCtrl.pInput.isClimbing && currentState == PLAYER_HURT)
+            {
+                pCtrl.pInput.isClimbing = false;
+                takingDamage = false;
+            }
             DamagedAnimations();
             if (!takingDamage)
             {
@@ -87,7 +91,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     void AttackAnimations()
     {
         // Melee Pressed?
-        if (pCtrl.pInput.isMeleePressed)
+        if (pCtrl.pInput.isMeleePressed && pCtrl.pAttack.isMelee)
         {
             pCtrl.pInput.isMeleePressed = false;
             if (!isMelee)
@@ -105,6 +109,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_MELEE);
+                    pCtrl.pMove.isMoving = false;
                 }
             }
             // attack delay set to the length in seconds of the current animation
@@ -112,7 +117,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("MeleeAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isThrowPressed)
+        else if (pCtrl.pInput.isThrowPressed && pCtrl.pAttack.GetThrown())
         {
             pCtrl.pInput.isThrowPressed = false;
             // changes Throw animations based on input
@@ -130,6 +135,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_THROW);
+                    pCtrl.pMove.isMoving = false;
                 }
             }
             // attack delay set to the length in seconds of the current animation
@@ -137,7 +143,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             // calls Function after time of attack delay
             Invoke("ThrowAttackComplete", attackDelay);
         }
-        else if (pCtrl.pInput.isShootPressed)
+        else if (pCtrl.pInput.isShootPressed && pCtrl.pAttack.isShooting)
         {
             pCtrl.pInput.isShootPressed = false;
             if(!isShooting)
@@ -155,6 +161,7 @@ public class PlayerAnimationHandler : MonoBehaviour
                 else if (pCtrl.pInput.isIdle)
                 {
                     ChangeAnimationState(PLAYER_SHOOT);
+                    pCtrl.pMove.isMoving = false;
                 }
                 else if (pCtrl.pInput.isWalking)
                 {
@@ -177,6 +184,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     void TakingDamageComplete()
     {
         takingDamage = false;
+        Debug.Log("damage complete");
         // When health is <= to 0 the player death animation will take place and gameover is set to true causing all player input to stop
         if (pCtrl.pHealth.currentHealth <= 0)
         {
@@ -187,20 +195,17 @@ public class PlayerAnimationHandler : MonoBehaviour
     void ThrowAttackComplete()
     {
         isThrowing = false;
-        ChangeAnimationState(PLAYER_IDLE);
-
+        pCtrl.pMove.isMoving = true;
     }
     void ShootAttackComplete()
     {
         isShooting = false;
-        ChangeAnimationState(PLAYER_IDLE);
-
+        pCtrl.pMove.isMoving = true;
     }
     void MeleeAttackComplete()
     {
         isMelee = false;
-        ChangeAnimationState(PLAYER_IDLE);
-
+        pCtrl.pMove.isMoving = true;
     }
 
     // Function to control animations for Walking, Running and Jumping
@@ -209,46 +214,58 @@ public class PlayerAnimationHandler : MonoBehaviour
         // Causes the player to change to Idle state when coming in contact with the ground during an animation
         if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
             if (pCtrl.pColl.isGrounded())
-                ChangeAnimationState(PLAYER_IDLE);
+            {
+                isMelee = false;
+                isShooting = false;
+                isThrowing = false;
+            }
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
             // Player Collider hitting Ground Collider
-            if (pCtrl.pColl.isGrounded())
+            if (!pCtrl.pInput.isClimbing)
             {
-                // Crouch not pressed?
-                if (!pCtrl.pInput.isCrouching)
+                if (pCtrl.pColl.isGrounded())
                 {
-                    // Player X Input != 0?
-                    if (!pCtrl.pInput.isIdle && xAxis != 0)
+                    // Crouch not pressed?
+                    if (!pCtrl.pInput.isCrouching)
                     {
-                        // Walk pressed?
-                        if (pCtrl.pInput.isWalking)
+                        // Player X Input != 0?
+                        if (!pCtrl.pInput.isIdle && pCtrl.xAxis != 0)
                         {
-                            ChangeAnimationState(PLAYER_WALK);
+                            // Walk pressed?
+                            if (pCtrl.pInput.isWalking)
+                            {
+                                ChangeAnimationState(PLAYER_WALK);
+                            }
+                            else
+                            {
+                                ChangeAnimationState(PLAYER_RUN);
+                            }
                         }
                         else
                         {
-                            ChangeAnimationState(PLAYER_RUN);
+                            ChangeAnimationState(PLAYER_IDLE);
                         }
                     }
                     else
                     {
-                        ChangeAnimationState(PLAYER_IDLE);
+                        ChangeAnimationState(PLAYER_CROUCH);
                     }
                 }
                 else
                 {
-                    ChangeAnimationState(PLAYER_CROUCH);
+                    ChangeAnimationState(PLAYER_JUMP);
                 }
             }
             else if (pCtrl.pInput.isClimbing)
             {
-                ChangeAnimationState(PLAYER_CLIMB);
-            }
-            else
-            {
-                ChangeAnimationState(PLAYER_JUMP);
+                if (pCtrl.yAxis != 0)
+                {
+                    ChangeAnimationState(PLAYER_CLIMB);
+                }
+                else if (pCtrl.yAxis == 0 && pCtrl.xAxis == 0 && currentState == PLAYER_CLIMB)
+                    pCtrl.anim.speed = 0;
             }
         }
     }

@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal PlayerTimeManager pTime;
     [SerializeField] internal PlayerCollisions pColl;
     [SerializeField] internal Health pHealth;
+    [SerializeField] internal float xAxis;
+    [SerializeField] internal float yAxis;
 
     internal Animator anim;
     internal Rigidbody2D rb;
@@ -27,5 +29,10 @@ public class PlayerController : MonoBehaviour
         capCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+    }
+    private void Update()
+    {
+        xAxis = Input.GetAxisRaw("Horizontal") * .1f;
+        yAxis = Input.GetAxisRaw("Vertical") * .1f;
     }
 }

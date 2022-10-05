@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 2175762156409862562}
   - component: {fileID: 2025616720}
   - component: {fileID: 2025616719}
-  - component: {fileID: 2035010389}
   - component: {fileID: -3707740838375089029}
   - component: {fileID: 2035010390}
   - component: {fileID: 4137138182412089751}
@@ -153,11 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9617205b94bc62d45b5a560c75e05068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalSpeed: 5
-  horizontalSprintSpeed: 7.5
+  verticalClimbSpeed: 5
+  horizontalClimbSpeed: 4
+  horizontalSpeed: 7.5
+  horizontalSprintSpeed: 10
   jumpVelocity: 600
   jumpTime: 0.35
-  gravityScale: 4
+  gravityScale: 6
 --- !u!114 &2025616719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,19 +184,6 @@ MonoBehaviour:
   throwRate: 0.4
   shootRate: 1
   meleeRate: 1
---- !u!114 &2035010389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2175762156409862563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b7125fea1ac9a2499286f5d56b2720f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHealth: {fileID: 2035010390}
 --- !u!114 &-3707740838375089029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,8 +236,14 @@ MonoBehaviour:
   pTime: {fileID: -3707740838375089029}
   pColl: {fileID: 2421853960498260028}
   pHealth: {fileID: 2035010390}
-  anim: {fileID: 2025616718}
-  rb: {fileID: 2025616716}
+  xAxis: 0
+  yAxis: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  climbLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &3633384184022455818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72608c2089807f34db26926efc742142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClimbing: 0
 --- !u!114 &3041036991331939024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +269,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab84163cadf77847a540014933c0eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 
+  takingDamage: 0
 --- !u!114 &2421853960498260028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,8 +316,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 3.1899998, y: 4.8599997}
+  m_Offset: {x: -0.014198303, y: 0}
+  m_Size: {x: 2.2810516, y: 4.8599997}
   m_Direction: 0
 --- !u!61 &1377238356
 BoxCollider2D:
@@ -335,7 +332,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2.2174244}
+  m_Offset: {x: 0.11361694, y: -2.2174244}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -346,7 +343,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.19, y: 0.42515182}
+  m_Size: {x: 2.1958618, y: 0.42515182}
   m_EdgeRadius: 0
 --- !u!50 &2025616716
 Rigidbody2D:
@@ -409,7 +406,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4c4f1ae804399ed419577f0006f1716b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
