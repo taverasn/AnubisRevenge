@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float meleeAttackRange;
 
     // Damage Variable
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
 
     // Attack Rate Variables
     [SerializeField] private float throwRate;
@@ -65,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
             for (int i = 0; i < enemiesToDamage.Length; i++)
             {
                 // Removes Health from GameObjects that are within Range and in the LayerMask
-                enemiesToDamage[i].GetComponent<Health>().TakeDamage(damage);
+                enemiesToDamage[i].GetComponent<EnemyHealth>().takeDamage(damage);
             }
             yield return new WaitForSeconds(meleeRate);
             isMelee = false;

@@ -53,7 +53,7 @@ public class Projectile : MonoBehaviour
         // Deal damage if the game object is an Enemy
         if (other.gameObject.tag == "Enemy")
         {
-            other.gameObject.GetComponent<Health>().TakeDamage(damage);
+            other.gameObject.GetComponent<EnemyHealth>().takeDamage(damage);
         }
         else if(other.gameObject.tag == "Anubis")
         {
