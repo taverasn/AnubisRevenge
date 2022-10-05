@@ -66,8 +66,6 @@ public class PlayerInput : MonoBehaviour
             {
                 isCrouching = false;
             }
-            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-                pCtrl.xAxis = 0;
             if(!isClimbing)
             {
                 // Shoot Key Pressed?
