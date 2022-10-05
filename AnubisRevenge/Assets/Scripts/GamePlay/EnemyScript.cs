@@ -21,7 +21,6 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private Transform attackPos;
 
     [Header("Collider Parameters")]
-    [SerializeField] private float colliderDistance;
     [SerializeField] private PolygonCollider2D polygonCollider;
 
     [Header("Player Layer")]
