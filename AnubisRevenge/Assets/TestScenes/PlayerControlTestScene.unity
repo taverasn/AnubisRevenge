@@ -697,6 +697,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scorpion
       objectReference: {fileID: 0}
+    - target: {fileID: 3892248783399934922, guid: c9d89cf95f4fea948b8544d867524721, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3892248783399934922, guid: c9d89cf95f4fea948b8544d867524721, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.71
+      objectReference: {fileID: 0}
     - target: {fileID: 6495373426332201461, guid: c9d89cf95f4fea948b8544d867524721, type: 3}
       propertyPath: m_RootOrder
       value: 0
