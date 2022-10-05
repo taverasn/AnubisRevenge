@@ -2,16 +2,14 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Health : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamage
 {
-    private PlayerController pCtrl;
     [Header("Health")]
     [SerializeField] private float startingHealth;
     internal float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
     [SerializeField] private float despawnDelay;
-    [SerializeField] private Behaviour[] components;
 
     [Header("iFrames")]
     [SerializeField] private float iFramesDuration;
@@ -19,7 +17,6 @@ public class Health : MonoBehaviour
     private SpriteRenderer spriteRend;
     private void Start()
     {
-        pCtrl = GetComponent<PlayerController>();
         currentHealth = startingHealth;
 
         anim = GetComponent<Animator>();
@@ -28,36 +25,28 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        if (dead == true && gameObject.tag == "Enemy")
+        if (dead == true)
         {
             startFading();
             Destroy(gameObject, 2.5f);
         }
     }
 
-    public void TakeDamage(float _damage)
+    public void takeDamage(int dmg)
     {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+        currentHealth -= dmg;
         if (currentHealth > 0)
         {
             anim.SetTrigger("hurt");
             StartCoroutine(Invunerability());
         }
-        if (!dead && currentHealth <= 0 && gameObject.tag != "Player")
+        if (!dead && currentHealth <= 0)
         {
-            if(currentHealth <= 0)
-            {
-                    anim.SetTrigger("hurt");
-                    anim.SetBool("Dead", true);
-            }
+            anim.SetTrigger("hurt");
+            anim.SetBool("Dead", true);
             dead = true;
         }
     }
-    public void AddHealth(float _value)
-    {
-        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
-    }
-
     private IEnumerator FadeOut()
     {
         for (float f = 1f; f >= -0.05f; f -= 0.05f)
