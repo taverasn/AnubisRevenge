@@ -11,8 +11,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isMelee;
     internal bool isShooting;
     internal bool isThrowing;
-    internal bool takingDamage;
-    private float yAxis;
+    [SerializeField] internal bool takingDamage;
     
     private float attackDelay;
 
@@ -58,7 +57,6 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
-        yAxis = Input.GetAxis("Vertical");
         if (!pCtrl.gameOver)
         {
             pCtrl.anim.speed = 1;
@@ -66,8 +64,7 @@ public class PlayerAnimationHandler : MonoBehaviour
             if (!takingDamage)
             {
                 MovementAnimations();
-                if(!pCtrl.pInput.isClimbing)
-                    AttackAnimations();
+                AttackAnimations();
             }
         }
     }
@@ -250,17 +247,16 @@ public class PlayerAnimationHandler : MonoBehaviour
                 }
                 else
                 {
-                    pCtrl.anim.speed = 1;
                     ChangeAnimationState(PLAYER_JUMP);
                 }
             }
             else if (pCtrl.pInput.isClimbing)
             {
-                if (yAxis != 0)
+                if (pCtrl.yAxis != 0)
                 {
                     ChangeAnimationState(PLAYER_CLIMB);
                 }
-                else if (yAxis == 0 && pCtrl.xAxis == 0 && currentState == PLAYER_CLIMB)
+                else if (pCtrl.yAxis == 0 && pCtrl.xAxis == 0 && currentState == PLAYER_CLIMB)
                     pCtrl.anim.speed = 0;
             }
         }
