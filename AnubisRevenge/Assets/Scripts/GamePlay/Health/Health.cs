@@ -31,7 +31,7 @@ public class Health : MonoBehaviour
         if (dead == true && gameObject.tag == "Enemy")
         {
             startFading();
-            Destroy(gameObject.transform.parent.gameObject, 2.5f);
+            Destroy(gameObject, 2.5f);
         }
     }
 
