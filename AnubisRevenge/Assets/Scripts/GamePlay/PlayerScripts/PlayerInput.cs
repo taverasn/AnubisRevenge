@@ -18,7 +18,6 @@ public class PlayerInput : MonoBehaviour
     internal bool isThrowPressed;
     internal bool releasedJump = true;
     [SerializeField] internal bool isClimbing;
-    private float xAxis;
     private float yAxis;
 
     void Start()
@@ -32,7 +31,6 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
-            xAxis = Input.GetAxis("Horizontal") * .1f;
             yAxis = Input.GetAxis("Vertical") * .1f;
             if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
@@ -68,6 +66,8 @@ public class PlayerInput : MonoBehaviour
             {
                 isCrouching = false;
             }
+            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+                pCtrl.xAxis = 0;
             if(!isClimbing)
             {
                 // Shoot Key Pressed?
@@ -96,7 +96,7 @@ public class PlayerInput : MonoBehaviour
             if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
             {
                 // If xAxis is != to 0 check if player is using running input if not set running to true
-                if (xAxis != 0)
+                if (pCtrl.xAxis != 0)
                 {
                     isIdle = false;
                     if(pCtrl.pColl.isGrounded())

@@ -59,7 +59,6 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     private void Update()
     {
-        xAxis = Input.GetAxis("Horizontal");
         yAxis = Input.GetAxis("Vertical");
         if (!pCtrl.gameOver)
         {
