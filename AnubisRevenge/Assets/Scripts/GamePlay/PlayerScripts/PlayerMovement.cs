@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController pCtrl;
 
     // Player X Movement Variables
-    private float xAxis;
-    private float yAxis;
     [SerializeField] private float verticalClimbSpeed;
     [SerializeField] internal float horizontalClimbSpeed;
     [SerializeField] private float horizontalSpeed;
@@ -36,8 +34,6 @@ public class PlayerMovement : MonoBehaviour
         if(!pCtrl.gameOver)
         {
             // Checking for inputs
-            xAxis = Input.GetAxis("Horizontal");
-            yAxis = Input.GetAxis("Vertical");
             // Force Releases jump button if user is holding it for to long
             if (startTimer)
             {
@@ -60,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Check movement update based on input
                 // Player Moving in +X or -X direction
-                if (xAxis < 0)
+                if (pCtrl.xAxis < 0)
                 {
                     facingRight = false;
                     // Change between running and walking speed depending if the run button input is true
@@ -79,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
                     // flips player to the left
                     transform.localScale = new Vector2(-.5f, .5f);
                 }
-                else if (xAxis > 0)
+                else if (pCtrl.xAxis > 0)
                 {
                     facingRight = true;
                     // Change between running and walking speed depending if the run button input is true
@@ -105,15 +101,15 @@ public class PlayerMovement : MonoBehaviour
             }
             if(pCtrl.pInput.isClimbing)
             {
-                if (yAxis > 0)
+                if (pCtrl.yAxis > 0)
                 {
                     vel.y = verticalClimbSpeed;
                 }
-                else if(yAxis < 0)
+                else if(pCtrl.yAxis < 0)
                 {
                     vel.y = -verticalClimbSpeed;
                 }
-                else if (pCtrl.pInput.isClimbing && yAxis == 0 && xAxis == 0)
+                else if (pCtrl.pInput.isClimbing && pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
                 {
                     pCtrl.rb.gravityScale = 0;
                     vel = Vector2.zero;

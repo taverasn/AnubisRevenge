@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class ShootLimitedProjectile : MonoBehaviour
 {
-    [SerializeField] private Image[] dynImages;
-    [SerializeField] PlayerInput player;
+    [SerializeField] public Image[] dynImages;
+    [SerializeField] private int numOfDynamite;
 
     // Set Default Dynamite Amount
     
@@ -15,7 +15,7 @@ public class ShootLimitedProjectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("dynamite", 5);
+        PlayerPrefs.SetInt("dynamite", numOfDynamite);
 
         // To start with no ammo to start
         foreach(var image in dynImages)
@@ -24,23 +24,10 @@ public class ShootLimitedProjectile : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UseDynamite()
     {
-        UseDynamite();
-    }
-
-    private void UseDynamite()
-    {
-        if (player.isThrowPressed)
-        {
-            // Disable image when fired
-            dynImages[(PlayerPrefs.GetInt("dynamite")) - 1].enabled = false;
-
-            PlayerPrefs.SetInt("dynamite", PlayerPrefs.GetInt("dynamite")-1);
-        }
-
-
+        dynImages[(PlayerPrefs.GetInt("dynamite")) - 1].enabled = false;
+        PlayerPrefs.SetInt("dynamite", PlayerPrefs.GetInt("dynamite")-1);
     }
     
 }
