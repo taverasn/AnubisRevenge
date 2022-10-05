@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal PlayerCollisions pColl;
     [SerializeField] internal Health pHealth;
     [SerializeField] internal float xAxis;
+    [SerializeField] internal float yAxis;
 
     internal Animator anim;
     internal Rigidbody2D rb;
@@ -32,5 +33,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         xAxis = Input.GetAxisRaw("Horizontal") * .1f;
+        yAxis = Input.GetAxisRaw("Vertical") * .1f;
     }
 }

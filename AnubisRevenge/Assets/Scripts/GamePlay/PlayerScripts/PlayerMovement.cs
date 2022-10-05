@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController pCtrl;
 
     // Player X Movement Variables
-    private float yAxis;
     [SerializeField] private float verticalClimbSpeed;
     [SerializeField] internal float horizontalClimbSpeed;
     [SerializeField] private float horizontalSpeed;
@@ -35,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
         if(!pCtrl.gameOver)
         {
             // Checking for inputs
-            yAxis = Input.GetAxis("Vertical");
             // Force Releases jump button if user is holding it for to long
             if (startTimer)
             {
@@ -103,15 +101,15 @@ public class PlayerMovement : MonoBehaviour
             }
             if(pCtrl.pInput.isClimbing)
             {
-                if (yAxis > 0)
+                if (pCtrl.yAxis > 0)
                 {
                     vel.y = verticalClimbSpeed;
                 }
-                else if(yAxis < 0)
+                else if(pCtrl.yAxis < 0)
                 {
                     vel.y = -verticalClimbSpeed;
                 }
-                else if (pCtrl.pInput.isClimbing && yAxis == 0 && pCtrl.xAxis == 0)
+                else if (pCtrl.pInput.isClimbing && pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
                 {
                     pCtrl.rb.gravityScale = 0;
                     vel = Vector2.zero;
