@@ -47,9 +47,10 @@ GameObject:
   - component: {fileID: 6133217373711170958}
   - component: {fileID: 6133217373711170960}
   - component: {fileID: 2317689589897829991}
+  - component: {fileID: 431101659}
   m_Layer: 6
   m_Name: Big mummy
-  m_TagString: Enemy
+  m_TagString: Anubis
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,13 +83,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef565df166380614ebe05d10020f8404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 6133217373711170958}
-  currentHealth: 100
-  maxHealth: 100
-  dead: 0
+  startingHealth: 50
+  despawnTimer: 5
+  components: []
   iFramesDuration: 2
   numberOfFlashes: 2
-  despawnTimer: 5
 --- !u!212 &6133217373711170955
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -324,8 +323,22 @@ MonoBehaviour:
   circleOrigin: {fileID: 6133217373118460123}
   radius: 2
   onCoolDown: 0
-  damage: 5
+  damage: 0
 --- !u!114 &2317689589897829991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133217373711170961}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a6f7b5817023841aa5d88921d97e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6133217373711170958}
+  speed: 3
+--- !u!114 &431101659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,8 +347,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6133217373711170961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8a6f7b5817023841aa5d88921d97e11, type: 3}
+  m_Script: {fileID: 11500000, guid: 37dc664b7fcf2c140bc7166e2654e02e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 6133217373711170958}
-  speed: 3
+  teleported: 0

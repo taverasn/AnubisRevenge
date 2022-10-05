@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     private Animator anim;
     private bool dead;
     internal bool isDamaged;
-    [SerializeField ]private float despawnDelay;
+    [SerializeField] private float despawnDelay;
     [SerializeField] private Behaviour[] components;
 
     [Header("iFrames")]
@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
         if (dead == true && gameObject.tag == "Enemy")
         {
             startFading();
-            Destroy(gameObject.transform.parent.gameObject, 2.5f);
+            Destroy(gameObject, 2.5f);
         }
     }
 
