@@ -45,7 +45,7 @@ public class PlayerInput : MonoBehaviour
                 }
             }
             // Sprint Key Pressed?
-            if (Input.GetKeyDown(KeyCode.LeftShift) && pCtrl.pColl.isGrounded())
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 isRunning = true;
             }
