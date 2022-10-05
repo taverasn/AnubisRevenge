@@ -86,7 +86,7 @@ public class PlayerInput : MonoBehaviour
                 }
             }
             // Player Collider hitting Ground Collider?
-            if (pCtrl.pColl.isGrounded() && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+            if (pCtrl.pColl.isGrounded())
             {
                 // If xAxis is != to 0 check if player is using running input if not set running to true
                 if (pCtrl.xAxis != 0)
