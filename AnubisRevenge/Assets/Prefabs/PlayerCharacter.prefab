@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   verticalClimbSpeed: 5
-  horizontalClimbSpeed: 0.1
+  horizontalClimbSpeed: 2
   horizontalSpeed: 7.5
   horizontalSprintSpeed: 10
   jumpVelocity: 600
