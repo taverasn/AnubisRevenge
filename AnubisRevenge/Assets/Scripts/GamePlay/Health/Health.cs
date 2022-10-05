@@ -22,6 +22,12 @@ public class Health : MonoBehaviour
     {
         pCtrl = GetComponent<PlayerController>();
         currentHealth = startingHealth;
+
+        if (gameObject.tag == "Player")
+        {
+            gameManager.instance.healthBar.SetMaxHealth(currentHealth);
+        }
+
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
     }
@@ -38,8 +44,11 @@ public class Health : MonoBehaviour
     public void TakeDamage(float _damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+
+
         if(gameObject.tag == "Player")
         {
+            gameManager.instance.healthBar.SetHealth(currentHealth);
             isDamaged = true;
         }
         else
