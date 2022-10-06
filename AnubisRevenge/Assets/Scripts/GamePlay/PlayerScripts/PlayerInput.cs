@@ -30,22 +30,19 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
-            if (!pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+            // Jump Key Pressed?
+            if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
             {
-                // Jump Key Pressed?
-                if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
-                {
-                    isJumping = true;
-                    isClimbing = false;
-                }
-                // Jump Key Released?
-                if (Input.GetButtonUp("Jump"))
-                {
-                    releasedJump = true;
-                }
+                isJumping = true;
+                isClimbing = false;
+            }
+            // Jump Key Released?
+            if (Input.GetButtonUp("Jump"))
+            {
+                releasedJump = true;
             }
             // Sprint Key Pressed?
-            if (Input.GetKeyDown(KeyCode.LeftShift) && pCtrl.pColl.isGrounded())
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 isRunning = true;
             }
@@ -111,7 +108,7 @@ public class PlayerInput : MonoBehaviour
                     isIdle = true;
                 }
             }
-            if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0 && !Input.GetButtonDown("Jump"))
+            if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0)
             {
                 isClimbing = true;
             }
