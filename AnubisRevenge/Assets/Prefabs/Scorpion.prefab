@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1217303714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.9, y: -2.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6495373426332201461}
@@ -84,7 +84,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -542,7 +542,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 5
   despawnDelay: 1
-  components: []
   iFramesDuration: 0
   numberOfFlashes: 0
 --- !u!114 &49308282
@@ -558,14 +557,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  visionRange: 5
+  visionRange: 8
   speed: 3
+  scaleX: 0.2
+  scaleY: 0.2
   anim: {fileID: 49308279}
   attackCooldown: 2
   range: 1
   damage: 1
   attackPos: {fileID: 1217303715}
-  colliderDistance: 4
   polygonCollider: {fileID: 49308281}
   playerLayer:
     serializedVersion: 2

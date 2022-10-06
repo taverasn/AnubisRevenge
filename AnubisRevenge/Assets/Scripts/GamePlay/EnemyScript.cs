@@ -20,7 +20,6 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private Transform attackPos;
 
     [Header("Collider Parameters")]
-    [SerializeField] private float colliderDistance;
     [SerializeField] private PolygonCollider2D polygonCollider;
 
     [Header("Player Layer")]
@@ -39,26 +38,34 @@ public class EnemyScript : MonoBehaviour
         cooldownTimer += Time.deltaTime;
         float enemyDist = Vector2.Distance(transform.position, gameManager.instance.player.transform.position);
 
-        if(enemyDist < visionRange)
-        {
-            LookAtPlayer();
-            FollowPlayer();
-            anim.SetBool("moving", true);
-            if(cooldownTimer >= attackCooldown)
-            {
-                cooldownTimer = 0;
-                Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(attackPos.position, range, playerLayer);
-                anim.SetTrigger("meleeAttack");
-                for (int i = 0; i < playerToDamage.Length; i++)
-                {
-                    playerToDamage[i].GetComponent<PlayerController>().takeDamage(damage);
-                }
-            }
-        }
-        else
+        if (transform.position.y > player.position.y)
         {
             anim.SetBool("moving", false);
             RemainIdle();
+        }
+        else
+        {
+            if (enemyDist < visionRange)
+            {
+                LookAtPlayer();
+                FollowPlayer();
+                anim.SetBool("moving", true);
+                if (cooldownTimer >= attackCooldown)
+                {
+                    cooldownTimer = 0;
+                    Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(attackPos.position, range, playerLayer);
+                    anim.SetTrigger("meleeAttack");
+                    for (int i = 0; i < playerToDamage.Length; i++)
+                    {
+                        playerToDamage[i].GetComponent<PlayerController>().takeDamage(damage);
+                    }
+                }
+            }
+            else
+            {
+                anim.SetBool("moving", false);
+                RemainIdle();
+            }
         }
     }
     
@@ -80,26 +87,6 @@ public class EnemyScript : MonoBehaviour
     {
         body.velocity = new Vector2(0,0);
     }
-
-   /*void YLevelCheck()
-    {
-        if(transform.position.y > player.position.y)
-        {
-            if(transform.position.x < player.position.x)
-            {
-            velocity.x = speed;
-            }
-            else
-            {
-            velocity.x = -speed;
-            }
-            body.velocity = velocity;
-        }
-        else
-        {
-            RemainIdles();
-        }
-    }*/
 
     public void LookAtPlayer()
     {
