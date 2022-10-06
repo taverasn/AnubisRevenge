@@ -2,18 +2,14 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Health : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamage
 {
-    private PlayerController pCtrl;
     [Header("Health")]
     [SerializeField] private float startingHealth;
     internal float currentHealth { get; private set; }
-    [SerializeField] private HealthBar healthBar;
     private Animator anim;
     private bool dead;
-    internal bool isDamaged;
-    [SerializeField ]private float despawnDelay;
-    [SerializeField] private Behaviour[] components;
+    [SerializeField] private float despawnDelay;
 
     [Header("iFrames")]
     [SerializeField] private float iFramesDuration;
@@ -21,13 +17,7 @@ public class Health : MonoBehaviour
     private SpriteRenderer spriteRend;
     private void Start()
     {
-        pCtrl = GetComponent<PlayerController>();
         currentHealth = startingHealth;
-
-        if (gameObject.tag == "Player")
-        {
-            healthBar.SetMaxHealth(currentHealth);
-        }
 
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
@@ -35,47 +25,28 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        if (dead == true && gameObject.tag == "Enemy")
+        if (dead == true)
         {
             startFading();
-            Destroy(gameObject.transform.parent.gameObject, 2.5f);
+            Destroy(gameObject, 2.5f);
         }
     }
 
-    public void TakeDamage(float _damage)
+    public void takeDamage(int dmg)
     {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-
-
-        if(gameObject.tag == "Player")
+        currentHealth -= dmg;
+        if (currentHealth > 0)
         {
-            Debug.Log(PlayerPrefs.GetInt("dynamite"));
-            healthBar.SetHealth(currentHealth);
-            isDamaged = true;
+            anim.SetTrigger("hurt");
+            StartCoroutine(Invunerability());
         }
-        else
+        if (!dead && currentHealth <= 0)
         {
-            if (currentHealth > 0)
-            {
-                anim.SetTrigger("hurt");
-                StartCoroutine(Invunerability());
-            }
-        }
-        if (!dead && currentHealth <= 0 && gameObject.tag != "Player")
-        {
-            if(currentHealth <= 0)
-            {
-                    anim.SetTrigger("hurt");
-                    anim.SetBool("Dead", true);
-            }
+            anim.SetTrigger("hurt");
+            anim.SetBool("Dead", true);
             dead = true;
         }
     }
-    public void AddHealth(float _value)
-    {
-        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
-    }
-
     private IEnumerator FadeOut()
     {
         for (float f = 1f; f >= -0.05f; f -= 0.05f)

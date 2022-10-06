@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCollisions : MonoBehaviour
 {
     private PlayerController pCtrl;
+    private float xAxis;
     // Start is called before the first frame update
     void Start()
     {
@@ -12,14 +13,18 @@ public class PlayerCollisions : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
+        xAxis = Input.GetAxis("Horizontal");
     }
     public bool isClimbing()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(pCtrl.climbCollider.bounds.center, pCtrl.climbCollider.bounds.size,
+        RaycastHit2D hit = Physics2D.BoxCast(pCtrl.capCollider.bounds.center, pCtrl.capCollider.bounds.size,
             0, Vector2.one, 0.1f, pCtrl.climbLayer);
+        if(pCtrl.pInput.isClimbing && hit && xAxis == 0)
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(hit.transform.position.x, transform.position.y, transform.position.z), pCtrl.pMove.horizontalClimbSpeed * Time.deltaTime);
+        }
         return hit.collider != null;
     }
     public bool isGrounded()
@@ -32,9 +37,9 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.tag == "Obstacle")
         {
-            if (pCtrl.pHealth.currentHealth > 0)
+            if (pCtrl.HP > 0)
             {
-                pCtrl.pHealth.TakeDamage(pCtrl.pHealth.currentHealth);
+                pCtrl.takeDamage(pCtrl.HP);
             }
         }
     }

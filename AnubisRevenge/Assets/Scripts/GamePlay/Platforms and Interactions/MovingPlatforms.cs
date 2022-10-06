@@ -34,6 +34,12 @@ public class MovingPlatforms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
+    }
+
+    private void FixedUpdate()
+    {
         //if you want the platform to constantly be moving
         if (constant)
         {
@@ -89,14 +95,14 @@ public class MovingPlatforms : MonoBehaviour
                 {
                     //move
                     transform.position = new Vector3(transform.position.x,
-                                                     Mathf.MoveTowards(transform.position.y, originalPosY + distance, speed),
+                                                     Mathf.MoveTowards(transform.position.y, originalPosY + distance, speed/100),
                                                      transform.position.z);
                 }
                 //go other direction
                 else if (!switchDirectionsN)
                 {
                     transform.position = new Vector3(transform.position.x,
-                                                     Mathf.MoveTowards(transform.position.y, originalPosY - distance, speed),
+                                                     Mathf.MoveTowards(transform.position.y, originalPosY - distance, speed / 100),
                                                      transform.position.z);
                 }
             }
@@ -107,18 +113,19 @@ public class MovingPlatforms : MonoBehaviour
                 if (switchDirectionsN)
                 {
                     //move
-                    transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, originalPosX - distance, speed),
+                    transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, originalPosX - distance, speed / 100),
                                                      transform.position.y,
                                                      transform.position.z);
                 }
                 //go other direction
                 else if (!switchDirectionsN)
                 {
-                    transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, originalPosX + distance, speed),
+                    transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, originalPosX + distance, speed / 100),
                                                      transform.position.y,
                                                      transform.position.z);
                 }
             }
         }
     }
+
 }

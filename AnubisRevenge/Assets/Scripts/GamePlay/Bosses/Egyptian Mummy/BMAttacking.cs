@@ -5,7 +5,6 @@ using UnityEngine;
 public class BMAttacking : MonoBehaviour
 {
     BMMovement moving;
-    Health playerHealth;
    
     public Animator animator;
     private string currentState;
@@ -20,14 +19,13 @@ public class BMAttacking : MonoBehaviour
     public Transform circleOrigin;
     public float radius;
     public bool onCoolDown;
+
     [SerializeField] private int damage;
 
-   
     void Start()
     {
         animator = GetComponent<Animator>();
         moving = GetComponent<BMMovement>();
-        playerHealth = GameObject.Find("PlayerCharacter").GetComponent<Health>();
     }
 
     void Update()
@@ -55,6 +53,7 @@ public class BMAttacking : MonoBehaviour
             Collider2D[] PlayerToDamage = Physics2D.OverlapCircleAll(circleOrigin.position, radius);
             return;
         }
+        moving.behind = false;
         onCoolDown = true;
         StartCoroutine(delayAttack());
     }
