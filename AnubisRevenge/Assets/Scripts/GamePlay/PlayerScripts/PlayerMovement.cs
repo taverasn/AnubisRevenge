@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
                 pCtrl.rb.gravityScale = gravityScale;
             }
             // Check if trying to jump
-            if (pCtrl.pInput.isJumping && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing)
+            if (pCtrl.pInput.isJumping)
             {
                 pCtrl.rb.gravityScale = 1;
                 pCtrl.rb.AddForce(new Vector2(0, jumpVelocity));
