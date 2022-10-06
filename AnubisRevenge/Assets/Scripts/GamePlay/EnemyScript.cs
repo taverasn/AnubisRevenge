@@ -38,7 +38,7 @@ public class EnemyScript : MonoBehaviour
         cooldownTimer += Time.deltaTime;
         float enemyDist = Vector2.Distance(transform.position, gameManager.instance.player.transform.position);
 
-        if (transform.position.y > player.position.y)
+        if (transform.position.y > gameManager.instance.player.transform.position.y)
         {
             anim.SetBool("moving", false);
             RemainIdle();
