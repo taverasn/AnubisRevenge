@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    [SerializeField] Transform player;
     [SerializeField] float visionRange;
     [SerializeField] float speed;
     [SerializeField] float scaleX;
@@ -38,7 +37,7 @@ public class EnemyScript : MonoBehaviour
     void Update()
     {
         cooldownTimer += Time.deltaTime;
-        float enemyDist = Vector2.Distance(transform.position, player.position);
+        float enemyDist = Vector2.Distance(transform.position, gameManager.instance.player.transform.position);
 
         if(enemyDist < visionRange)
         {
@@ -66,7 +65,7 @@ public class EnemyScript : MonoBehaviour
     void FollowPlayer()
     {
         //If the enemy is to the left or right of the player
-        if(transform.position.x < player.position.x)
+        if(transform.position.x < gameManager.instance.player.transform.position.x)
         {
             velocity.x = speed;
         }
@@ -104,11 +103,11 @@ public class EnemyScript : MonoBehaviour
 
     public void LookAtPlayer()
     {
-        if (transform.position.x < player.position.x) 
+        if (transform.position.x < gameManager.instance.player.transform.position.x) 
         {
             transform.localScale = new Vector2(scaleX, scaleY);
         }
-        else if (transform.position.x > player.position.x) 
+        else if (transform.position.x > gameManager.instance.player.transform.position.x) 
         {
             transform.localScale = new Vector2(-scaleX, scaleY);
         }
