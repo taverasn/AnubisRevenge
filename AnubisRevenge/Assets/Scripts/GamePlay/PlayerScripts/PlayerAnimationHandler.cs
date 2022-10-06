@@ -41,14 +41,20 @@ public class PlayerAnimationHandler : MonoBehaviour
         pCtrl = GetComponent<PlayerController>();
     }
 
-    public void ChangeAnimationState(string newState)
+    public void ChangeAnimationState(string newState, float _normalizedTime = 0)
     {
         // stop same animation from interrupting itself
         if (currentState == newState) return;
 
         // play the animation
-        pCtrl.anim.Play(newState);
-
+        if (_normalizedTime == 0)
+        {
+            pCtrl.anim.Play(newState);
+        }
+        else
+        {
+            pCtrl.anim.Play(newState, 0, _normalizedTime);
+        }
         // reassign the current state
         currentState = newState;
     }
@@ -90,6 +96,37 @@ public class PlayerAnimationHandler : MonoBehaviour
     }
     void AttackAnimations()
     {
+        // Manage animation change when switching between ground and air attacks
+        if (pCtrl.pColl.isGrounded())
+        {
+            if (currentState == PLAYER_JUMPMELEE)
+            {
+                ChangeAnimationState(PLAYER_MELEE, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            }
+            else if (currentState == PLAYER_JUMPSHOOT)
+            {
+                ChangeAnimationState(PLAYER_SHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            }
+            else if (currentState == PLAYER_JUMPTHROW)
+            {
+                ChangeAnimationState(PLAYER_THROW, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            }
+        }        
+        else if (!pCtrl.pColl.isGrounded())
+        {
+            if (currentState == PLAYER_MELEE)
+            {
+                ChangeAnimationState(PLAYER_JUMPMELEE, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            }
+            else if (currentState == PLAYER_SHOOT)
+            {
+                ChangeAnimationState(PLAYER_JUMPSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            }
+            else if (currentState == PLAYER_THROW)
+            {
+                ChangeAnimationState(PLAYER_JUMPTHROW, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            }
+        }
         // Melee Pressed?
         if (pCtrl.pInput.isMeleePressed && pCtrl.pAttack.isMelee)
         {
@@ -211,14 +248,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     // Function to control animations for Walking, Running and Jumping
     void MovementAnimations()
     {
-        // Causes the player to change to Idle state when coming in contact with the ground during an animation
-        if (currentState == PLAYER_JUMPMELEE || currentState == PLAYER_JUMPSHOOT || currentState == PLAYER_JUMPTHROW)
-            if (pCtrl.pColl.isGrounded())
-            {
-                isMelee = false;
-                isShooting = false;
-                isThrowing = false;
-            }
         // Player is not attacking?
         if (!isMelee && !isShooting && !isThrowing)
         {
