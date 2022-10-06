@@ -260,11 +260,8 @@ public class PlayerAnimationHandler : MonoBehaviour
             }
             else if (pCtrl.pInput.isClimbing)
             {
-                if (pCtrl.yAxis != 0)
-                {
-                    ChangeAnimationState(PLAYER_CLIMB);
-                }
-                else if (pCtrl.yAxis == 0 && pCtrl.xAxis == 0 && currentState == PLAYER_CLIMB)
+                ChangeAnimationState(PLAYER_CLIMB);
+                if (pCtrl.yAxis == 0 && currentState == PLAYER_CLIMB)
                     pCtrl.anim.speed = 0;
             }
         }

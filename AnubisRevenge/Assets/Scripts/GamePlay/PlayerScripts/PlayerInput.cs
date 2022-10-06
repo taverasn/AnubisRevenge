@@ -111,7 +111,7 @@ public class PlayerInput : MonoBehaviour
                     isIdle = true;
                 }
             }
-            if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0 && !Input.GetButtonDown("Jump"))
+            if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0)
             {
                 isClimbing = true;
             }
