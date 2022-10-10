@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
                 if (jumpTimeCounter <= 0)
                 {
                     pCtrl.pInput.releasedJump = true;
+                    pCtrl.pInput.coyoteTimeCounter = 0f;
                 }
             }
         }

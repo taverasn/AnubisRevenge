@@ -18,6 +18,10 @@ public class PlayerInput : MonoBehaviour
     internal bool isThrowPressed;
     internal bool releasedJump = true;
     [SerializeField] internal bool isClimbing;
+    [SerializeField] private float coyoteTime = 0.2f;
+    internal float coyoteTimeCounter;
+    [SerializeField] private float jumpBuffer = 0.2f;
+    internal float jumpBufferCounter;
 
     void Start()
     {
@@ -30,8 +34,12 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
+            if (pCtrl.pColl.isGrounded())
+                coyoteTimeCounter = coyoteTime;
+            else
+                coyoteTimeCounter -= Time.deltaTime;
             // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && (pCtrl.pColl.isGrounded() || pCtrl.pColl.isClimbing()))
+            if (Input.GetButtonDown("Jump") && (coyoteTimeCounter > 0 || pCtrl.pColl.isClimbing()))
             {
                 isJumping = true;
                 isClimbing = false;
@@ -40,6 +48,7 @@ public class PlayerInput : MonoBehaviour
             if (Input.GetButtonUp("Jump"))
             {
                 releasedJump = true;
+                coyoteTimeCounter = 0f;
             }
             // Sprint Key Pressed?
             if (Input.GetKeyDown(KeyCode.LeftShift))
