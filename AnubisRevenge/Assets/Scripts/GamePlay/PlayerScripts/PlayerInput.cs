@@ -20,7 +20,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] internal bool isClimbing;
     [SerializeField] private float coyoteTime = 0.2f;
     internal float coyoteTimeCounter;
-    [SerializeField] private float jumpBuffer = 0.2f;
+    [SerializeField] private float jumpBufferTime = 0.2f;
     internal float jumpBufferCounter;
 
     void Start()
@@ -38,9 +38,14 @@ public class PlayerInput : MonoBehaviour
                 coyoteTimeCounter = coyoteTime;
             else
                 coyoteTimeCounter -= Time.deltaTime;
+            if (Input.GetButtonDown("Jump"))
+                jumpBufferCounter = jumpBufferTime;
+            else
+                jumpBufferCounter -= Time.deltaTime;
             // Jump Key Pressed?
-            if (Input.GetButtonDown("Jump") && (coyoteTimeCounter > 0 || pCtrl.pColl.isClimbing()))
+            if (jumpBufferCounter > 0f && (coyoteTimeCounter > 0f || pCtrl.pColl.isClimbing()))
             {
+                jumpBufferCounter = 0f;
                 isJumping = true;
                 isClimbing = false;
             }
