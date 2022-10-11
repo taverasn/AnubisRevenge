@@ -11,7 +11,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     internal bool isMelee;
     internal bool isShooting;
     internal bool isThrowing;
-    [SerializeField] internal bool takingDamage;
+    internal bool takingDamage;
     
     private float attackDelay;
 
