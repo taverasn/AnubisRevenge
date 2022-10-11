@@ -91,6 +91,7 @@ public class PlayerAttack : MonoBehaviour
             // Spawn Object at set position and rotation
             Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, launchableProjectilePrefab.transform.rotation);
             yield return new WaitForSeconds(throwRate);
+            gameManager.instance.pCtrl.pInput.throwMultiplierTimer = 0;
             isThrowing = false;
         }
     }
