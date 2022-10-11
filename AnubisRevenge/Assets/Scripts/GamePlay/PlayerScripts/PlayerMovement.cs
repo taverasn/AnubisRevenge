@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpTime;
     private bool startTimer;
     [SerializeField] internal float gravityScale;
-    [SerializeField] internal float jumpMultiplier;
+    [SerializeField] internal float fallMultiplier;
 
     internal bool isMoving = true;
     // Start is called before the first frame update
@@ -129,18 +129,25 @@ public class PlayerMovement : MonoBehaviour
                 startTimer = true;
             }
 
-            // Checking for release of jump key and resetting jump timer
-            if(pCtrl.rb.velocity.y > 0 && pCtrl.pInput.releasedJump)
+            // Check if trying to jump
+            if (pCtrl.pInput.isJumping)
             {
-                pCtrl.rb.velocity += new Vector2(0, -Physics2D.gravity.y) * jumpMultiplier * Time.deltaTime;
+                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, jumpVelocity);
+                startTimer = true;
+            }
+
+            // Checking for release of jump key and resetting jump timer
+            if (pCtrl.rb.velocity.y > 0 && pCtrl.pInput.releasedJump)
+            {
+                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, pCtrl.rb.velocity.y * 0.5f);
                 pCtrl.pInput.isJumping = false;
                 pCtrl.pInput.releasedJump = false;
                 jumpTimeCounter = jumpTime;
                 startTimer = false;
             }
-            if(pCtrl.rb.velocity.y < 0)
+            if (pCtrl.rb.velocity.y < 0)
             {
-                pCtrl.rb.velocity -= new Vector2(0, -Physics2D.gravity.y) * jumpMultiplier * Time.deltaTime;
+                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, pCtrl.rb.velocity.y * fallMultiplier);
             }
         }
     }
