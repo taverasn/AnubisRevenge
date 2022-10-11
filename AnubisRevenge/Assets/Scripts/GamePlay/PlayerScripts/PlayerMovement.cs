@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
             // Crouching not pressed?
-            if(!pCtrl.pInput.isCrouching && isMoving)
+            if(!pCtrl.pInput.isCrouching && isMoving && !pCtrl.pAnimHandler.takingDamage)
             {
                 // Check movement update based on input
                 // Player Moving in +X or -X direction
@@ -70,10 +70,9 @@ public class PlayerMovement : MonoBehaviour
                     {
                         pCtrl.rb.velocity = new Vector2(-horizontalSprintSpeed, pCtrl.rb.velocity.y);
                     }
-                    else
+                    else if(pCtrl.pInput.isWalking)
                     {
                         pCtrl.rb.velocity = new Vector2(-horizontalSpeed, pCtrl.rb.velocity.y);
-
                     }
                     // flips player to the left
                     transform.localScale = new Vector2(-.5f, .5f);
@@ -90,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         pCtrl.rb.velocity = new Vector2(horizontalSprintSpeed, pCtrl.rb.velocity.y);
                     }
-                    else
+                    else if (pCtrl.pInput.isWalking)
                     {
                         pCtrl.rb.velocity = new Vector2(horizontalSpeed, pCtrl.rb.velocity.y);
                     }
@@ -121,12 +120,6 @@ public class PlayerMovement : MonoBehaviour
             else if(!pCtrl.pInput.isClimbing && pCtrl.rb.gravityScale == 0)
             {
                 pCtrl.rb.gravityScale = gravityScale;
-            }
-            // Check if trying to jump
-            if (pCtrl.pInput.isJumping)
-            {
-                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, jumpVelocity);
-                startTimer = true;
             }
 
             // Check if trying to jump
