@@ -26,9 +26,9 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private int damage;
 
     // Attack Rate Variables
-    [SerializeField] private float throwRate;
-    [SerializeField] private float shootRate;
-    [SerializeField] private float meleeRate;
+    private float throwRate;
+    private float shootRate;
+    private float meleeRate;
 
     // State Variables to prevent looping
     private bool isThrowing;
