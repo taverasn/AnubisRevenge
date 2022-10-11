@@ -155,9 +155,10 @@ MonoBehaviour:
   horizontalClimbSpeed: 4
   horizontalSpeed: 7.5
   horizontalSprintSpeed: 10
-  jumpVelocity: 600
+  jumpVelocity: 15
   jumpTime: 0.35
-  gravityScale: 6
+  gravityScale: 1
+  fallMultiplier: 1.1
 --- !u!114 &2025616719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +238,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isClimbing: 0
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
+  throwMultiplierTimer: 0
 --- !u!114 &3041036991331939024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +346,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 4
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4

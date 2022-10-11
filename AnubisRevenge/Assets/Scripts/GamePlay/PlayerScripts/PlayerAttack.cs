@@ -77,7 +77,6 @@ public class PlayerAttack : MonoBehaviour
         // Throw Pressed?
         if (pCtrl.pInput.isThrowPressed)
         {
-            Debug.Log("thrown");
             thrown = true;
         }
         // Thrown true? not currently throwing?
@@ -91,6 +90,7 @@ public class PlayerAttack : MonoBehaviour
             // Spawn Object at set position and rotation
             Instantiate(launchableProjectilePrefab, launchableProjectileSpawnPoint.transform.position, launchableProjectilePrefab.transform.rotation);
             yield return new WaitForSeconds(throwRate);
+            gameManager.instance.pCtrl.pInput.throwMultiplierTimer = 0;
             isThrowing = false;
         }
     }
