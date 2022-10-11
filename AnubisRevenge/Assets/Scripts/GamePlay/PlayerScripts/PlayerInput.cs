@@ -16,24 +16,38 @@ public class PlayerInput : MonoBehaviour
     internal bool isMeleePressed;
     internal bool isShootPressed;
     internal bool isThrowPressed;
+    bool startTimer;
     internal bool releasedJump = true;
     [SerializeField] internal bool isClimbing;
     [SerializeField] private float coyoteTime = 0.2f;
     internal float coyoteTimeCounter;
     [SerializeField] private float jumpBufferTime = 0.2f;
     internal float jumpBufferCounter;
+    public float throwMultiplierTimer;
 
     void Start()
     {
         pCtrl = GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // If Game Over Stop Player Input
         if(!pCtrl.gameOver)
         {
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                startTimer = true;
+            }
+            if(startTimer)
+            {
+                throwMultiplierTimer += Time.deltaTime * 3;
+                if (throwMultiplierTimer >= 1 || Input.GetKeyUp(KeyCode.F))
+                {
+                    startTimer = false;
+                }
+            }
+
             if (pCtrl.pColl.isGrounded())
                 coyoteTimeCounter = coyoteTime;
             else
@@ -90,7 +104,7 @@ public class PlayerInput : MonoBehaviour
                     isMeleePressed = true;
                 }
                 // Throw Key Pressed and not Running and not Walking?
-                if (Input.GetKeyDown(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
+                if (Input.GetKeyUp(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && PlayerPrefs.GetInt("dynamite") > 0)
                 {
                     pCtrl.pTime.timeBtwThrowAttack = 0;
                     isThrowPressed = true;
