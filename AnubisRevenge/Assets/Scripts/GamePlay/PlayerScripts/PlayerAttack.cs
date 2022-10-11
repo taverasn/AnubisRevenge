@@ -77,7 +77,6 @@ public class PlayerAttack : MonoBehaviour
         // Throw Pressed?
         if (pCtrl.pInput.isThrowPressed)
         {
-            Debug.Log("thrown");
             thrown = true;
         }
         // Thrown true? not currently throwing?
