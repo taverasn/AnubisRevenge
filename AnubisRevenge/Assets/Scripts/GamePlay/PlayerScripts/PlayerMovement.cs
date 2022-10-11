@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpTime;
     private bool startTimer;
     [SerializeField] internal float gravityScale;
+    [SerializeField] internal float fallMultiplier;
 
     internal bool isMoving = true;
     // Start is called before the first frame update
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
                 if (jumpTimeCounter <= 0)
                 {
                     pCtrl.pInput.releasedJump = true;
+                    pCtrl.pInput.coyoteTimeCounter = 0f;
                 }
             }
         }
@@ -50,9 +52,9 @@ public class PlayerMovement : MonoBehaviour
         // If game over stop player movement
         if (!pCtrl.gameOver)
         {
-            Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
+            //Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
             // Crouching not pressed?
-            if(!pCtrl.pInput.isCrouching && isMoving)
+            if(!pCtrl.pInput.isCrouching && isMoving && !pCtrl.pAnimHandler.takingDamage)
             {
                 // Check movement update based on input
                 // Player Moving in +X or -X direction
@@ -62,15 +64,15 @@ public class PlayerMovement : MonoBehaviour
                     // Change between running and walking speed depending if the run button input is true
                     if(pCtrl.pInput.isClimbing)
                     {
-                        vel.x = -horizontalClimbSpeed;
+                        pCtrl.rb.velocity = new Vector2(-horizontalClimbSpeed, pCtrl.rb.velocity.y);
                     }
                     else if(pCtrl.pInput.isRunning)
                     {
-                        vel.x = -horizontalSprintSpeed;
+                        pCtrl.rb.velocity = new Vector2(-horizontalSprintSpeed, pCtrl.rb.velocity.y);
                     }
-                    else
+                    else if(pCtrl.pInput.isWalking)
                     {
-                        vel.x = -horizontalSpeed;
+                        pCtrl.rb.velocity = new Vector2(-horizontalSpeed, pCtrl.rb.velocity.y);
                     }
                     // flips player to the left
                     transform.localScale = new Vector2(-.5f, .5f);
@@ -81,61 +83,65 @@ public class PlayerMovement : MonoBehaviour
                     // Change between running and walking speed depending if the run button input is true
                     if (pCtrl.pInput.isClimbing)
                     {
-                        vel.x = horizontalClimbSpeed;
+                        pCtrl.rb.velocity = new Vector2(horizontalClimbSpeed, pCtrl.rb.velocity.y);
                     }
                     else if (pCtrl.pInput.isRunning)
                     {
-                        vel.x = horizontalSprintSpeed;
+                        pCtrl.rb.velocity = new Vector2(horizontalSprintSpeed, pCtrl.rb.velocity.y);
                     }
-                    else
+                    else if (pCtrl.pInput.isWalking)
                     {
-                        vel.x = horizontalSpeed;
+                        pCtrl.rb.velocity = new Vector2(horizontalSpeed, pCtrl.rb.velocity.y);
                     }
                     // flips player to the right
                     transform.localScale = new Vector2(.5f, .5f);
                 }
                 else
                 {
-                    vel.x = 0;
+                    pCtrl.rb.velocity = new Vector2(0, pCtrl.rb.velocity.y);
                 }
             }
             if(pCtrl.pInput.isClimbing)
             {
                 if (pCtrl.yAxis > 0)
                 {
-                    vel.y = verticalClimbSpeed;
+                    pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, verticalClimbSpeed);
                 }
                 else if(pCtrl.yAxis < 0)
                 {
-                    vel.y = -verticalClimbSpeed;
+                    pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, -verticalClimbSpeed);
                 }
                 else if (pCtrl.pInput.isClimbing && pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
                 {
                     pCtrl.rb.gravityScale = 0;
-                    vel = Vector2.zero;
+                    pCtrl.rb.velocity = Vector2.zero;
                 }
             }            
             else if(!pCtrl.pInput.isClimbing && pCtrl.rb.gravityScale == 0)
             {
                 pCtrl.rb.gravityScale = gravityScale;
             }
+
             // Check if trying to jump
             if (pCtrl.pInput.isJumping)
             {
-                pCtrl.rb.gravityScale = 1;
-                pCtrl.rb.AddForce(new Vector2(0, jumpVelocity));
-                pCtrl.pInput.isJumping = false;
+                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, jumpVelocity);
                 startTimer = true;
             }
+
             // Checking for release of jump key and resetting jump timer
-            if(pCtrl.pInput.releasedJump)
+            if (pCtrl.rb.velocity.y > 0 && pCtrl.pInput.releasedJump)
             {
-                pCtrl.rb.gravityScale = gravityScale;
+                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, pCtrl.rb.velocity.y * 0.5f);
+                pCtrl.pInput.isJumping = false;
                 pCtrl.pInput.releasedJump = false;
                 jumpTimeCounter = jumpTime;
                 startTimer = false;
             }
-            pCtrl.rb.velocity = vel;
+            if (pCtrl.rb.velocity.y < 0)
+            {
+                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, pCtrl.rb.velocity.y * fallMultiplier);
+            }
         }
     }
 }
