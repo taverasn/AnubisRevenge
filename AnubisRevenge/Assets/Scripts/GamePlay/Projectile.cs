@@ -34,6 +34,8 @@ public class Projectile : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, 37.66f);
                 direction = -transform.right + ((Vector3.up * arcMultiplier) * (1.5f * gameManager.instance.pCtrl.pInput.throwMultiplierTimer));
             }
+            gameManager.instance.soundManager.dynamite.Play();
+            gameManager.instance.soundManager.dynamite.loop = true;
             rb.AddForce(direction * speed, ForceMode2D.Impulse);
         }
         // Tag Bullet?
@@ -63,6 +65,8 @@ public class Projectile : MonoBehaviour
         // and destroy it after the animation has played
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Ladder")
         {
+            gameManager.instance.soundManager.dynamite.Stop();
+            gameManager.instance.soundManager.dynamiteHit.Play();
             anim.SetBool("explode", true);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length);
