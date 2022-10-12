@@ -83,6 +83,7 @@ public class PlayerAttack : MonoBehaviour
         // Also checks if throwdelay timer is greater than throw rate to cause the object to spawn at the right time during the animation
         if (thrown && !isThrowing && pCtrl.pTime.throwDelayTimer >= throwRate)
         {
+            gameManager.instance.soundManager.dynamiteThrow.Play();
             gameManager.instance.limitedProjectile.UseDynamite();
             isThrowing = true;
             thrown = false;
