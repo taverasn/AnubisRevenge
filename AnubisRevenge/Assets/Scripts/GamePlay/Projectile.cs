@@ -65,8 +65,15 @@ public class Projectile : MonoBehaviour
         // and destroy it after the animation has played
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Ladder")
         {
-            gameManager.instance.soundManager.dynamite.Stop();
-            gameManager.instance.soundManager.dynamiteHit.Play();
+            if(CompareTag("Dynamite"))
+            {
+                gameManager.instance.soundManager.dynamite.Stop();
+                gameManager.instance.soundManager.dynamiteHit.Play();
+            }
+            if(CompareTag("Bullet"))
+            {
+                gameManager.instance.soundManager.bulletHit.Play();
+            }
             anim.SetBool("explode", true);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length);
