@@ -41,6 +41,14 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         HP -= dmg;
         gameManager.instance.healthBar.SetHealth(HP);
+        if(HP > 0)
+        {
+            gameManager.instance.soundManager.hurt.Play();
+        }
+        else
+        {
+            gameManager.instance.soundManager.dead.Play();
+        }
         isDamaged = true;
     }
 }

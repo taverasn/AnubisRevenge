@@ -61,12 +61,14 @@ public class PlayerAttack : MonoBehaviour
         if(pCtrl.pInput.isMeleePressed && !isMelee)
         {
             isMelee = true;
+            gameManager.instance.soundManager.meleeSwing.Play();
             Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, meleeAttackRange, whatIsEnemies);
             // Loops through all Game Objects that are withn Range and in the Layer Mask
             for (int i = 0; i < enemiesToDamage.Length; i++)
             {
                 // Removes Health from GameObjects that are within Range and in the LayerMask
                 enemiesToDamage[i].GetComponent<EnemyHealth>().takeDamage(damage);
+                gameManager.instance.soundManager.meleeHit.Play();
             }
             yield return new WaitForSeconds(meleeRate);
             isMelee = false;
@@ -85,6 +87,7 @@ public class PlayerAttack : MonoBehaviour
         if (thrown && !isThrowing && pCtrl.pTime.throwDelayTimer >= throwRate)
         {
             PlayerPrefs.SetInt("dynamite", PlayerPrefs.GetInt("dynamite") - 1);
+            gameManager.instance.soundManager.dynamiteThrow.Play();
             gameManager.instance.limitedProjectile.UseDynamite();
             isThrowing = true;
             thrown = false;
@@ -105,6 +108,7 @@ public class PlayerAttack : MonoBehaviour
             isShooting = true;
             shootRate = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // Spawn Object at set position and rotation
+            gameManager.instance.soundManager.shoot.Play();
             Instantiate(projectilePrefab, projectileSpawnPoint.transform.position, transform.rotation);
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
