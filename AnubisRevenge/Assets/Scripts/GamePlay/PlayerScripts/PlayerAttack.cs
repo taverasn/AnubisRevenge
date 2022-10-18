@@ -39,6 +39,7 @@ public class PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        throwRate = 0.4f;
         pCtrl = GetComponent<PlayerController>();
     }
     // Update is called once per frame
@@ -83,6 +84,7 @@ public class PlayerAttack : MonoBehaviour
         // Also checks if throwdelay timer is greater than throw rate to cause the object to spawn at the right time during the animation
         if (thrown && !isThrowing && pCtrl.pTime.throwDelayTimer >= throwRate)
         {
+            PlayerPrefs.SetInt("dynamite", PlayerPrefs.GetInt("dynamite") - 1);
             gameManager.instance.limitedProjectile.UseDynamite();
             isThrowing = true;
             thrown = false;
