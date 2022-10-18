@@ -15833,22 +15833,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 186369836570318641, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369836626915592, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369836921161275, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 100811010bdd98d44bbd67720c4a7628, type: 3}
-    - target: {fileID: 186369836921161275, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 186369836932016904, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
       propertyPath: m_Name
       value: SoundManager
@@ -15895,70 +15879,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 186369836932016905, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369836996970050, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369837073990513, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369837431554359, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369837435355588, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369837666088945, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369837704917773, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: ff2e92fb671590f45a400082295883d9, type: 3}
-    - target: {fileID: 186369837704917773, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369837801372924, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369838169662375, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a530f3a86256ac94a90bc39b79fde5cb, type: 3}
-    - target: {fileID: 186369838169662375, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369838214117122, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369838291945236, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 57cfc470384b3c04999da5ec2b1dc267, type: 3}
-    - target: {fileID: 186369838291945236, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369838309158645, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369838595398113, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186369838688365330, guid: 4131ef5cb1a55974098781f279649ffe, type: 3}
-      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
