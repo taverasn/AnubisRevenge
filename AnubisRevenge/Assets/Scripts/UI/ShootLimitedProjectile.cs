@@ -26,8 +26,7 @@ public class ShootLimitedProjectile : MonoBehaviour
 
     public void UseDynamite()
     {
-        dynImages[(PlayerPrefs.GetInt("dynamite")) - 1].enabled = false;
-        PlayerPrefs.SetInt("dynamite", PlayerPrefs.GetInt("dynamite")-1);
+        dynImages[(PlayerPrefs.GetInt("dynamite"))].enabled = false;
     }
     
 }

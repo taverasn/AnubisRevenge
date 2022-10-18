@@ -114,31 +114,24 @@ public class PlayerInput : MonoBehaviour
                         isThrowPressed = true;
                     }
                 }
-                // Player Collider hitting Ground Collider?
-                if (pCtrl.pColl.isGrounded())
+                // If xAxis is != to 0 check if player is using running input if not set running to true
+                if (pCtrl.xAxis != 0)
                 {
-                    // If xAxis is != to 0 check if player is using running input if not set running to true
-                    if (pCtrl.xAxis != 0)
-                    {
-                        isIdle = false;
-                        if(pCtrl.pColl.isGrounded())
-                        {
-                            if (isRunning)
-                            {
-                                isWalking = false;
-                            }
-                            else
-                            {
-                                isWalking = true;
-                            }
-                        }
-                    }
-                    // If xAxis is = 0 set Idle to true
-                    else
+                    isIdle = false;
+                    if (isRunning)
                     {
                         isWalking = false;
-                        isIdle = true;
                     }
+                    else
+                    {
+                        isWalking = true;
+                    }
+                }
+                // If xAxis is = 0 set Idle to true
+                else
+                {
+                    isWalking = false;
+                    isIdle = true;
                 }
                 if(pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0 && !isJumping)
                 {
