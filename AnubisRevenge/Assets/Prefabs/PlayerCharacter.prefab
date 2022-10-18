@@ -155,7 +155,7 @@ MonoBehaviour:
   horizontalClimbSpeed: 4
   horizontalSpeed: 7.5
   horizontalSprintSpeed: 10
-  jumpVelocity: 15
+  jumpVelocity: 10
   jumpTime: 0.35
   gravityScale: 1
   fallMultiplier: 1.1
@@ -181,9 +181,6 @@ MonoBehaviour:
     m_Bits: 64
   meleeAttackRange: 0.75
   damage: 20
-  throwRate: 0.4
-  shootRate: 1
-  meleeRate: 1
 --- !u!114 &-3707740838375089029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72608c2089807f34db26926efc742142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isClimbing: 0
   coyoteTime: 0.2
   jumpBufferTime: 0.2
   throwMultiplierTimer: 0
@@ -253,8 +249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab84163cadf77847a540014933c0eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 
-  takingDamage: 0
 --- !u!114 &2421853960498260028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +384,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 4c4f1ae804399ed419577f0006f1716b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
