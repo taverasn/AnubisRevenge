@@ -6,7 +6,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     private PlayerController pCtrl;
     
-    [SerializeField] private string currentState;
+    private string currentState;
 
     internal bool isMelee;
     internal bool isShooting;
