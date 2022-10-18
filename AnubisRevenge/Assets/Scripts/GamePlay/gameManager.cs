@@ -6,6 +6,7 @@ public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
 
+    public soundManager soundManager;
     public GameObject player;
     public PlayerController pCtrl;
 
