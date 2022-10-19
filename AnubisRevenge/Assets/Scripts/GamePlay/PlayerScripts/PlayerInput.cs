@@ -62,7 +62,7 @@ public class PlayerInput : MonoBehaviour
                 // Jump Key Pressed?
                 if (jumpBufferCounter > 0f && (coyoteTimeCounter > 0f || pCtrl.pColl.isClimbing()))
                 {
-                    gameManager.instance.soundManager.jump.Play();
+                    gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.jump);
                     jumpBufferCounter = 0f;
                     isJumping = true;
                     isClimbing = false;

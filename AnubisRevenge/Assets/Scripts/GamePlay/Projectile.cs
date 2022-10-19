@@ -34,8 +34,8 @@ public class Projectile : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, 37.66f);
                 direction = -transform.right + ((Vector3.up * arcMultiplier) * (1.5f * gameManager.instance.pCtrl.pInput.throwMultiplierTimer));
             }
-            gameManager.instance.soundManager.dynamite.Play();
-            gameManager.instance.soundManager.dynamite.loop = true;
+            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.dynamite);
+            gameManager.instance.soundManager.aud.loop = true;
             rb.AddForce(direction * speed, ForceMode2D.Impulse);
         }
         // Tag Bullet?
@@ -67,12 +67,12 @@ public class Projectile : MonoBehaviour
         {
             if(CompareTag("Dynamite"))
             {
-                gameManager.instance.soundManager.dynamite.Stop();
-                gameManager.instance.soundManager.dynamiteHit.Play();
+                gameManager.instance.soundManager.aud.Stop();
+                gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.dynamiteHit);
             }
             if(CompareTag("Bullet"))
             {
-                gameManager.instance.soundManager.bulletHit.Play();
+                gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.bulletHit);
             }
             anim.SetBool("explode", true);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;

@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour, IDamage
     internal BoxCollider2D boxCollider;
     internal bool isDamaged;
     internal bool gameOver;
+    bool playingSteps;
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -35,19 +36,35 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         xAxis = Input.GetAxisRaw("Horizontal") * .1f;
         yAxis = Input.GetAxisRaw("Vertical") * .1f;
+        StartCoroutine(PlaySteps());
     }
     
+    IEnumerator PlaySteps()
+    {
+        if (xAxis != 0 && pColl.isGrounded() && !playingSteps)
+        {
+            playingSteps = true;
+            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.walk);
+            if (pInput.isRunning)
+                yield return new WaitForSeconds(0.3f);
+            else
+                yield return new WaitForSeconds(0.5f);
+            playingSteps = false;
+            gameManager.instance.soundManager.aud.Stop();
+        }
+    }
+
     public void takeDamage(int dmg)
     {
         HP -= dmg;
         gameManager.instance.healthBar.SetHealth(HP);
         if(HP > 0)
         {
-            gameManager.instance.soundManager.hurt.Play();
+            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.hurt);
         }
         else
         {
-            gameManager.instance.soundManager.dead.Play();
+            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.dead);
         }
         isDamaged = true;
     }
