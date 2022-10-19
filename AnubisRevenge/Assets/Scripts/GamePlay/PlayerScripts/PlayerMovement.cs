@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float horizontalSprintSpeed;
     internal bool facingRight = true;
+    float scale;
 
     // Jump Variables
     [SerializeField] private float jumpVelocity;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         pCtrl = GetComponent<PlayerController>();
         jumpTimeCounter = jumpTime;
+        scale = transform.localScale.x;
     }
     private void Update()
     {
@@ -75,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
                         pCtrl.rb.velocity = new Vector2(-horizontalSpeed, pCtrl.rb.velocity.y);
                     }
                     // flips player to the left
-                    transform.localScale = new Vector2(-.5f, .5f);
+                    transform.localScale = new Vector2(-scale, scale);
                 }
                 else if (pCtrl.xAxis > 0)
                 {
@@ -94,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
                         pCtrl.rb.velocity = new Vector2(horizontalSpeed, pCtrl.rb.velocity.y);
                     }
                     // flips player to the right
-                    transform.localScale = new Vector2(.5f, .5f);
+                    transform.localScale = new Vector2(scale, scale);
                 }
                 else
                 {
