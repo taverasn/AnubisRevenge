@@ -13,6 +13,7 @@ public class PlayerInput : MonoBehaviour
     internal bool isIdle;
     internal bool isWalking;
     internal bool isMeleePressed;
+    internal bool isAttackPressed;
     internal bool isShootPressed;
     internal bool isThrowPressed;
     bool startTimer;
@@ -30,7 +31,7 @@ public class PlayerInput : MonoBehaviour
         if (!pCtrl.gameOver && !pCtrl.pAnimHandler.takingDamage)
         {
                 HorizontalMovementInput();
-                if (!isClimbing)
+                if (!isClimbing && !pCtrl.pAnimHandler.isAttacking)
                 {
                     AttackInput();
                 }
@@ -107,21 +108,24 @@ public class PlayerInput : MonoBehaviour
             }
         }
         // Shoot Key Pressed?
-        if (Input.GetKeyDown(KeyCode.Mouse1) && pCtrl.pTime.timeBtwRangeAttack > pCtrl.pTime.startTimeBtwRangeAttack && !pCtrl.pAnimHandler.isMelee && !pCtrl.pAnimHandler.isThrowing)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && pCtrl.pTime.timeBtwRangeAttack > pCtrl.pTime.startTimeBtwRangeAttack)
         {
             pCtrl.pTime.timeBtwRangeAttack = 0;
+            isAttackPressed = true;
             isShootPressed = true;
         }
         // Melee Key Pressed and not Running and not Walking?
-        if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isThrowing && (isIdle || !pCtrl.pColl.isGrounded()))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && (isIdle || !pCtrl.pColl.isGrounded()))
         {
             pCtrl.pTime.timeBtwMeleeAttack = 0;
+            isAttackPressed = true;
             isMeleePressed = true;
         }
         // Throw Key Pressed and not Running and not Walking?
-        if (Input.GetKeyUp(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && !pCtrl.pAnimHandler.isShooting && !pCtrl.pAnimHandler.isMelee && (isIdle || !pCtrl.pColl.isGrounded()) && PlayerPrefs.GetInt("dynamite") > 0)
+        if (Input.GetKeyUp(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && (isIdle || !pCtrl.pColl.isGrounded()) && PlayerPrefs.GetInt("dynamite") > 0)
         {
             pCtrl.pTime.timeBtwThrowAttack = 0;
+            isAttackPressed = true;
             isThrowPressed = true;
         }
     }
