@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     // Component Variables
     private PlayerController pCtrl;
 
-    // Player X Movement Variables
+    [Header("Movement Variables")]
     [SerializeField] private float verticalClimbSpeed;
     [SerializeField] internal float horizontalClimbSpeed;
     [SerializeField] private float horizontalSpeed;
@@ -15,15 +15,19 @@ public class PlayerMovement : MonoBehaviour
     internal bool facingRight = true;
     float scale;
 
-    // Jump Variables
-    [SerializeField] private float jumpVelocity;
-    private float jumpTimeCounter;
-    [SerializeField] private float jumpTime;
-    private bool startTimer;
-    [SerializeField] internal float gravityScale;
-    [SerializeField] internal float fallMultiplier;
-
+    [Header("----- Jump Variables -----")]
+    [SerializeField] float jumpVelocity;
+    [SerializeField] float jumpTime;
+    [SerializeField] float gravityScale;
+    [SerializeField] float coyoteTime = 0.2f;
+    [SerializeField] float jumpBufferTime = 0.2f;
+    float jumpTimeCounter;
+    float coyoteTimeCounter;
+    float jumpBufferCounter;
     internal bool isMoving = true;
+    internal bool isJumping;
+    internal bool isClimbing;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -34,116 +38,101 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // If game over stop player movement
-        if(!pCtrl.gameOver)
-        {
-            // Checking for inputs
-            // Force Releases jump button if user is holding it for to long
-            if (startTimer)
-            {
-                jumpTimeCounter -= Time.deltaTime;
-                if (jumpTimeCounter <= 0)
-                {
-                    pCtrl.pInput.releasedJump = true;
-                    pCtrl.pInput.coyoteTimeCounter = 0f;
-                }
-            }
-        }
-    }
-    private void FixedUpdate()
-    {
-        // If game over stop player movement
         if (!pCtrl.gameOver)
         {
-            //Vector2 vel = new Vector2(0, pCtrl.rb.velocity.y);
-            // Crouching not pressed?
             if(!pCtrl.pInput.isCrouching && isMoving && !pCtrl.pAnimHandler.takingDamage)
             {
-                // Check movement update based on input
-                // Player Moving in +X or -X direction
-                if (pCtrl.xAxis < 0)
+                if (pCtrl.pInput.isWalking)
+                    HorizontalMovement(horizontalSpeed);
+                if (pCtrl.pInput.isRunning)
+                    HorizontalMovement(horizontalSprintSpeed);
+                if (pCtrl.pInput.isClimbing)
                 {
-                    facingRight = false;
-                    // Change between running and walking speed depending if the run button input is true
-                    if(pCtrl.pInput.isClimbing)
-                    {
-                        pCtrl.rb.velocity = new Vector2(-horizontalClimbSpeed, pCtrl.rb.velocity.y);
-                    }
-                    else if(pCtrl.pInput.isRunning)
-                    {
-                        pCtrl.rb.velocity = new Vector2(-horizontalSprintSpeed, pCtrl.rb.velocity.y);
-                    }
-                    else if(pCtrl.pInput.isWalking)
-                    {
-                        pCtrl.rb.velocity = new Vector2(-horizontalSpeed, pCtrl.rb.velocity.y);
-                    }
-                    // flips player to the left
-                    transform.localScale = new Vector2(-scale, scale);
-                }
-                else if (pCtrl.xAxis > 0)
-                {
-                    facingRight = true;
-                    // Change between running and walking speed depending if the run button input is true
-                    if (pCtrl.pInput.isClimbing)
-                    {
-                        pCtrl.rb.velocity = new Vector2(horizontalClimbSpeed, pCtrl.rb.velocity.y);
-                    }
-                    else if (pCtrl.pInput.isRunning)
-                    {
-                        pCtrl.rb.velocity = new Vector2(horizontalSprintSpeed, pCtrl.rb.velocity.y);
-                    }
-                    else if (pCtrl.pInput.isWalking)
-                    {
-                        pCtrl.rb.velocity = new Vector2(horizontalSpeed, pCtrl.rb.velocity.y);
-                    }
-                    // flips player to the right
-                    transform.localScale = new Vector2(scale, scale);
-                }
-                else
-                {
-                    pCtrl.rb.velocity = new Vector2(0, pCtrl.rb.velocity.y);
+                    Climb();  
                 }
             }
-            if(pCtrl.pInput.isClimbing)
-            {
-                if (pCtrl.yAxis > 0)
-                {
-                    pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, verticalClimbSpeed);
-                }
-                else if(pCtrl.yAxis < 0)
-                {
-                    pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, -verticalClimbSpeed);
-                }
-                else if (pCtrl.pInput.isClimbing && pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
-                {
-                    pCtrl.rb.gravityScale = 0;
-                    pCtrl.rb.velocity = Vector2.zero;
-                }
-            }            
-            else if(!pCtrl.pInput.isClimbing && pCtrl.rb.gravityScale == 0)
+            if(!pCtrl.pInput.isClimbing && pCtrl.rb.gravityScale == 0)
             {
                 pCtrl.rb.gravityScale = gravityScale;
             }
+            Jump();
+        }
+    }
 
-            // Check if trying to jump
-            if (pCtrl.pInput.isJumping)
+    void Jump()
+    {
+        if (pCtrl.pColl.isGrounded())
+            coyoteTimeCounter = coyoteTime;
+        else
+            coyoteTimeCounter -= Time.deltaTime;
+        if (Input.GetButtonDown("Jump"))
+            jumpBufferCounter = jumpBufferTime;
+        else
+            jumpBufferCounter -= Time.deltaTime;
+        // Jump Key Pressed?
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f || pCtrl.pInput.isClimbing)
+        {
+            pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, jumpVelocity);
+            jumpTimeCounter = jumpTime;
+            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.jump);
+            jumpBufferCounter = 0f;
+            isJumping = true;
+            isClimbing = false;
+        }
+        // Checking for release of jump key and resetting jump timer
+        if (Input.GetButtonUp("Jump"))
+        {
+            isJumping = false;
+            coyoteTimeCounter = 0f;
+        }
+        if(Input.GetButton("Jump") && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
             {
                 pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, jumpVelocity);
-                startTimer = true;
+                jumpTimeCounter -= Time.deltaTime;
             }
-
-            // Checking for release of jump key and resetting jump timer
-            if (pCtrl.rb.velocity.y > 0 && pCtrl.pInput.releasedJump)
+            else
             {
-                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, pCtrl.rb.velocity.y * 0.5f);
-                pCtrl.pInput.isJumping = false;
-                pCtrl.pInput.releasedJump = false;
-                jumpTimeCounter = jumpTime;
-                startTimer = false;
-            }
-            if (pCtrl.rb.velocity.y < 0)
-            {
-                pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, pCtrl.rb.velocity.y * fallMultiplier);
+                isJumping = false;
             }
         }
     }
-}
+    void Climb()
+    {
+        HorizontalMovement(horizontalClimbSpeed);
+        if (pCtrl.yAxis > 0)
+        {
+            pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, verticalClimbSpeed);
+        }
+        else if (pCtrl.yAxis < 0)
+        {
+            pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, -verticalClimbSpeed);
+        }
+        else if (pCtrl.pInput.isClimbing && pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
+        {
+            pCtrl.rb.gravityScale = 0;
+            pCtrl.rb.velocity = Vector2.zero;
+        }
+    }
+
+    void HorizontalMovement(float speed)
+    {
+        if (pCtrl.xAxis < 0)
+        {
+            facingRight = false;
+            pCtrl.rb.velocity = new Vector2(-speed, pCtrl.rb.velocity.y);
+            transform.localScale = new Vector2(-scale, scale);
+        }
+        else if (pCtrl.xAxis > 0)
+        {
+            facingRight = true;
+            pCtrl.rb.velocity = new Vector2(speed, pCtrl.rb.velocity.y);
+            transform.localScale = new Vector2(scale, scale);
+        }
+        else
+        {
+            pCtrl.rb.velocity = new Vector2(0, pCtrl.rb.velocity.y);
+        }
+    }
+};
