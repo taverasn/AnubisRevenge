@@ -17,6 +17,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         xAxis = Input.GetAxis("Horizontal");
     }
+
     public bool isClimbing()
     {
         RaycastHit2D hit = Physics2D.BoxCast(pCtrl.capCollider.bounds.center, pCtrl.capCollider.bounds.size,
@@ -27,12 +28,14 @@ public class PlayerCollisions : MonoBehaviour
         }
         return hit.collider != null;
     }
+
     public bool isGrounded()
     {
         RaycastHit2D hit = Physics2D.BoxCast(pCtrl.boxCollider.bounds.center, pCtrl.boxCollider.bounds.size,
             0, Vector2.down, 0.1f, pCtrl.groundLayer);
         return hit.collider != null;
     }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Obstacle")

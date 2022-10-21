@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IDamage
 {
-    // Start is called before the first frame update
+    [Header("----- Components -----")]
     [SerializeField] internal PlayerMovement pMove;
     [SerializeField] internal PlayerAnimationHandler pAnimHandler;
     [SerializeField] internal PlayerAttack pAttack;
     [SerializeField] internal PlayerInput pInput;
-    [SerializeField] internal PlayerTimeManager pTime;
     [SerializeField] internal PlayerCollisions pColl;
+    [SerializeField] internal LayerMask groundLayer;
+    [SerializeField] internal LayerMask climbLayer;
     internal float xAxis;
     internal float yAxis;
+
+    [Header("----- Player Stat -----")]
     [SerializeField] internal int HP;
 
     internal Animator anim;
     internal Rigidbody2D rb;
-    [SerializeField] internal LayerMask groundLayer;
-    [SerializeField] internal LayerMask climbLayer;
     internal CapsuleCollider2D capCollider;
     internal BoxCollider2D boxCollider;
     internal bool isDamaged;

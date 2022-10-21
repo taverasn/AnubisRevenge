@@ -30,11 +30,12 @@ public class PlayerInput : MonoBehaviour
         // If Game Over Stop Player Input
         if (!pCtrl.gameOver && !pCtrl.pAnimHandler.takingDamage)
         {
-                HorizontalMovementInput();
-                if (!isClimbing && !pCtrl.pAnimHandler.isAttacking)
-                {
-                    AttackInput();
-                }
+            HorizontalMovementInput();
+            ClimbInput();
+            if (!isClimbing && !pCtrl.pAnimHandler.isAttacking)
+            {
+                AttackInput();
+            }
         }
     }
 
@@ -108,23 +109,20 @@ public class PlayerInput : MonoBehaviour
             }
         }
         // Shoot Key Pressed?
-        if (Input.GetKeyDown(KeyCode.Mouse1) && pCtrl.pTime.timeBtwRangeAttack > pCtrl.pTime.startTimeBtwRangeAttack)
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            pCtrl.pTime.timeBtwRangeAttack = 0;
             isAttackPressed = true;
             isShootPressed = true;
         }
         // Melee Key Pressed and not Running and not Walking?
-        if (Input.GetKeyDown(KeyCode.Mouse0) && pCtrl.pTime.timeBtwMeleeAttack > pCtrl.pTime.startTimeBtwMeleeAttack && (isIdle || !pCtrl.pColl.isGrounded()))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && (isIdle || !pCtrl.pColl.isGrounded()))
         {
-            pCtrl.pTime.timeBtwMeleeAttack = 0;
             isAttackPressed = true;
             isMeleePressed = true;
         }
         // Throw Key Pressed and not Running and not Walking?
-        if (Input.GetKeyUp(KeyCode.F) && pCtrl.pTime.timeBtwThrowAttack > pCtrl.pTime.startTimeBtwThrowAttack && (isIdle || !pCtrl.pColl.isGrounded()) && PlayerPrefs.GetInt("dynamite") > 0)
+        if (Input.GetKeyUp(KeyCode.F) && (isIdle || !pCtrl.pColl.isGrounded()) && PlayerPrefs.GetInt("dynamite") > 0)
         {
-            pCtrl.pTime.timeBtwThrowAttack = 0;
             isAttackPressed = true;
             isThrowPressed = true;
         }
