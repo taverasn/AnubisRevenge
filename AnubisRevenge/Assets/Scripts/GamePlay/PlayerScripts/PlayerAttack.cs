@@ -61,6 +61,7 @@ public class PlayerAttack : MonoBehaviour
         if(pCtrl.pInput.isMeleePressed && !isMelee)
         {
             isMelee = true;
+            pCtrl.pInput.isMeleePressed = false;
             gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.meleeSwing);
             Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, meleeAttackRange, whatIsEnemies);
             // Loops through all Game Objects that are withn Range and in the Layer Mask
@@ -80,6 +81,7 @@ public class PlayerAttack : MonoBehaviour
         // Throw Pressed?
         if (pCtrl.pInput.isThrowPressed)
         {
+            pCtrl.pInput.isThrowPressed = false;
             thrown = true;
         }
         // Thrown true? not currently throwing?
@@ -106,6 +108,7 @@ public class PlayerAttack : MonoBehaviour
         if(pCtrl.pInput.isShootPressed && !isShooting)
         {
             isShooting = true;
+            pCtrl.pInput.isShootPressed = false;
             shootRate = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // Spawn Object at set position and rotation
             gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.shoot);
