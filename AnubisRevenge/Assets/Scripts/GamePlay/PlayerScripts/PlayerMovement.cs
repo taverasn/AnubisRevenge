@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         // If game over stop player movement
         if (!pCtrl.gameOver)
         {
-            if(!pCtrl.pInput.isCrouching && isMoving && !pCtrl.pAnimHandler.takingDamage)
+            if(!pCtrl.pInput.isCrouching && !pCtrl.pAnimHandler.takingDamage)
             {
                 if (pCtrl.pInput.isWalking)
                     HorizontalMovement(horizontalSpeed);
