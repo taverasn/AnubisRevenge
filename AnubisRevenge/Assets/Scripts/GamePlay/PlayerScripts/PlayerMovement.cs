@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     float jumpTimeCounter;
     float coyoteTimeCounter;
     float jumpBufferCounter;
-    internal bool isMoving = true;
+    internal bool cantMove;
     internal bool isJumping;
     internal bool isClimbing;
 
@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         // If game over stop player movement
         if (!pCtrl.gameOver)
         {
-            if(!pCtrl.pInput.isCrouching && !pCtrl.pAnimHandler.takingDamage)
+            if(!pCtrl.pInput.isCrouching && !cantMove && !pCtrl.pAnimHandler.takingDamage)
             {
                 if (pCtrl.pInput.isWalking)
                     HorizontalMovement(horizontalSpeed);

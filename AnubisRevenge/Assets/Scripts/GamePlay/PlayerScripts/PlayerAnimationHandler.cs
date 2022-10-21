@@ -7,7 +7,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     private PlayerController pCtrl;
     
     private string currentState;
-    private string atkName;
 
     internal bool isAttacking;
     internal bool takingDamage;
@@ -117,7 +116,6 @@ public class PlayerAnimationHandler : MonoBehaviour
     // changes Attack animations based on input
     void Attack(string _atkName)
     {
-        atkName = _atkName;
         string crouchAttack = PLAYER_CROUCH + _atkName;
         string jumpAttack = PLAYER_JUMP + _atkName;
         string attack = "Player_" + _atkName;;
@@ -134,8 +132,9 @@ public class PlayerAnimationHandler : MonoBehaviour
             }
             else if (pCtrl.pInput.isIdle)
             {
+                if (_atkName != "Shoot")
+                    pCtrl.pMove.cantMove = true;
                 ChangeAnimationState(attack);
-                pCtrl.pMove.isMoving = false;
             }
             if(_atkName == "Shoot")
             {
@@ -230,7 +229,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     void AttackComplete()
     {
         isAttacking = false;
-        pCtrl.pMove.isMoving = true;
+        pCtrl.pMove.cantMove = false;
     }
 
     // Function to control animations for Walking, Running and Jumping
