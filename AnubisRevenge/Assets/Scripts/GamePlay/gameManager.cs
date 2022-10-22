@@ -18,11 +18,12 @@ public class gameManager : MonoBehaviour
         instance = this;
         player = GameObject.FindGameObjectWithTag("Player");
         pCtrl = player.GetComponent<PlayerController>();
+        soundManager.aud.PlayOneShot(soundManager.levelMusic, soundManager.levelMusicVol);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
