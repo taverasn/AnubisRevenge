@@ -18,7 +18,7 @@ public class PlayerInput : MonoBehaviour
     internal bool isThrowPressed;
     bool startTimer;
     internal bool isClimbing;
-    public float throwMultiplierTimer;
+    internal float throwMultiplierTimer;
 
     void Start()
     {

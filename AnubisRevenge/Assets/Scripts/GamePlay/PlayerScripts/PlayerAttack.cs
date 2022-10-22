@@ -29,7 +29,7 @@ public class PlayerAttack : MonoBehaviour
     internal bool isShooting;
     internal bool isMelee;
     private bool thrown;
-    [SerializeField] internal float throwDelayTimer;
+    internal float throwDelayTimer;
 
 
     // Start is called before the first frame update

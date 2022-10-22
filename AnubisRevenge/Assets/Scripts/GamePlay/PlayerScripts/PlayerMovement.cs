@@ -7,12 +7,11 @@ public class PlayerMovement : MonoBehaviour
     // Component Variables
     private PlayerController pCtrl;
 
-    [Header("Movement Variables")]
+    [Header("----- Movement Variables -----")]
     [Range(3, 10)] [SerializeField] private float verticalClimbSpeed;
     [Range(1, 5)] [SerializeField] internal float horizontalClimbSpeed;
     [Range(5, 10)] [SerializeField] private float horizontalSpeed;
     [Range(7.5f, 20)] [SerializeField] private float horizontalSprintSpeed;
-    internal bool facingRight = true;
 
     [Header("----- Jump Variables -----")]
     [Range(10, 25)] [SerializeField] float jumpVelocity;
@@ -20,10 +19,12 @@ public class PlayerMovement : MonoBehaviour
     [Range(3, 10)] [SerializeField] float gravityScale;
     [Range(0, 0.5f)] [SerializeField] float coyoteTime = 0.2f;
     [Range(0, 0.5f)] [SerializeField] float jumpBufferTime = 0.2f;
+
     float scale;
     float jumpTimeCounter;
     float coyoteTimeCounter;
     float jumpBufferCounter;
+    internal bool facingRight;
     internal bool cantMove;
     internal bool isJumping;
     internal bool isClimbing;

@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 2175762156409862562}
   - component: {fileID: 2025616720}
   - component: {fileID: 2025616719}
-  - component: {fileID: -3707740838375089029}
   - component: {fileID: 4137138182412089751}
   - component: {fileID: 3633384184022455818}
   - component: {fileID: 3041036991331939024}
@@ -182,22 +181,6 @@ MonoBehaviour:
   attackPos: {fileID: 620721877}
   meleeAttackRange: 0.75
   damage: 20
---- !u!114 &-3707740838375089029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2175762156409862563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe1ce31f1d99caa42a55f2d09aea510d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwDelayTimer: 0
-  startTimeBtwMeleeAttack: 0.5
-  startTimeBtwRangeAttack: 1
-  startTimeBtwThrowAttack: 1
 --- !u!114 &4137138182412089751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +197,6 @@ MonoBehaviour:
   pAnimHandler: {fileID: 3041036991331939024}
   pAttack: {fileID: 2025616719}
   pInput: {fileID: 3633384184022455818}
-  pTime: {fileID: -3707740838375089029}
   pColl: {fileID: 2421853960498260028}
   groundLayer:
     serializedVersion: 2
