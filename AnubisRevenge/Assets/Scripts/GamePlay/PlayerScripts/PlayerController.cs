@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] internal PlayerAttack pAttack;
     [SerializeField] internal PlayerInput pInput;
     [SerializeField] internal PlayerCollisions pColl;
+    [SerializeField] internal AudioSource aud;
+    [SerializeField] internal AudioSource stepsAud;
     [SerializeField] internal LayerMask groundLayer;
     [SerializeField] internal LayerMask climbLayer;
     internal float xAxis;
@@ -42,16 +44,16 @@ public class PlayerController : MonoBehaviour, IDamage
     
     IEnumerator PlaySteps()
     {
-        if (xAxis != 0 && pColl.isGrounded() && !playingSteps)
+        if (Mathf.Abs(xAxis) > 0.03f && pColl.isGrounded() && !playingSteps)
         {
             playingSteps = true;
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.walk);
+            stepsAud.PlayOneShot(gameManager.instance.soundManager.walk, gameManager.instance.soundManager.walkVol);
             if (pInput.isRunning)
                 yield return new WaitForSeconds(0.3f);
             else
                 yield return new WaitForSeconds(0.5f);
             playingSteps = false;
-            gameManager.instance.soundManager.aud.Stop();
+            stepsAud.Stop();
         }
     }
 
@@ -61,11 +63,11 @@ public class PlayerController : MonoBehaviour, IDamage
         gameManager.instance.healthBar.SetHealth(HP);
         if(HP > 0)
         {
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.hurt);
+            aud.PlayOneShot(gameManager.instance.soundManager.hurt, gameManager.instance.soundManager.hurtVol);
         }
         else
         {
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.dead);
+            aud.PlayOneShot(gameManager.instance.soundManager.dead, gameManager.instance.soundManager.deadVol);
         }
         isDamaged = true;
     }

@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     float jumpTimeCounter;
     float coyoteTimeCounter;
     float jumpBufferCounter;
-    internal bool facingRight;
+    internal bool facingRight = true;
     internal bool cantMove;
     internal bool isJumping;
     internal bool isClimbing;
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
             pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, jumpVelocity);
             jumpTimeCounter = jumpTime;
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.jump);
+            pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.jump, gameManager.instance.soundManager.jumpVol);
             jumpBufferCounter = 0f;
             isJumping = true;
             isClimbing = false;
