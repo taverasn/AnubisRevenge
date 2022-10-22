@@ -1061,20 +1061,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 5861852449083781463}
   jump: {fileID: 8300000, guid: ff2e92fb671590f45a400082295883d9, type: 3}
+  jumpVol: 0.5
   hurt: {fileID: 8300000, guid: 2809b0742adc2b242990cbcf43fea397, type: 3}
+  hurtVol: 0.5
   walk: {fileID: 8300000, guid: ed5cf8dd61bcdea4da715686d048a6f4, type: 3}
+  walkVol: 0.5
   fall: {fileID: 0}
+  fallVol: 0
   dead: {fileID: 8300000, guid: 251b7699b8132ec44908a32b1ae9b814, type: 3}
-  levelMusic: {fileID: 0}
+  deadVol: 0.5
+  levelMusic: {fileID: 8300000, guid: e706a146b4bf72e47a4b4aac7c681078, type: 3}
+  levelMusicVol: 0.1
   hubMusic: {fileID: 0}
+  hubVol: 0
   bossMusic: {fileID: 0}
+  bossMusicVol: 0
   meleeSwing: {fileID: 8300000, guid: 6845d90c7b926b1498667480635d519e, type: 3}
+  meleeSwingVol: 0.15
   dynamiteThrow: {fileID: 8300000, guid: ff2e92fb671590f45a400082295883d9, type: 3}
+  dynamiteThrowVol: 0.5
   meleeHit: {fileID: 8300000, guid: 58de1b05e3bc6a5418d6654842a50fdf, type: 3}
+  meleeHitVol: 1
   dynamite: {fileID: 8300000, guid: 100811010bdd98d44bbd67720c4a7628, type: 3}
+  dynamiteVol: 0.5
   dynamiteHit: {fileID: 8300000, guid: a530f3a86256ac94a90bc39b79fde5cb, type: 3}
+  dynamiteHitVol: 0.1
   bulletHit: {fileID: 8300000, guid: ee9508f0356e7824490618eeec733992, type: 3}
+  bulletHitVol: 0.2
   shoot: {fileID: 8300000, guid: f726df990149e3d4c85624edbfde12d7, type: 3}
+  shootVol: 0.3
 --- !u!82 &5861852449083781463
 AudioSource:
   m_ObjectHideFlags: 0
