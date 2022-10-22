@@ -217,7 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72608c2089807f34db26926efc742142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwMultiplierTimer: 0
 --- !u!114 &3041036991331939024
 MonoBehaviour:
   m_ObjectHideFlags: 0
