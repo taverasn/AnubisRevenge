@@ -60,14 +60,14 @@ public class PlayerAttack : MonoBehaviour
         {
             isMelee = true;
             pCtrl.pInput.isMeleePressed = false;
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.meleeSwing);
+            pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.meleeSwing, gameManager.instance.soundManager.meleeSwingVol);
             Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, meleeAttackRange, whatIsEnemies);
             // Loops through all Game Objects that are withn Range and in the Layer Mask
             for (int i = 0; i < enemiesToDamage.Length; i++)
             {
                 // Removes Health from GameObjects that are within Range and in the LayerMask
                 enemiesToDamage[i].GetComponent<EnemyHealth>().takeDamage(damage);
-                gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.meleeHit);
+                pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.meleeHit, gameManager.instance.soundManager.meleeHitVol);
             }
             yield return new WaitForSeconds(meleeRate);
             isMelee = false;
@@ -87,7 +87,7 @@ public class PlayerAttack : MonoBehaviour
         if (thrown && !isThrowing && throwDelayTimer >= throwRate)
         {
             PlayerPrefs.SetInt("dynamite", PlayerPrefs.GetInt("dynamite") - 1);
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.dynamiteThrow);
+            pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.dynamiteThrow, gameManager.instance.soundManager.dynamiteThrowVol);
             gameManager.instance.limitedProjectile.UseDynamite();
             isThrowing = true;
             thrown = false;
@@ -109,7 +109,7 @@ public class PlayerAttack : MonoBehaviour
             pCtrl.pInput.isShootPressed = false;
             shootRate = pCtrl.anim.GetCurrentAnimatorStateInfo(0).length;
             // Spawn Object at set position and rotation
-            gameManager.instance.soundManager.aud.PlayOneShot(gameManager.instance.soundManager.shoot);
+            pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.shoot, gameManager.instance.soundManager.shootVol);
             Instantiate(bullet ,bulletSpawnPoint.transform.position, transform.rotation);
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
