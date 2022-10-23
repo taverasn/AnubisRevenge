@@ -130,30 +130,27 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     void ShootStateTransitions()
     {
-            if (pCtrl.xAxis != 0)
-            {
-                if (currentState == PLAYER_SHOOT)
-                {
-                    if (pCtrl.pInput.isWalking)
-                        ChangeAnimationState(PLAYER_WALKSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                    else if (pCtrl.pInput.isRunning)
-                        ChangeAnimationState(PLAYER_RUNSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                }
-                if (currentState == PLAYER_WALKSHOOT)
-                {
-                    if (pCtrl.pInput.isIdle)
-                        ChangeAnimationState(PLAYER_SHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                    else if (pCtrl.pInput.isRunning)
-                        ChangeAnimationState(PLAYER_RUNSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                }
-                if (currentState == PLAYER_RUNSHOOT)
-                {
-                    if (pCtrl.pInput.isIdle)
-                        ChangeAnimationState(PLAYER_SHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                    else if (pCtrl.pInput.isWalking)
-                        ChangeAnimationState(PLAYER_WALKSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                }
-            }
+        if (currentState == PLAYER_SHOOT)
+        {
+            if (pCtrl.pInput.isWalking)
+                ChangeAnimationState(PLAYER_WALKSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            else if (pCtrl.pInput.isRunning)
+                ChangeAnimationState(PLAYER_RUNSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
+        if (currentState == PLAYER_WALKSHOOT)
+        {
+            if (pCtrl.pInput.isIdle)
+                ChangeAnimationState(PLAYER_SHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            else if (pCtrl.pInput.isRunning)
+                ChangeAnimationState(PLAYER_RUNSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
+        if (currentState == PLAYER_RUNSHOOT)
+        {
+            if (pCtrl.pInput.isIdle)
+                ChangeAnimationState(PLAYER_SHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            else if (pCtrl.pInput.isWalking)
+                ChangeAnimationState(PLAYER_WALKSHOOT, pCtrl.anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
     }
 
     void IdleToJumpStateTransitions()
