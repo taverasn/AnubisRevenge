@@ -33,6 +33,9 @@ public class PlayerController : MonoBehaviour, IDamage
         capCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+    }
+    void Start()
+    {
         gameManager.instance.healthBar.SetMaxHealth(HP);
     }
     private void Update()
