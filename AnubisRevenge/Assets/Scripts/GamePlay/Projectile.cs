@@ -3,44 +3,46 @@ using UnityEngine.UI;
 public class Projectile : MonoBehaviour
 {
     // Component Variables
-    public PlayerController pCtrl;
     private Animator anim;
     private Rigidbody2D rb;
     // Speed and Direction Variables
     [SerializeField] private float speed;
     private float movementSpeed;
     private Vector3 direction;
+    [SerializeField] float arcMultiplier;
 
     // Damage Variable
     public int damage;
 
+
     private void Start()
     {
-        pCtrl = GameObject.Find("PlayerCharacter").GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         // Tag Dynamite?
         // Causes Dynamite to move in a parabola depnding on direction player is facing
         if(gameObject.tag == "Dynamite")
         {
-            if(pCtrl.pMove.facingRight)
+            if(gameManager.instance.pCtrl.pMove.facingRight)
             {
                 // Set Dynamite Rotation
                 transform.rotation = Quaternion.Euler(0, 0, -37.66f);
-                direction = transform.right + (Vector3.up * 1.5f);
+                direction = transform.right + ((Vector3.up * arcMultiplier) * (1.5f * gameManager.instance.pCtrl.pInput.throwMultiplierTimer));
             }
             else
             {
                 transform.rotation = Quaternion.Euler(0, 0, 37.66f);
-                direction = -transform.right + (Vector3.up * 1.5f);
+                direction = -transform.right + ((Vector3.up * arcMultiplier) * (1.5f * gameManager.instance.pCtrl.pInput.throwMultiplierTimer));
             }
+            gameManager.instance.pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.dynamite, gameManager.instance.soundManager.dynamiteVol);
+            gameManager.instance.pCtrl.aud.loop = true;
             rb.AddForce(direction * speed, ForceMode2D.Impulse);
         }
         // Tag Bullet?
         // Causes bullet to move in a straight line depending on direction player is facing
         if(gameObject.tag == "Bullet")
         {
-            if(pCtrl.pMove.facingRight)
+            if(gameManager.instance.pCtrl.pMove.facingRight)
                 movementSpeed = speed;
             else
                 movementSpeed = -speed;
@@ -63,6 +65,15 @@ public class Projectile : MonoBehaviour
         // and destroy it after the animation has played
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Ladder")
         {
+            if(CompareTag("Dynamite"))
+            {
+                gameManager.instance.pCtrl.aud.Stop();
+                gameManager.instance.pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.dynamiteHit, gameManager.instance.soundManager.dynamiteHitVol);
+            }
+            if(CompareTag("Bullet"))
+            {
+                gameManager.instance.pCtrl.aud.PlayOneShot(gameManager.instance.soundManager.bulletHit, gameManager.instance.soundManager.bulletHitVol);
+            }
             anim.SetBool("explode", true);
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             Destroy(gameObject, anim.GetCurrentAnimatorStateInfo(0).length);
