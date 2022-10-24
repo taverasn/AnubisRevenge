@@ -6,7 +6,7 @@ public class PlayerAnimationHandler : MonoBehaviour
 {
     private PlayerController pCtrl;
     
-    private string currentState;
+    internal string currentState;
 
     internal bool isAttacking;
     internal bool takingDamage;
@@ -232,6 +232,8 @@ public class PlayerAnimationHandler : MonoBehaviour
         if(pCtrl.HP <= 0)
         {
             ChangeAnimationState(PLAYER_DEATH);
+            gameManager.instance.playerDeadMenu.SetActive(true);
+            gameManager.instance.cursorLockPause();
             pCtrl.gameOver = true;
         }
     }
