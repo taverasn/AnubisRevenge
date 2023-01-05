@@ -22,7 +22,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.BoxCast(pCtrl.capCollider.bounds.center, pCtrl.capCollider.bounds.size,
             0, Vector2.one, 0.1f, pCtrl.climbLayer);
-        if(pCtrl.pInput.isClimbing && hit && xAxis == 0)
+        if(pCtrl.pInput.isClimbing && hit)
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(hit.transform.position.x, transform.position.y, transform.position.z), pCtrl.pMove.horizontalClimbSpeed * Time.deltaTime);
         }

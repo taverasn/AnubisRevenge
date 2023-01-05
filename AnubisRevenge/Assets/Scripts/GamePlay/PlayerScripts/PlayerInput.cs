@@ -41,7 +41,7 @@ public class PlayerInput : MonoBehaviour
 
     void ClimbInput()
     {
-        if (pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0 && !pCtrl.pMove.isJumping)
+        if (pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0)
         {
             isClimbing = true;
         }

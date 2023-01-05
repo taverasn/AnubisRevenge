@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] internal PlayerInput pInput;
     [SerializeField] internal PlayerCollisions pColl;
     [SerializeField] internal AudioSource aud;
-    [SerializeField] internal AudioSource stepsAud;
     [SerializeField] internal LayerMask groundLayer;
     [SerializeField] internal LayerMask climbLayer;
     internal Animator anim;
@@ -35,10 +34,10 @@ public class PlayerController : MonoBehaviour, IDamage
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         HPOrig = HP;
-        respawn();
     }
     void Start()
     {
+        respawn();
         gameManager.instance.healthBar.SetMaxHealth(HP);
     }
     private void Update()
@@ -68,13 +67,13 @@ public class PlayerController : MonoBehaviour, IDamage
         if (Mathf.Abs(xAxis) > 0.03f && pColl.isGrounded() && !playingSteps)
         {
             playingSteps = true;
-            stepsAud.PlayOneShot(gameManager.instance.soundManager.walk, gameManager.instance.soundManager.walkVol);
+            aud.PlayOneShot(gameManager.instance.soundManager.walk, gameManager.instance.soundManager.walkVol);
             if (pInput.isRunning)
                 yield return new WaitForSeconds(0.3f);
             else
                 yield return new WaitForSeconds(0.5f);
             playingSteps = false;
-            stepsAud.Stop();
+            aud.Stop();
         }
     }
 

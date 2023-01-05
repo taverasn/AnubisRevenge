@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
                     HorizontalMovement(horizontalSpeed);
                 if (pCtrl.pInput.isRunning)
                     HorizontalMovement(horizontalSprintSpeed);
-                if (pCtrl.pInput.isClimbing)
+                if (pCtrl.pColl.isClimbing() && pCtrl.yAxis != 0)
                 {
                     Climb();  
                 }
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         {
             pCtrl.rb.velocity = new Vector2(pCtrl.rb.velocity.x, -verticalClimbSpeed);
         }
-        else if (pCtrl.pInput.isClimbing && pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
+        else if (pCtrl.yAxis == 0 && pCtrl.xAxis == 0)
         {
             pCtrl.rb.gravityScale = 0;
             pCtrl.rb.velocity = Vector2.zero;
