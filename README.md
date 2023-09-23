@@ -1,7 +1,9 @@
-# AnubisRevenge
+# Anubis Revenge
 ---
 
 Anubis' Revenge is a 2D platformer where the user breaks into a pyramid and fights off mummies, scorpion and gods to obtain a hidden treasure. Along he way youll be challenged with obstacles, traps, puzzles, enemies, bosses and hidden routes.
+
+## Checkout the Build @ [Anubis Revenge](https://drive.google.com/file/d/1ti9NM8TgUSuflr10YnWCcg8OZAVQetsw/view?usp=sharing) 
 
 ---
 
