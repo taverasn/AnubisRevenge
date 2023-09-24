@@ -31,6 +31,12 @@ public class gameManager : MonoBehaviour
         soundManager.aud.PlayOneShot(soundManager.levelMusic, soundManager.levelMusicVol);
 
     }
+    private void Start()
+    {
+        enablePlayer(true);
+        cursorUnLockUnPause();
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -39,21 +45,33 @@ public class gameManager : MonoBehaviour
         {
             isPaused = !isPaused;
             pauseMenu.SetActive(isPaused);
-            if (isPaused)
+            if (pauseMenu.activeSelf)
+            {
                 cursorLockPause();
+            }
             else
+            {
                 cursorUnLockUnPause();
+            }
+        }
+        if (pauseMenu.activeSelf)
+        {
+            enablePlayer(false);
+        }
+        else
+        {
+            enablePlayer(true);
         }
     }
 
-    public void disablePlayer()
+    public void enablePlayer(bool enable)
     {
-        pCtrl.pMove.enabled = isPaused;
-        pCtrl.pAttack.enabled = isPaused;
-        pCtrl.pInput.enabled = isPaused;
-        pCtrl.pAnimHandler.enabled = isPaused;
-        pCtrl.pColl.enabled = isPaused;
-        pCtrl.enabled = isPaused;
+        pCtrl.pMove.enabled = enable;
+        pCtrl.pAttack.enabled = enable;
+        pCtrl.pInput.enabled = enable;
+        pCtrl.pAnimHandler.enabled = enable;
+        pCtrl.pColl.enabled = enable;
+        pCtrl.enabled = enable;
 
     }
 

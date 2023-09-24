@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1616542236018878447}
   - component: {fileID: 280139560420275040}
   - component: {fileID: 2014779442}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Mummy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ Transform:
   m_Children:
   - {fileID: 2103879230710978546}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1238652364517434599
 Rigidbody2D:
@@ -295,6 +295,7 @@ PolygonCollider2D:
       - {x: -0.405, y: -2.04}
       - {x: -0.445, y: -2.04}
       - {x: -0.445, y: -2.03}
+  m_UseDelaunayMesh: 0
 --- !u!212 &7637703528507485610
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -395,7 +396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa5d870e6101704781d914132887406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   visionRange: 5
   speed: 3
   scaleX: 0.3

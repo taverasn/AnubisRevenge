@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour, IDamage
     internal float xAxis;
     internal float yAxis;
     internal bool isDamaged;
-    internal bool gameOver;
+    internal bool gameOver = false;
     bool playingSteps;
     void Awake()
     {
@@ -35,10 +35,10 @@ public class PlayerController : MonoBehaviour, IDamage
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         HPOrig = HP;
-        respawn();
     }
     void Start()
     {
+        respawn();
         gameManager.instance.healthBar.SetMaxHealth(HP);
     }
     private void Update()

@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 2025616721}
   - component: {fileID: 838387791}
   - component: {fileID: 838387792}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: TheGuy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsEnemies:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   bullet: {fileID: 763234597230285465, guid: 27541fc2667352741bcdfc1c0b8a465a, type: 3}
   dynamite: {fileID: 3296815274219968004, guid: d632215d2c8e25d4597fb084c5d505b3, type: 3}
   bulletSpawnPoint: {fileID: 1795079818}
@@ -204,10 +204,10 @@ MonoBehaviour:
   stepsAud: {fileID: 838387792}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 64
   climbLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
   HP: 100
 --- !u!114 &3633384184022455818
 MonoBehaviour:

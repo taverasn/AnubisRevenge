@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5772254629002037225}
   - component: {fileID: 1980217949764925835}
   - component: {fileID: 439375097579943870}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Anubis
   m_TagString: Anubis
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ Transform:
   m_Children:
   - {fileID: 89972004340964097}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5772254629002037229
 SpriteRenderer:
@@ -260,6 +260,7 @@ PolygonCollider2D:
       - {x: 0.099999994, y: -2.82}
       - {x: 0.19999999, y: -2.8}
       - {x: 0.24, y: -2.78}
+  m_UseDelaunayMesh: 0
 --- !u!114 &5772254629002037225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef565df166380614ebe05d10020f8404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 50
+  startingHealth: 500
   despawnTimer: 5
   components: []
   iFramesDuration: 3
